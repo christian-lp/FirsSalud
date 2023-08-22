@@ -1,0 +1,18 @@
+body
+{
+    background-image: url(../img/177-1774505_23-of-the-best-windows-10-wallpaper-backgrounds.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 100%;
+}
+
+.navbar
+{
+    background-color: rgb(0, 0, 0);
+}
+
+.navbar-brand
+{
+    background-color: rgb(53, 53, 53);
+    color:aliceblue
+}
