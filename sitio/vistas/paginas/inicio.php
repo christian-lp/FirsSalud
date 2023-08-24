@@ -5,12 +5,8 @@
     include_once "./vistas/layouts/head.php";
     ?> 
 </head>
-<body>
-	<div class="container-fluid bg-light">
-		<h3 class="text-center py-3">MEDIC - 2023</h3>
-	</div>
-	<div class="container">
-		<ul class="nav nav-justified py-2 nav-pills">
+
+
 <?php 
 
 $listado = ControladorFormularios::ctrSelectRegistros();

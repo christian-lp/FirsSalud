@@ -8,7 +8,6 @@ ini_set('html_errors', false);
 
 // CONTROLADORES
 require_once "controladores/plantilla.controlador.php";
-require_once "controladores/inicio.controlador.php";
 require_once "controladores/formulario.controlador.php";
 
 // MODELOS
@@ -22,10 +21,7 @@ echo '<pre>'; print_r($conexion); echo '</pre>';
 */
 
 // LLAMO A LA PLANTILLA PRINCIPAL
-// $plantilla = new ControladorPlantilla;
-// $plantilla -> ctrTraerPlantilla();
+$plantilla = new ControladorPlantilla;
+$plantilla -> ctrTraerPlantilla();
 
-
-$plantilla = new ControladorInicio;
-$plantilla -> ctrTraerInicio();
 
