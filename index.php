@@ -65,7 +65,7 @@
             <li><a href="#service">Servicios</a></li>
             <li><a href="#doctor">Doctores</a></li>
             <li><a href="#facilities">Nuestras Instalaciones</a></li>
-            <li><a href="#prices">Precios</a></li>
+            <!--<li><a href="#prices">Precios</a></li> -->
             <li class="dropdown">
               <a href="#Turn" class="dropdown-toggle" data-toggle="dropdown"><span class="badge custom-badge red pull-right">SacarTurno</span>Turnos <b class="caret"></b></a>
               <ul class="dropdown-menu">
