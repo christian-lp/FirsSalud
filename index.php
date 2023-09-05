@@ -1,14 +1,14 @@
 <?php
 
-// Inicia la sesión (si no está iniciada ya)
+// Inicia la sesión 
 session_start();
 
 // Verifica si la variable de sesión userStatus está definida
 if (isset($_SESSION['userStatus'])) {
     $userStatus = $_SESSION['userStatus'];
 } else {
-    // Si no está definida, establece un valor predeterminado o maneja el caso según tu lógica
-    $userStatus = "USUARIO DESCONOCIDO"; // Valor predeterminado en caso de que no se haya configurado
+    // Si no está definida, establece un valor predeterminado
+    $userStatus = "USUARIO DESCONOCIDO"; 
 }
 function getUserStatusText($status) {
     switch ($status) {
@@ -20,8 +20,7 @@ function getUserStatusText($status) {
             return "Médico";
         case "PACIENTE":
             return "Paciente";
-        default:
-            return "Usuario Desconocido";
+       
     }
 }
 ?>
@@ -91,7 +90,7 @@ function getUserStatusText($status) {
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="sitio/vistas/login/login.php">Acceso</a></li>
+            <li class="active"><a href="index-login.html">Acceso</a></li>
             <li><a href="#service">Servicios</a></li>
             <li><a href="#doctor">Doctores</a></li>
             <li><a href="#facilities">Nuestras Instalaciones</a></li>
