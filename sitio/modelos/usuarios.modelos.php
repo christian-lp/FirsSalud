@@ -11,8 +11,8 @@ class ModeloUsuarios {
 	    CONCAT_WS(" ", patients.name,patients.surname) AS "patient",
    		patients.documento AS "dni"
 	FROM patients
-	WHERE patients.dni = ? 
-		AND patients.pass = ?
+	WHERE patients.email = ? 
+		AND patients.password = ?
 		';
 		$stmt = Conexion::conectar()->prepare($sql);
 		$stmt->bindParam(1, $usr, PDO::PARAM_STR);

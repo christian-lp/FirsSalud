@@ -79,7 +79,7 @@ if(isset($_SESSION['usr_id'])) {
         <div class="login-container">
             <h2>Inicio de Sesión</h2>
 
-            <form action="tu_archivo_de_autenticacion.php" method="post">
+            <form method="post">
                 <div class="form-group">
                     <label for="username">Nombre de usuario:</label>
                     <input type="text" name="loginUsr" class="form-control" maxlength="10" placeholder="Usuario(tu DNI)" title="tu usuario es tu dni" required>        

@@ -1,28 +1,33 @@
 <?php 
 //	Controlador de usuarios
 class ControladorUsuarios {	
-	public function ctrLogin() {
-		if ((!empty($_POST['loginUsr'])) &&
-			(!empty($_POST['passUsr']))	) {
-			if ((strcmp(trim($_POST["loginUsr"]), getenv("USER_ADMIN_SITE")) == 0 ) &&
-				(strcmp(trim($_POST["passUsr"]), getenv("USER_ADMIN_PASS")) == 0 ) ){
-				$_SESSION['id_usuario'] = 1;
-				$_SESSION['estado'] = 1;
-				$_SESSION['rol'] = 1;
-				echo '<script>
-				if ( window.history.replaceState ) {
-					window.history.replaceState(null, null, window.location.href);
-				}
-				window.location = "index.php?pagina=inicio";
-				</script>';	
+	public function ctrLogin() 
+	   {
+		// if ((!empty($_POST['loginUsr'])) &&
+		// 	(!empty($_POST['passUsr']))	) {
+
+				
+			// if ((strcmp(trim($_POST["loginUsr"]), getenv("USER_ADMIN_SITE")) == 0 ) &&
+			// 	(strcmp(trim($_POST["passUsr"]), getenv("USER_ADMIN_PASS")) == 0 ) ){
+			// 	$_SESSION['id_usuario'] = 1;
+			// 	$_SESSION['estado'] = 1;
+			// 	$_SESSION['rol'] = 1;
+			// 	echo '<script>
+			// 	if ( window.history.replaceState ) {
+			// 		window.history.replaceState(null, null, window.location.href);
+			// 	}
+			// 	window.location = "index.php?pagina=inicio";
+			// 	</script>';	
 						
-			}elseif((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
+			//}
+			if((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
 				(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["passUsr"])))) {
 				$usr = trim($_POST['loginUsr']);
-				$psw = sha1(trim($_POST['passUsr']));
+				$psw = $_POST['passUsr'];
 				$respuesta = ModeloUsuarios::mdlLogin($usr,$psw);
 				var_dump($respuesta);
 				exit();
+
 				if( $respuesta != null ) {
 					/*
 					$_SESSION['id_usuario'] = $respuesta['id_usuario']; // usuario de plataforma
