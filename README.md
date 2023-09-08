@@ -4,6 +4,11 @@ Para poder levantar el proyecto deberan clonar el repositorio y utilizar el mism
 
 El archivo .yml y el .env se enviara por privado.
 
+
+Para iniciar sesion;
+usuario: chris@mail.com
+contraseña: 123456
+
 Ejecutar el comando: docker-compose up -d --build
 
 Este comando inicia los servicios definidos en tu archivo docker-compose.yml, construye las imágenes si hay cambios en los archivos de construcción, y luego ejecuta los servicios en segundo plano.

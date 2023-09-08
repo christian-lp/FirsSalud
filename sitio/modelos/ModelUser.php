@@ -1,32 +1,90 @@
 <?php 
-require_once "conexion.php";
-require_once "sql/querys.usuarios.php";
+require_once "/var/www/html/MedicV4/FirsSalud/sitio/modelos/conexion.php";
+require_once "/var/www/html/MedicV4/FirsSalud/sitio/sql/querys.usuarios.php";
 
 class ModeloUsuarios {
+	
 
-	static public function mdlLogin($usr,$psw)	{
-		$sql = '
-	SELECT
-		patients.id AS "id",
-	    CONCAT_WS(" ", patients.name,patients.surname) AS "patient",
-   		patients.documento AS "dni"
-	FROM patients
-	WHERE patients.email = ? 
-		AND patients.password = ?
-		';
+	static public function mdlLogin($user,$pass){
+		
+		$sql = SQL_LOGIN;
 		$stmt = Conexion::conectar()->prepare($sql);
-		$stmt->bindParam(1, $usr, PDO::PARAM_STR);
-		$stmt->bindParam(2, $psw, PDO::PARAM_STR);
+		$stmt->bindParam(1, $user, PDO::PARAM_STR);
+		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
 		// Si se esta ejecutando la sentencia SQL
-		if($stmt->execute()) {
-			// si se ejecuta retorno el OK		
-			return $stmt->fetch(PDO::FETCH_ASSOC); // devuelve todo	
-		} else { // sino imprimo el error
-			print_r($stmt -> errorInfo());
-		}		
+		if ($stmt->execute()) {
+			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+			if ($resultado !== false) {
+				// Autenticación exitosa
+				return $resultado;
+			} else {
+				echo '<script>
+				if ( window.history.replaceState ) {
+					window.history.replaceState(null, null, window.location.href);
+				}
+				</script>
+				<div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
+			}
+		} else {
+			print_r($stmt->errorInfo());
+		}
+		
 		$stmt = null; // por seguridad vaciamos el objeto de la conexion	
 	}
 
+	// static public function mdlLogin($user, $pass, $rol) 
+	// {
+	// 	$resultado = null;
+	// 	// Define las consultas SQL para cada rol
+	// 	$sql = '';
+	// 	switch ($rol) {
+	// 		case 'Paciente':
+	// 			$sql = SQL_LOGIN;
+	// 			break;
+	// 		case 'Médico':
+	// 			$sql = SQL_LOGIN_MEDIC;
+	// 			break;
+	// 		default:
+	// 			echo '<script>
+	// 			if ( window.history.replaceState ) {
+	// 				window.history.replaceState(null, null, window.location.href);
+	// 			}
+	// 			</script>
+	// 			<div class="alert alert-danger mt-2">Rol no válido</div>';
+	// 			return null;
+	// 	}
+	
+	// 	// Prepara la consulta SQL
+	// 	$stmt = Conexion::conectar()->prepare($sql);
+	// 	$stmt->bindParam(1, $user, PDO::PARAM_STR);
+	// 	$stmt->bindParam(2, $pass, PDO::PARAM_STR);
+	
+	// 	// Si se está ejecutando la sentencia SQL
+	// 	if ($stmt->execute()) {
+	// 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+	// 		if ($resultado == false) {
+	// 			echo '<script>
+	// 			if ( window.history.replaceState ) {
+	// 				window.history.replaceState(null, null, window.location.href);
+	// 			}
+	// 			</script>
+	// 			<div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
+	// 		}
+	// 	} else {
+	// 		print_r($stmt->errorInfo());
+	// 	}
+		
+	// 	$stmt = null; // Por seguridad, vaciamos el objeto de la conexión
+	
+	// 	return $resultado;
+	// }
+
+	
+	
+	
+	
+
+	
 	static public function mdlActivacion($usr,$psw)	{
 		$sql = "CALL usuarios_activar(?,?)";
 		$stmt = Conexion::conectar()->prepare($sql);

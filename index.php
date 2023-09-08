@@ -1,29 +1,6 @@
 <?php
-
 // Inicia la sesión (si no está iniciada ya)
 session_start();
-
-// Verifica si la variable de sesión userStatus está definida
-if (isset($_SESSION['userStatus'])) {
-    $userStatus = $_SESSION['userStatus'];
-} else {
-    // Si no está definida, establece un valor predeterminado o maneja el caso según tu lógica
-    $userStatus = "USUARIO DESCONOCIDO"; // Valor predeterminado en caso de que no se haya configurado
-}
-function getUserStatusText($status) {
-    switch ($status) {
-        case "USER":
-            return "Usuario";
-        case "ADMIN":
-            return "Administrador";
-        case "MEDIC":
-            return "Médico";
-        case "PACIENTE":
-            return "Paciente";
-        default:
-            return "Usuario Desconocido";
-    }
-}
 ?>
 
 
@@ -98,10 +75,6 @@ function getUserStatusText($status) {
             <!--<li><a href="#prices">Precios</a></li> -->
             <li class="dropdown">
                 <a href="#Turn" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="badge custom-badge red pull-right">
-                        <!-- Aquí se mostrará el estado del usuario -->
-                        <?php echo getUserStatusText($userStatus); ?>
-                    </span>
                     Turnos <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
@@ -232,9 +205,9 @@ function getUserStatusText($status) {
                 </div>
                 <div class="col-md-4">
                   <div class="wow lightSpeedIn" data-wow-delay="0.1s">
-                    <div class="cta-btn">
+                    <!-- <div class="cta-btn">
                       <a href="index-DescargarAnalisis.html" class="btn btn-skin btn-lg">Descargar de Analisis Clinicos</a>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>

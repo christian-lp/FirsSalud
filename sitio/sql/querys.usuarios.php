@@ -1,11 +1,22 @@
 <?php
-
-$sql_login = '
+define('SQL_LOGIN', '
 	SELECT
-		patients.id AS "id",
-	    CONCAT_WS(" ", patients.name,patients.surname) AS "patient",
-   		patients.dni AS "dni"
+		id_patient AS "id",
+		patients.rol AS "rol",
+		patients.email AS "email",
+		patients.name AS "name"
 	FROM patients
-	WHERE patients.dni = ? 
-		AND patients.pass = ?
-		';
+	WHERE patients.email = ? 
+		AND patients.password = ?
+		');
+
+define('SQL_LOGIN_MEDIC', '
+SELECT
+	id_medic AS "id",
+	medics.rol_medic AS "rol_medic",
+	medics.email_medic AS "email_medic",
+	medics.name_medic AS "name_medic"
+FROM medics
+WHERE medics.email_medic = ? 
+	AND medics.password_medic = ?
+	');
