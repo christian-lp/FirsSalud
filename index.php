@@ -27,7 +27,7 @@ session_start();
   <link href="css/animate.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet">
   <!-- api Whast -->
-  <link rel="stylesheet" href="/img/icoWhast.png">
+  <link rel="stylesheet" href="img/icoWhast.png">
 
   <!-- boxed bg -->
   <link id="bodybg" href="bodybg/bg1.css" rel="stylesheet" type="text/css" />
@@ -78,7 +78,7 @@ session_start();
                     Turnos <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="index-sacarturnos.html">Turnos Disponibles</a></li>
+                    <li><a href="index-turns.php"  target="_blank">Turnos Disponibles</a></li>
                     <li><a href="index-buscador.html">Cancelación Turnos</a></li>
                 </ul>
             </li>
@@ -147,7 +147,7 @@ session_start();
               </div>
             </div>
           </div>
-          <div class="col-sm-3 col-md-3">
+          <!-- <div class="col-sm-3 col-md-3">
             <div class="wow fadeInUp" data-wow-delay="0.2s">
               <div class="box text-center">
 
@@ -158,7 +158,7 @@ session_start();
                 </p>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="col-sm-3 col-md-3">
             <div class="wow fadeInUp" data-wow-delay="0.2s">
               <div class="box text-center">
@@ -170,7 +170,7 @@ session_start();
               </div>
             </div>
           </div>
-          <div class="col-sm-3 col-md-3">
+          <!-- <div class="col-sm-3 col-md-3">
             <div class="wow fadeInUp" data-wow-delay="0.2s">
               <div class="box text-center">
 
@@ -181,7 +181,7 @@ session_start();
                 </p>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 

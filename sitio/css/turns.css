@@ -1,0 +1,22 @@
+/* estilos.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.calendario {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dia {
+    display: table-cell;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.dia:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}

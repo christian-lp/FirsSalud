@@ -121,7 +121,7 @@ if (isset($_SESSION['usr_rol']) == "") {
                     Turnos <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="index-sacarturnos.html">Turnos Disponibles</a></li>
+                <li><a href="../../../index-turns.php"  target="_blank">Turnos Disponibles</a></li>
                     <li><a href="index-buscador.html">Cancelación Turnos</a></li>
                 </ul>
             </li>
