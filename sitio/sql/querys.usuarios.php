@@ -8,7 +8,9 @@ define('SQL_LOGIN', '
 	FROM patients
 	WHERE patients.email = ? 
 		AND patients.password = ?
-		');
+
+
+	');
 
 define('SQL_LOGIN_MEDIC', '
 SELECT
@@ -19,4 +21,12 @@ SELECT
 FROM medics
 WHERE medics.email_medic = ? 
 	AND medics.password_medic = ?
+	');
+
+
+define('SQL_REGISTER_PATIENT', '
+INSERT INTO 
+	patients (email, password)
+	VALUES (?, ?)
+	ON DUPLICATE KEY UPDATE email = email;
 	');

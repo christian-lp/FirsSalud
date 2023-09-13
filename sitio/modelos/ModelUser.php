@@ -5,64 +5,19 @@ require_once "/var/www/html/MedicV4/FirsSalud/sitio/sql/querys.usuarios.php";
 class ModeloUsuarios {
 	
 
-	static public function mdlLogin($user,$pass){
+	// static public function mdlLogin($user,$pass){
 		
-		$sql = SQL_LOGIN;
-		$stmt = Conexion::conectar()->prepare($sql);
-		$stmt->bindParam(1, $user, PDO::PARAM_STR);
-		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
-		// Si se esta ejecutando la sentencia SQL
-		if ($stmt->execute()) {
-			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-			if ($resultado !== false) {
-				// Autenticación exitosa
-				return $resultado;
-			} else {
-				echo '<script>
-				if ( window.history.replaceState ) {
-					window.history.replaceState(null, null, window.location.href);
-				}
-				</script>
-				<div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
-			}
-		} else {
-			print_r($stmt->errorInfo());
-		}
-		
-		$stmt = null; // por seguridad vaciamos el objeto de la conexion	
-	}
-
-	// static public function mdlLogin($user, $pass, $rol) 
-	// {
-	// 	$resultado = null;
-	// 	// Define las consultas SQL para cada rol
-	// 	$sql = '';
-	// 	switch ($rol) {
-	// 		case 'Paciente':
-	// 			$sql = SQL_LOGIN;
-	// 			break;
-	// 		case 'Médico':
-	// 			$sql = SQL_LOGIN_MEDIC;
-	// 			break;
-	// 		default:
-	// 			echo '<script>
-	// 			if ( window.history.replaceState ) {
-	// 				window.history.replaceState(null, null, window.location.href);
-	// 			}
-	// 			</script>
-	// 			<div class="alert alert-danger mt-2">Rol no válido</div>';
-	// 			return null;
-	// 	}
-	
-	// 	// Prepara la consulta SQL
+	// 	$sql = SQL_LOGIN;
 	// 	$stmt = Conexion::conectar()->prepare($sql);
 	// 	$stmt->bindParam(1, $user, PDO::PARAM_STR);
 	// 	$stmt->bindParam(2, $pass, PDO::PARAM_STR);
-	
-	// 	// Si se está ejecutando la sentencia SQL
+	// 	// Si se esta ejecutando la sentencia SQL
 	// 	if ($stmt->execute()) {
 	// 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-	// 		if ($resultado == false) {
+	// 		if ($resultado !== false) {
+	// 			// Autenticación exitosa
+	// 			return $resultado;
+	// 		} else {
 	// 			echo '<script>
 	// 			if ( window.history.replaceState ) {
 	// 				window.history.replaceState(null, null, window.location.href);
@@ -74,10 +29,93 @@ class ModeloUsuarios {
 	// 		print_r($stmt->errorInfo());
 	// 	}
 		
-	// 	$stmt = null; // Por seguridad, vaciamos el objeto de la conexión
-	
-	// 	return $resultado;
+	// 	$stmt = null; // por seguridad vaciamos el objeto de la conexion	
 	// }
+
+	static public function mdlLogin($user, $pass) 
+	{
+		$resultado = null;
+		// Define las consultas SQL para cada rol
+		// echo "Valor de rol: " . $rol;
+
+		$sql = SQL_LOGIN;
+		//$sql2 = SQL_LOGIN_MEDIC;
+		// switch ($rol) {
+		// 	case 1:
+		// 		$sql = SQL_LOGIN;
+		// 		break;
+		// 	case 2:
+		// 		$sql = SQL_LOGIN_MEDIC;
+		// 		break;
+		// 	default:
+		// 		echo '<script>
+		// 		if ( window.history.replaceState ) {
+		// 			window.history.replaceState(null, null, window.location.href);
+		// 		}
+		// 		</script>
+		// 		<div class="alert alert-danger mt-2">Rol no válido</div>';
+		// 		return null;
+		//}
+	
+		// Prepara la consulta SQL
+		$stmt = Conexion::conectar()->prepare($sql);
+		$stmt->bindParam(1, $user, PDO::PARAM_STR);
+		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
+		// $stmt2 = Conexion::conectar()->prepare($sql2);
+		// $stmt2->bindParam(1, $user, PDO::PARAM_STR);
+		// $stmt2->bindParam(2, $pass, PDO::PARAM_STR);
+	
+		// Si se está ejecutando la sentencia SQL
+		if ($stmt->execute()) 
+		{
+			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+			//$resultado = $stmt2->fetch(PDO::FETCH_ASSOC);
+			if ($resultado == false) 
+			{
+				echo '<script>
+				if ( window.history.replaceState ) {
+					window.history.replaceState(null, null, window.location.href);
+				}
+				</script>
+				<div class="alert alert-danger mt-2">Usuario o Contraseña Incorrecta</div>';
+			}
+		}
+		// Si no se ejecuta la consulta 
+		else 
+		{
+			print_r($stmt->errorInfo());
+			//print_r($stmt2->errorInfo());
+		}
+		// Devuelve los datos
+		return $resultado;
+		$stmt = null; // Por seguridad, vaciamos el objeto de la conexión
+		//$stmt2 = null;
+	}
+
+	static public function mdlRegister($emailUsr, $passUsr) 
+{
+    $resultado = null;
+
+    // Realizar la inserción
+    $sqlInsert = 'INSERT INTO patients (email, password) VALUES (?, ?)';
+    $stmtInsert = Conexion::conectar()->prepare($sqlInsert);
+    $stmtInsert->bindParam(1, $emailUsr, PDO::PARAM_STR);
+    $stmtInsert->bindParam(2, $passUsr, PDO::PARAM_STR);
+
+    if ($stmtInsert->execute()) {
+        $resultado = [
+            'email' => $emailUsr,
+            'rol' => '1',
+            'pass' => $passUsr
+        ];
+    } else {
+        print_r($stmtInsert->errorInfo());
+    }
+
+    return $resultado;
+}
+
+
 
 	
 	

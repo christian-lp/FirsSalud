@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE)
     if (isset($_SESSION['usr_rol']) != "") 
     {
         echo '<script type="text/javascript"> ;
-        window.location.href="index.php";</script>';
+        window.location.href="dashboard.php";</script>';
     }
 }
 ?>
@@ -19,11 +19,11 @@ if (session_status() == PHP_SESSION_NONE)
     <!-- Estilos -->
     <link rel="stylesheet" href="../../css/login.css">
 
-    <title>Formulario Login y Registro de Usuarios</title>
+    <title>Formulario Inicio de Sisión y Registro de Usuarios</title>
 </head>
 <body>
 <div class="login-box">
-  <h2>Login</h2>
+  <h2>Iniciar Sesión</h2>
   
   <form method="post">
 
@@ -52,15 +52,20 @@ if (session_status() == PHP_SESSION_NONE)
         <input type="submit" value="Iniciar Sesión"> <!-- Usa un input de tipo submit -->
     </a>
 </div>
-<?php
-        if (isset($_POST['login'])) 
-        {
-            (new ControladorUsuarios())->ctrLogin();
-        }
-    ?>
+
+    <?php
+            if (isset($_POST['login'])) 
+            {
+                (new ControladorUsuarios())->ctrLogin();
+            }
+        ?>
+        
+        <div>
+            <a href="register.php">Registrarse</a>
+        </div>
+
+
 </form>
-
 </div>
-
 </body>
 </html>

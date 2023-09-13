@@ -54,6 +54,17 @@ signo de pregunta Las que siguen a continuación se separan con &.
 	<?php endif ?>
 
 
+	<?php if ($_GET['pagina'] == "index"): ?>
+		<li class="nav-item">
+			<a class="nav-link active" href="index.php?pagina=index">Index</a>
+		</li>
+	<?php else: ?>
+		<li class="nav-item">
+		<a class="nav-link" href="../index.php">Index</a>
+		</li>		
+	<?php endif ?>
+
+
 	<?php if ($_GET['pagina'] == "inicio"): ?>
 		<li class="nav-item">
 			<a class="nav-link active" href="index.php?pagina=inicio">Inicio</a>
@@ -63,6 +74,8 @@ signo de pregunta Las que siguen a continuación se separan con &.
 			<a class="nav-link" href="index.php?pagina=inicio">Inicio</a>
 		</li>		
 	<?php endif ?>
+
+
 <?php else: ?>
 	<li class="nav-item">
 		<a class="nav-link" href="index.php?pagina=registro">Cargar Medico</a>
@@ -78,7 +91,7 @@ signo de pregunta Las que siguen a continuación se separan con &.
 	<div class="container py-5">
 		<?php
 		if(isset($_GET['pagina'])) {
-			if( ($_GET['pagina'] == "registro") || ($_GET['pagina'] == "inicio") ||  ($_GET['pagina'] == "editar") ||  ($_GET['pagina'] == "edit")  || ($_GET['pagina'] == "eliminar")|| ($_GET['pagina'] == "deletePatient") || ($_GET['pagina'] == "registerPatients") || ($_GET['pagina'] == "registerUser") ) {
+			if( ($_GET['pagina'] == "registro") || ($_GET['pagina'] == "inicio") ||  ($_GET['pagina'] == "editar") ||  ($_GET['pagina'] == "edit")  || ($_GET['pagina'] == "eliminar")|| ($_GET['pagina'] == "deletePatient") || ($_GET['pagina'] == "registerPatients") || ($_GET['pagina'] == "registerUser") || ($_GET['pagina'] == "index") ) {
 
 				include "paginas/".$_GET['pagina'].".php";		
 			}else{

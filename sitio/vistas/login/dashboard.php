@@ -1,13 +1,56 @@
 <?php
 // Inicia la sesión (si no está iniciada ya)
 session_start();
+
+if (isset($_SESSION['usr_rol']) == "") {
+    echo '<script type="text/javascript"> ;
+    window.location.href="login.php";</script>';
+} else {
+    if ($_SESSION["usr_rol"] == 1) {
+        $_SESSION["rol"] = 1;
+        $conectado = "PACIENTE";
+        // echo "<html><body>";
+        // echo "<h1>My Dashboard Paciente</h1>";
+        // echo "Bienvenido al Área de pacientes! <br> <strong>";
+        // echo $conectado . " " . $_SESSION["name"];
+        // echo "</strong><br>Has ingresado con el nombre de usuario: <strong>" . $_SESSION["email"] . " </strong><strong> ";
+        // echo $_SESSION["login"];
+        // echo "<br>";
+        // echo "</strong>";
+        // echo "</strong>";
+        // echo "<br>";
+    }
+
+    if (isset($_SESSION['usr_rol'])) {
+      // Obtén el valor del rol desde la sesión
+      $userRol = $_SESSION['usr_rol'];
+  
+      // Utiliza un switch para definir $userStatus según el valor de $userRol
+      switch ($userRol) {
+          case 1:
+              $userStatus = 'Paciente';
+              break;
+          case 2:
+              $userStatus = 'Médico';
+              break;
+          case 3:
+              $userStatus = 'Usuario';
+              break;
+          case 4:
+              $userStatus = 'Administrador';
+              break;
+          default:
+              $userStatus = 'Usuario Desconocido'; // En caso de otro valor no reconocido
+              break;
+      }
+  } else {
+      // Si no está definida, establece un valor predeterminado o maneja el caso según tu lógica
+      $userStatus = 'USUARIO DESCONOCIDO'; // Valor predeterminado en caso de que no se haya configurado
+  }
+}
 ?>
-
-
-
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,22 +60,22 @@ session_start();
   <title>WebMedic</title>
 
   <!-- css -->
-  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" type="text/css" href="plugins/cubeportfolio/css/cubeportfolio.min.css">
-  <link href="css/nivo-lightbox.css" rel="stylesheet" />
-  <link href="css/nivo-lightbox-theme/default/default.css" rel="stylesheet" type="text/css" />
-  <link href="css/owl.carousel.css" rel="stylesheet" media="screen" />
-  <link href="css/owl.theme.css" rel="stylesheet" media="screen" />
-  <link href="css/animate.css" rel="stylesheet" />
-  <link href="css/style.css" rel="stylesheet">
+  <link href="../../../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../../../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="../../../plugins/cubeportfolio/css/cubeportfolio.min.css">
+  <link href="../../../css/nivo-lightbox.css" rel="stylesheet" />
+  <link href="../../../css/nivo-lightbox-theme/default/default.css" rel="stylesheet" type="text/css" />
+  <link href="../../../css/owl.carousel.css" rel="stylesheet" media="screen" />
+  <link href="../../../css/owl.theme.css" rel="stylesheet" media="screen" />
+  <link href="../../../css/animate.css" rel="stylesheet" />
+  <link href="../../../css/style.css" rel="stylesheet">
   <!-- api Whast -->
-  <link rel="stylesheet" href="/img/icoWhast.png">
+  <link rel="stylesheet" href="../../../img/icoWhast.png">
 
   <!-- boxed bg -->
-  <link id="bodybg" href="bodybg/bg1.css" rel="stylesheet" type="text/css" />
+  <link id="bodybg" href="../../../bodybg/bg1.css" rel="stylesheet" type="text/css" />
   <!-- template skin -->
-  <link id="t-colors" href="color/default.css" rel="stylesheet">
+  <link id="t-colors" href="../../../color/default.css" rel="stylesheet">
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-custom">
@@ -60,15 +103,15 @@ session_start();
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-          <a class="navbar-brand" href="index.php">        
-                 <img src="img/Logo.png" alt="" width="100" height="50">
+          <a class="navbar-brand" href="dashboard.php">        
+                 <img src="../../../img/Logo.png" alt="" width="100" height="50">
           </a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-          <ul class="nav navbar-nav">
-          <li class="active"><a href="sitio/vistas/login/login.php" target="_blank">Acceso</a></li>
+    <!-- Tu contenido HTML aquí -->
+    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="logout.php">Cerrar Sesión</a></li>
             <li><a href="#service">Servicios</a></li>
             <li><a href="#doctor">Doctores</a></li>
             <li><a href="#facilities">Nuestras Instalaciones</a></li>
@@ -82,6 +125,11 @@ session_start();
                     <li><a href="index-buscador.html">Cancelación Turnos</a></li>
                 </ul>
             </li>
+            <span class="badge custom-badge red pull-right">
+                  <!-- Aquí se mostrará el estado del usuario -->
+                  <?php echo $userStatus. " ". $_SESSION["name"]; ?>
+            </span><br>
+            
           </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -89,8 +137,8 @@ session_start();
       <!-- /.container -->
     </nav>
 
-    <!-- Section: intro -->
-    <section id="intro" class="intro">
+  <!-- Section: intro -->
+  <section id="intro" class="intro">
       <div class="intro-content">
         <div class="container">
           <div class="row">
@@ -119,7 +167,7 @@ session_start();
             </div>
             <div class="col-lg-6">
               <div class="wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s">
-                <img src="img/dummy/img-1.png" class="img-responsive" alt="" />
+                <img src="../../../img/dummy/img-1.png" class="img-responsive" alt="" />
               </div>
             </div>
           </div>
@@ -226,7 +274,7 @@ session_start();
         <div class="row">
           <div class="col-sm-6 col-md-6">
             <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <img src="img/dummy/img-1.jpg" class="img-responsive" alt="" />
+              <img src="../../../img/dummy/img-1.jpg" class="img-responsive" alt="" />
             </div>
           </div>
           <div class="col-sm-3 col-md-3">
@@ -322,9 +370,9 @@ session_start();
             <div id="grid-container" class="cbp-l-grid-team">
               <ul>
                 <li class="cbp-item psychiatrist">
-                  <a href="doctors/member1.html" class="cbp-caption cbp-singlePage">
+                  <a href="../../../doctors/member1.html" class="cbp-caption cbp-singlePage">
                     <div class="cbp-caption-defaultWrap">
-                      <img src="img/team/1.jpg" alt="" width="100%">
+                      <img src="../../../img/team/1.jpg" alt="" width="100%">
                     </div>
                     <div class="cbp-caption-activeWrap">
                       <div class="cbp-l-caption-alignCenter">
@@ -334,13 +382,13 @@ session_start();
                       </div>
                     </div>
                   </a>
-                  <a href="doctors/member1.html" class="cbp-singlePage cbp-l-grid-team-name">Daiana Insaurralde</a>
+                  <a href="../../../doctors/member1.html" class="cbp-singlePage cbp-l-grid-team-name">Daiana Insaurralde</a>
                   <div class="cbp-l-grid-team-position">Psiquiatra</div>
                 </li>
                 <li class="cbp-item cardiologist">
-                  <a href="doctors/member2.html" class="cbp-caption cbp-singlePage">
+                  <a href="../../../doctors/member2.html" class="cbp-caption cbp-singlePage">
                     <div class="cbp-caption-defaultWrap">
-                      <img src="img/team/2.jpg" alt="" width="100%">
+                      <img src="../../../img/team/2.jpg" alt="" width="100%">
                     </div>
                     <div class="cbp-caption-activeWrap">
                       <div class="cbp-l-caption-alignCenter">
@@ -350,13 +398,13 @@ session_start();
                       </div>
                     </div>
                   </a>
-                  <a href="doctors/member2.html" class="cbp-singlePage cbp-l-grid-team-name">Matias</a>
+                  <a href="../../../doctors/member2.html" class="cbp-singlePage cbp-l-grid-team-name">Matias</a>
                   <div class="cbp-l-grid-team-position">Cardiologo</div>
                 </li>
                 <li class="cbp-item cardiologist">
-                  <a href="doctors/member3.html" class="cbp-caption cbp-singlePage">
+                  <a href="../../../doctors/member3.html" class="cbp-caption cbp-singlePage">
                     <div class="cbp-caption-defaultWrap">
-                      <img src="img/team/3.jpg" alt="" width="100%">
+                      <img src="../../../img/team/3.jpg" alt="" width="100%">
                     </div>
                     <div class="cbp-caption-activeWrap">
                       <div class="cbp-l-caption-alignCenter">
@@ -366,13 +414,13 @@ session_start();
                       </div>
                     </div>
                   </a>
-                  <a href="doctors/member3.html" class="cbp-singlePage cbp-l-grid-team-name">Malaga Luis</a>
+                  <a href="../../../doctors/member3.html" class="cbp-singlePage cbp-l-grid-team-name">Malaga Luis</a>
                   <div class="cbp-l-grid-team-position">Cardiologo</div>
                 </li>
                 <li class="cbp-item neurologist">
-                  <a href="doctors/member4.html" class="cbp-caption cbp-singlePage">
+                  <a href="../../../doctors/member4.html" class="cbp-caption cbp-singlePage">
                     <div class="cbp-caption-defaultWrap">
-                      <img src="img/team/4.jpg" alt="" width="100%">
+                      <img src="../../../img/team/4.jpg" alt="" width="100%">
                     </div>
                     <div class="cbp-caption-activeWrap">
                       <div class="cbp-l-caption-alignCenter">
@@ -382,7 +430,7 @@ session_start();
                       </div>
                     </div>
                   </a>
-                  <a href="doctors/member4.html" class="cbp-singlePage cbp-l-grid-team-name">Sicerone Daniel</a>
+                  <a href="../../../doctors/member4.html" class="cbp-singlePage cbp-l-grid-team-name">Sicerone Daniel</a>
                   <div class="cbp-l-grid-team-position">Neurologo</div>
                 </li>
 
@@ -418,12 +466,12 @@ session_start();
           <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="wow bounceInUp" data-wow-delay="0.2s">
               <div id="owl-works" class="owl-carousel">
-                <div class="item"><a href="img/photo/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/1@2x.jpg"><img src="img/photo/1.jpg" class="img-responsive" alt="img"></a></div>
-                <div class="item"><a href="img/photo/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/2@2x.jpg"><img src="img/photo/2.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="img/photo/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/3@2x.jpg"><img src="img/photo/3.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="img/photo/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/4@2x.jpg"><img src="img/photo/4.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="img/photo/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/5@2x.jpg"><img src="img/photo/5.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="img/photo/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/6@2x.jpg"><img src="img/photo/6.jpg" class="img-responsive " alt="img"></a></div>
+                <div class="item"><a href="../../../img/photo/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/1@2x.jpg"><img src="../../../img/photo/1.jpg" class="img-responsive" alt="img"></a></div>
+                <div class="item"><a href="../../../img/photo/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/2@2x.jpg"><img src="../../../img/photo/2.jpg" class="img-responsive " alt="img"></a></div>
+                <div class="item"><a href="../../../img/photo/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/3@2x.jpg"><img src="../../../img/photo/3.jpg" class="img-responsive " alt="img"></a></div>
+                <div class="item"><a href="../../../img/photo/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/4@2x.jpg"><img src="../../../img/photo/4.jpg" class="img-responsive " alt="img"></a></div>
+                <div class="item"><a href="../../../img/photo/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/5@2x.jpg"><img src="../../../img/photo/5.jpg" class="img-responsive " alt="img"></a></div>
+                <div class="item"><a href="../../../img/photo/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/6@2x.jpg"><img src="../../../img/photo/6.jpg" class="img-responsive " alt="img"></a></div>
               </div>
             </div>
           </div>
@@ -453,7 +501,7 @@ session_start();
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="img/testimonials/1.jpg" alt="" class="person img-circle" />
+                      <img src="../../../img/testimonials/1.jpg" alt="" class="person img-circle" />
                       <a title="" href="#">Anna</a>
                       <span>Chicago, Illinois</span>
                     </div>
@@ -469,7 +517,7 @@ session_start();
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="img/testimonials/2.jpg" alt="" class="person img-circle" />
+                      <img src="../../../img/testimonials/2.jpg" alt="" class="person img-circle" />
                       <a title="" href="#">Matthew G</a>
                       <span>San Antonio, Texas</span>
                     </div>
@@ -484,7 +532,7 @@ session_start();
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="img/testimonials/3.jpg" alt="" class="person img-circle" />
+                      <img src="../../../img/testimonials/3.jpg" alt="" class="person img-circle" />
                       <a title="" href="#">Scarlet Smith</a>
                       <span>Dallas, Texas</span>
                     </div>
@@ -501,7 +549,7 @@ session_start();
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="img/testimonials/4.jpg" alt="" class="person img-circle" />
+                      <img src="../../../img/testimonials/4.jpg" alt="" class="person img-circle" />
                       <a title="" href="#">Lucas Thompson</a>
                       <span>Austin, Texas</span>
                     </div>
@@ -517,7 +565,7 @@ session_start();
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="img/testimonials/5.jpg" alt="" class="person img-circle" />
+                      <img src="../../../img/testimonials/5.jpg" alt="" class="person img-circle" />
                       <a title="" href="#">Ella Mentree</a>
                       <span>Fort Worth, Texas</span>
                     </div>
@@ -532,7 +580,7 @@ session_start();
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="img/testimonials/6.jpg" alt="" class="person img-circle" />
+                      <img src="../../../img/testimonials/6.jpg" alt="" class="person img-circle" />
                       <a title="" href="#">Suzanne Adam</a>
                       <span>Detroit, Michigan</span>
                     </div>
@@ -556,90 +604,7 @@ session_start();
     <!-- /Section: testimonial -->
 
 
-    <!-- Section: prices
-    <section id="prices" class="home-section bg-gray paddingbot-60">
-      <div class="container marginbot-50">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2">
-            <div class="wow lightSpeedIn" data-wow-delay="0.1s">
-              <div class="section-heading text-center">
-                <h2 class="h-bold">Paquetes</h2>
-                <p>Tome el control de su salud hoy con nuestros paquetes de salud especialmente diseñados</p>
-              </div>
-            </div>
-            <div class="divider-short"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-sm-4 prices-box">
-            <div class="wow bounceInUp" data-wow-delay="0.1s">
-              <div class="prices-content general">
-                <h2>Paquete Basico Diamante</h2>
-                <h3>$33<sup>.99</sup> <span>/ one time</span></h3>
-                <ul>
-                  <li>Radiografias-Ecografias <i class="fa fa-check icon-success"></i></li>
-                  <li>Plan Dental Basico <i class="fa fa-check icon-success"></i></li>
-                  <li>Consultas Gral – Basicas <i class="fa fa-check icon-success"></i></li>
-                  <li><del>informe de evalucion de salud</del> <i class="fa fa-times icon-danger"></i></li>
-                </ul>
-
-                <div class="price-bottom">
-                  <a href="#" class="btn btn-skin btn-lg">Purchase</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-4 prices-box featured-price">
-            <div class="wow bounceInUp" data-wow-delay="0.3s">
-              <div class="prices-content featured">
-                <h2>Golden Glow Package</h2>
-                <h3>$65<sup>.99</sup> <span>/ one time</span></h3>
-                <ul>
-                  <li>Anthropometry (BMI, WH Ratio) <i class="fa fa-check icon-success"></i></li>
-                  <li>Post Examination Review <i class="fa fa-check icon-success"></i></li>
-                  <li>General Screening – Basic <i class="fa fa-check icon-success"></i></li>
-                  <li>Body Composition Analysis <i class="fa fa-check icon-success"></i></li>
-                  <li>GR Assessment & Scoring <i class="fa fa-check icon-success"></i></li>
-                </ul>
-
-                <div class="price-bottom">
-                  <a href="#" class="btn btn-skin btn-lg">Purchase</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-4 prices-box">
-            <div class="wow bounceInUp" data-wow-delay="0.2s">
-              <div class="prices-content general last">
-                <h2>Basic Fit 2 Package</h2>
-                <h3>$47<sup>.99</sup> <span>/ one time</span></h3>
-                <ul>
-                  <li>Anthropometry (BMI, WH Ratio) <i class="fa fa-check icon-success"></i></li>
-                  <li>Post Examination Review <i class="fa fa-check icon-success"></i></li>
-                  <li>General Screening – Regular <i class="fa fa-check icon-success"></i></li>
-                  <li><del>Health Screening Report</del> <i class="fa fa-times icon-danger"></i></li>
-                </ul>
-
-                <div class="price-bottom">
-                  <a href="#" class="btn btn-skin btn-lg">Purchase</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section> -->
-    <!-- /Section: prices -->
-
+   
     <section id="partner" class="home-section paddingbot-60">
       <div class="container marginbot-50">
         <div class="row">
@@ -659,22 +624,22 @@ session_start();
         <div class="row">
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="img/dummy/partner-1.jpg" alt="" /></a>
+              <a href="#"><img src="../../../img/dummy/partner-1.jpg" alt="" /></a>
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="img/dummy/partner-2.jpg" alt="" /></a>
+              <a href="#"><img src="../../../img/dummy/partner-2.jpg" alt="" /></a>
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="img/dummy/partner-3.jpg" alt="" /></a>
+              <a href="#"><img src="../../../img/dummy/partner-3.jpg" alt="" /></a>
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="img/dummy/partner-4.jpg" alt="" /></a>
+              <a href="#"><img src="../../../img/dummy/partner-4.jpg" alt="" /></a>
             </div>
           </div>
         </div>
@@ -788,17 +753,17 @@ session_start();
   <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
   <!-- Core JavaScript Files -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.easing.min.js"></script>
-  <script src="js/wow.min.js"></script>
-  <script src="js/jquery.scrollTo.js"></script>
-  <script src="js/jquery.appear.js"></script>
-  <script src="js/stellar.js"></script>
-  <script src="plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/nivo-lightbox.min.js"></script>
-  <script src="js/custom.js"></script>
+  <script src="../../../js/jquery.min.js"></script>
+  <script src="../../../js/bootstrap.min.js"></script>
+  <script src="../../../js/jquery.easing.min.js"></script>
+  <script src="../../../js/wow.min.js"></script>
+  <script src="../../../js/jquery.scrollTo.js"></script>
+  <script src="../../../js/jquery.appear.js"></script>
+  <script src="../../../js/stellar.js"></script>
+  <script src="../../../plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+  <script src="../../../js/owl.carousel.min.js"></script>
+  <script src="../../../js/nivo-lightbox.min.js"></script>
+  <script src="../../../js/custom.js"></script>
 
 </body>
 

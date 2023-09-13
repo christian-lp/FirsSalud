@@ -22,10 +22,10 @@ class ControladorUsuarios
 				$pass = $_POST['passUsr'];
 
 				
-				
+				//$rol = 1;
 				// Llama a la función mdlLogin para autenticar al usuario
 				$respuesta = ModeloUsuarios::mdlLogin($user,$pass);
-				// echo "Después de llamar a ModeloUsuarios::mdlLogin<br>";
+				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
 				// var_dump($respuesta);
 
 				if($respuesta != null ) 
@@ -73,57 +73,57 @@ class ControladorUsuarios
 					
 						// Redirige después de 3 segundos (3000 milisegundos)
 						setTimeout(function() {
-							window.location.href = "index.php";
+							window.location.href = "dashboard.php";
 						}, 3000);
 						</script>';
 					}
 
 
-					// if($rol == 2) 
-					// {
-					// 	$_SESSION['usr_rol'] = $respuesta['rol_medic'];
-					// 	$_SESSION['email_medic'] = $respuesta['email_medic'];
-					// 	$_SESSION['name_medic'] = $respuesta['name_medic'];
-					// 	echo 
-					// 	'<script>
-					// 	if (window.history.replaceState) 
-					// 	{
-					// 		window.history.replaceState(null, null, window.location.href);
-					// 	}
+					if($respuesta['rol'] == "2") 
+					{
+						$_SESSION['usr_rol'] = $respuesta['rol_medic'];
+						$_SESSION['email_medic'] = $respuesta['email_medic'];
+						$_SESSION['name_medic'] = $respuesta['name_medic'];
+						echo 
+						'<script>
+						if (window.history.replaceState) 
+						{
+							window.history.replaceState(null, null, window.location.href);
+						}
 					
-					// 	// Crea un elemento div para el alerta
-					// 	var alertDiv = document.createElement("div");
-					// 	alertDiv.style.position = "fixed";
-					// 	alertDiv.style.top = "50%";
-					// 	alertDiv.style.left = "50%";
-					// 	alertDiv.style.transform = "translate(-50%, -50%)";
-					// 	alertDiv.style.padding = "20px";
-					// 	alertDiv.style.borderRadius = "10px";
-					// 	alertDiv.style.textAlign = "center";
+						// Crea un elemento div para el alerta
+						var alertDiv = document.createElement("div");
+						alertDiv.style.position = "fixed";
+						alertDiv.style.top = "50%";
+						alertDiv.style.left = "50%";
+						alertDiv.style.transform = "translate(-50%, -50%)";
+						alertDiv.style.padding = "20px";
+						alertDiv.style.borderRadius = "10px";
+						alertDiv.style.textAlign = "center";
 						
-					// 	// Crea un elemento img para el GIF animado
-					// 	var gifImg = document.createElement("img");
-					// 	gifImg.src = "AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-					// 	gifImg.style.width = "300px"; // Ajusta el tamaño del GIF según sea necesario
-					// 	gifImg.style.height = "300px";
+						// Crea un elemento img para el GIF animado
+						var gifImg = document.createElement("img");
+						gifImg.src = "AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+						gifImg.style.width = "300px"; // Ajusta el tamaño del GIF según sea necesario
+						gifImg.style.height = "300px";
 						
-					// 	// Crea un elemento de texto para el mensaje del alerta
-					// 	var messageText = document.createElement("div");
-					// 	messageText.textContent = "Iniciando sesión";
+						// Crea un elemento de texto para el mensaje del alerta
+						var messageText = document.createElement("div");
+						messageText.textContent = "Iniciando sesión";
 						
-					// 	// Agrega el GIF animado y el texto al elemento del alerta
-					// 	alertDiv.appendChild(gifImg);
-					// 	alertDiv.appendChild(messageText);
+						// Agrega el GIF animado y el texto al elemento del alerta
+						alertDiv.appendChild(gifImg);
+						alertDiv.appendChild(messageText);
 						
-					// 	// Agrega el elemento del alerta al documento
-					// 	document.body.appendChild(alertDiv);
+						// Agrega el elemento del alerta al documento
+						document.body.appendChild(alertDiv);
 					
-					// 	// Redirige después de 3 segundos (3000 milisegundos)
-					// 	setTimeout(function() {
-					// 		window.location.href = "../index.php";
-					// 	}, 3000);
-					// 	</script>';
-					// }
+						// Redirige después de 3 segundos (3000 milisegundos)
+						setTimeout(function() {
+							window.location.href = "../index.php";
+						}, 3000);
+						</script>';
+					}
 					
 				} 
 				else 
@@ -146,8 +146,96 @@ class ControladorUsuarios
 			}	
 		}
 	}
-}
+	public function ctrRegister()
+	{
+		if (empty($_POST['sing_up'])) 
+		{
+            if (empty($_POST["emailUsr"]) || empty($_POST["passUsr"]) || empty($_POST["CpassUsr"])) 
+			{
+                echo '<div class="alert alert-danger">LOS CAMPOS ESTÁN VACÍOS</div>';
+            }
+		}
+		else//((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
+			// 	(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["passUsr"])))) 
+		{
+			
+			//$error = false;
+				$emailUsr = trim($_POST['emailUsr']);
+				$passUsr = trim($_POST['passUsr']);
+				$CpassUsr = trim($_POST['CpassUsr']);
+				
+				// if(!filter_var($emailUsr,FILTER_VALIDATE_EMAIL)) {
+				// 	$error = true;
+				// 	$email_error = "Ingresa un correo electrónico válido.";
+				// }
+				// if(strlen($passUsr) < 6) {
+				// 	$error = true;
+				// 	$password_error = "La contraseña debe tener un mínimo de 6 caracteres.";
+				// }
+				// if($passUsr != $CpassUsr) {
+				// 	$error = true;
+				// 	$cpassword_error = "Las contraseñas no coinciden";
+				// }
+			
+				
+				// if (!$error) 
+				// {
+					// Llama a la función mdlLogin para autenticar al usuario
+				$respuesta = ModeloUsuarios::mdlRegister($emailUsr,$passUsr);
+				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
+				// var_dump($respuesta);
 
+				if($respuesta != null ) 
+				{
+				
+					// 	$idCarrera = ModeloUsuarios::mdlAlumnoCarrera($respuesta['id_usr_rol']);
+					// 	$_SESSION['id_carrera'] = $idCarrera['id_carrera'];
+						echo 
+						'<script>
+						if (window.history.replaceState) 
+						{
+							window.history.replaceState(null, null, window.location.href);
+						}
+					
+						// Crea un elemento div para el alerta
+						var alertDiv = document.createElement("div");
+						alertDiv.style.position = "fixed";
+						alertDiv.style.top = "50%";
+						alertDiv.style.left = "50%";
+						alertDiv.style.transform = "translate(-50%, -50%)";
+						alertDiv.style.padding = "20px";
+						alertDiv.style.borderRadius = "10px";
+						alertDiv.style.textAlign = "center";
+						
+						// Crea un elemento img para el GIF animado
+						var gifImg = document.createElement("img");
+						gifImg.src = "AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+						gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
+						gifImg.style.height = "457px";
+						
+						// Crea un elemento de texto para el mensaje del alerta
+						var messageText = document.createElement("div");
+						messageText.textContent = "Iniciando sesión";
+						
+						// Agrega el GIF animado y el texto al elemento del alerta
+						alertDiv.appendChild(gifImg);
+						alertDiv.appendChild(messageText);
+						
+						// Agrega el elemento del alerta al documento
+						document.body.appendChild(alertDiv);
+					
+						// Redirige después de 3 segundos (3000 milisegundos)
+						setTimeout(function() {
+							window.location.href = "dashboard.php";
+						}, 3000);
+						</script>';
+				
+
+				} 
+			//}
+		}
+	}
+}
 
 				
 			// if ((strcmp(trim($_POST["loginUsr"]), getenv("USER_ADMIN_SITE")) == 0 ) &&
