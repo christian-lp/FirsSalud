@@ -16,22 +16,13 @@ if (session_status() == PHP_SESSION_NONE)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <!-- Estilos -->
     <link rel="stylesheet" href="../../css/login.css">
-
-	
-
-
-
-    <title>Formulario Login y Registro de Usuarios</title>
+    <title>Formulario Registro de Usuarios</title>
 </head>
 <body>
 <div class="login-box">
   <h2>Registrarse</h2>
-  
-  
   <form method="post" id="registration-form">
-
 	<?php
 		// if (isset($_SESSION['registration_error'])) {
 		// 	echo '<p style="color: red;">' . $_SESSION['registration_error'] . '</p>';
@@ -46,17 +37,17 @@ if (session_status() == PHP_SESSION_NONE)
     ?> 
     <div class="user-box">
         <label for="emailUsr"></label>
-        <input type="email" name="emailUsr" maxlength="50" placeholder="Usuario (email)" required>
+        <input type="text" name="emailUsr" maxlength="50" placeholder="Usuario (email)" >
     </div>
 
     <div class="user-box">
         <label for="passUsr"></label>
-        <input type="password" name="passUsr" placeholder="Contraseña" required>
+        <input type="password" name="passUsr" placeholder="Contraseña" >
     </div>
 
     <div class="user-box">
         <label for="CpassUsr"></label>
-        <input type="password" name="CpassUsr" placeholder="Repite Contraseña" required>
+        <input type="password" name="CpassUsr" placeholder="Repite Contraseña" >
     </div>
 
     <div>
@@ -81,7 +72,6 @@ if (session_status() == PHP_SESSION_NONE)
     <div>
         <a href="login.php">Iniciar Sesión</a>
     </div>
-
 
 </form>
 </div>

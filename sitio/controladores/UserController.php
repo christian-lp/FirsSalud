@@ -3,6 +3,7 @@
 require_once "/var/www/html/MedicV4/FirsSalud/sitio/modelos/conexion.php";
 require_once "/var/www/html/MedicV4/FirsSalud/sitio/modelos/ModelUser.php";
 
+
 // Controlador de usuarios
 class ControladorUsuarios
 {
@@ -56,7 +57,8 @@ class ControladorUsuarios
 						
 						// Crea un elemento img para el GIF animado
 						var gifImg = document.createElement("img");
-						gifImg.src = "AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+						gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+
 						gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
 						gifImg.style.height = "457px";
 						
@@ -103,9 +105,9 @@ class ControladorUsuarios
 						
 						// Crea un elemento img para el GIF animado
 						var gifImg = document.createElement("img");
-						gifImg.src = "AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-						gifImg.style.width = "300px"; // Ajusta el tamaño del GIF según sea necesario
-						gifImg.style.height = "300px";
+						gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+						gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
+						gifImg.style.height = "457px";
 						
 						// Crea un elemento de texto para el mensaje del alerta
 						var messageText = document.createElement("div");
@@ -148,90 +150,146 @@ class ControladorUsuarios
 	}
 	public function ctrRegister()
 	{
-		if (empty($_POST['sing_up'])) 
+		if (!empty($_POST['sing_up'])) 
 		{
-            if (empty($_POST["emailUsr"]) || empty($_POST["passUsr"]) || empty($_POST["CpassUsr"])) 
+            if (empty($_POST["emailUsr"]) || (empty($_POST["passUsr"])) || (empty($_POST["CpassUsr"]))) 
 			{
-                echo '<div class="alert alert-danger">LOS CAMPOS ESTÁN VACÍOS</div>';
+                $successmsg = '
+				<div class="alert alert-success" id="success-alert">
+					<strong style="color: red;"><br>¡LOS CAMPOS ESTÁN VACÍOS! <br><br> Debe completar todos los campos!</strong>
+				</div>
+				';
+				// Agregar JavaScript para ocultar el mensaje de éxito después de 3 segundos
+				// Ademas redirige al formulario de login
+				echo $successmsg .= '
+					<script>
+						setTimeout(function() {
+							var successAlert = document.getElementById("success-alert");
+							if (successAlert) {
+								successAlert.style.display = "none";
+							}
+						}, 3000);
+					</script>
+				';
             }
 		}
 		else//((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
 			// 	(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["passUsr"])))) 
 		{
+			$error = false;
+	
+			$emailUsr = trim($_POST['emailUsr']);
+			$passUsr = trim($_POST['passUsr']);
+			$CpassUsr = trim($_POST['CpassUsr']);
 			
-			//$error = false;
-				$emailUsr = trim($_POST['emailUsr']);
-				$passUsr = trim($_POST['passUsr']);
-				$CpassUsr = trim($_POST['CpassUsr']);
-				
-				// if(!filter_var($emailUsr,FILTER_VALIDATE_EMAIL)) {
-				// 	$error = true;
-				// 	$email_error = "Ingresa un correo electrónico válido.";
-				// }
-				// if(strlen($passUsr) < 6) {
-				// 	$error = true;
-				// 	$password_error = "La contraseña debe tener un mínimo de 6 caracteres.";
-				// }
-				// if($passUsr != $CpassUsr) {
-				// 	$error = true;
-				// 	$cpassword_error = "Las contraseñas no coinciden";
-				// }
 			
-				
-				// if (!$error) 
-				// {
-					// Llama a la función mdlLogin para autenticar al usuario
-				$respuesta = ModeloUsuarios::mdlRegister($emailUsr,$passUsr);
-				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
-				// var_dump($respuesta);
+			$error_messages = [];
 
-				if($respuesta != null ) 
-				{
+			if (!filter_var($emailUsr, FILTER_VALIDATE_EMAIL)) {
+				$error = true;
+				$error_messages[] = 'Ingresa un correo electrónico válido!';
+			}
+
+			if (strlen($passUsr) < 6) {
+				$error = true;
+				$error_messages[] = 'La contraseña debe tener un mínimo de 6 caracteres!';
+			}
+
+			if ($passUsr != $CpassUsr) {
+				$error = true;
+				$error_messages[] = 'Las contraseñas no coinciden!';
+			}
+
+			// Mostrar los mensajes de error y agregar JavaScript para ocultarlos después de 3 segundos
+			foreach ($error_messages as $error_message) {
+				echo '
+					<div class="alert alert-success error-message">
+						<strong style="color: red;">' . $error_message . '</strong>
+					</div>
+				';
+			}
+					echo '<script>
+					setTimeout(function() {
+						var errorAlerts = document.querySelectorAll(".error-message");
+						errorAlerts.forEach(function(errorAlert) {
+							errorAlert.style.display = "none";
+						});
+					}, 4000);
+					</script>';
+			
+			if (!$error) 
+			{
+				// Llama a la función mdlLogin para autenticar al usuario
+			$respuesta = ModeloUsuarios::mdlRegister($emailUsr,$passUsr);
+			// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
+			// var_dump($respuesta);
+			}
+
+			if($respuesta != null ) 
+			{
+				require("../../funciones/funciones.php");
+				if (is_readable("../../data/Config.txt")){
+					$config_file=fopen('../../data/Config.txt','r+') or die ("Error de apertura de archivo, consulte con el administrador...");
+					while(!feof($config_file))
+					{
 				
-					// 	$idCarrera = ModeloUsuarios::mdlAlumnoCarrera($respuesta['id_usr_rol']);
-					// 	$_SESSION['id_carrera'] = $idCarrera['id_carrera'];
-						echo 
-						'<script>
-						if (window.history.replaceState) 
-						{
-							window.history.replaceState(null, null, window.location.href);
+						$linea=fgets($config_file);
+						if (!empty($linea)){
+							$datos=explode("|",$linea);
+							$site=$datos[0];
+							$sourcemail= $datos[1];
+							$passmail=$datos[2];
 						}
+					}
+					$name = 'Paciente';
+					$email = $respuesta['email'];
+					enviar_mail($email,$name,$site,$sourcemail,$passmail);
 					
-						// Crea un elemento div para el alerta
-						var alertDiv = document.createElement("div");
-						alertDiv.style.position = "fixed";
-						alertDiv.style.top = "50%";
-						alertDiv.style.left = "50%";
-						alertDiv.style.transform = "translate(-50%, -50%)";
-						alertDiv.style.padding = "20px";
-						alertDiv.style.borderRadius = "10px";
-						alertDiv.style.textAlign = "center";
-						
-						// Crea un elemento img para el GIF animado
-						var gifImg = document.createElement("img");
-						gifImg.src = "AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-						gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
-						gifImg.style.height = "457px";
-						
-						// Crea un elemento de texto para el mensaje del alerta
-						var messageText = document.createElement("div");
-						messageText.textContent = "Iniciando sesión";
-						
-						// Agrega el GIF animado y el texto al elemento del alerta
-						alertDiv.appendChild(gifImg);
-						alertDiv.appendChild(messageText);
-						
-						// Agrega el elemento del alerta al documento
-						document.body.appendChild(alertDiv);
-					
-						// Redirige después de 3 segundos (3000 milisegundos)
-						setTimeout(function() {
-							window.location.href = "dashboard.php";
-						}, 3000);
-						</script>';
+					$successmsg = '
+					<div class="alert alert-success" id="success-alert">
+						<strong style="color: #03e9f4;">¡REGISTRADO CON EXITO! <br><br> Verifique su Correo..</strong>
+					</div>
+					';
+					// Agregar JavaScript para ocultar el mensaje de éxito después de 3 segundos
+					// Ademas redirige al formulario de login
+					echo $successmsg .= '
+						<script>
+							setTimeout(function() {
+								var successAlert = document.getElementById("success-alert");
+								if (successAlert) {
+									successAlert.style.display = "none";
+									window.location.href = "login.php";
+								}
+							}, 3000);
+						</script>
+					';
 				
-
+				
 				} 
+				
+				else
+				{
+					// echo "no existe";
+					// exit;
+					echo $errormsg = '
+					<div class="alert alert-danger alert-dismissable fade in">
+						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<strong>Error de registro.!</strong> Error no se pudo enviar mail de confirmación.
+					</div>
+					';					// Agregar JavaScript para ocultar el mensaje de error después de 3 segundos
+					$errormsg .= '
+					<script>
+						setTimeout(function() {
+							var errorAlert = document.getElementById("error-alert");
+							if (errorAlert) {
+								errorAlert.style.display = "none";
+							}
+						}, 3000);
+					</script>
+					';
+				} 
+				
+			} 
 			//}
 		}
 	}
