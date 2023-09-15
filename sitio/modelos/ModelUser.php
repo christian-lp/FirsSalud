@@ -1,6 +1,6 @@
 <?php 
-require_once "/var/www/html/MedicV4/FirsSalud/sitio/modelos/conexion.php";
-require_once "/var/www/html/MedicV4/FirsSalud/sitio/sql/querys.usuarios.php";
+require_once "/var/www/html/FirsSalud/sitio/modelos/conexion.php";
+require_once "/var/www/html/FirsSalud/sitio/sql/querys.usuarios.php";
 
 class ModeloUsuarios {
 	
@@ -32,7 +32,7 @@ class ModeloUsuarios {
 	// 	$stmt = null; // por seguridad vaciamos el objeto de la conexion	
 	// }
 
-	static public function mdlLogin($user, $pass) 
+	static public function mdlLogin($emailUsr, $passUsr) 
 	{
 		$resultado = null;
 		// Define las consultas SQL para cada rol
@@ -59,8 +59,8 @@ class ModeloUsuarios {
 	
 		// Prepara la consulta SQL
 		$stmt = Conexion::conectar()->prepare($sql);
-		$stmt->bindParam(1, $user, PDO::PARAM_STR);
-		$stmt->bindParam(2, $pass, PDO::PARAM_STR);
+		$stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
+		$stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
 		// $stmt2 = Conexion::conectar()->prepare($sql2);
 		// $stmt2->bindParam(1, $user, PDO::PARAM_STR);
 		// $stmt2->bindParam(2, $pass, PDO::PARAM_STR);
@@ -77,7 +77,8 @@ class ModeloUsuarios {
 					window.history.replaceState(null, null, window.location.href);
 				}
 				</script>
-				<div class="alert alert-danger mt-2">Usuario o Contraseña Incorrecta</div>';
+				<strong><div class="alert alert-danger mt-2">Usuario o Contraseña Incorrecta!</div>';
+				exit;
 			}
 		}
 		// Si no se ejecuta la consulta 
@@ -108,9 +109,27 @@ class ModeloUsuarios {
             'rol' => '1',
             'pass' => $passUsr
         ];
-    } else {
-        print_r($stmtInsert->errorInfo());
+    } 
+	else 
+	{
+		$error_message = '<strong style="color: red;">¡EL USUARIO YA EXISTE!<br>Ingrese otro!</strong>';
+		echo '
+					<div class="alert alert-danger error-message">
+						<strong>' . $error_message . '</strong>
+					</div>
+				';
+		
+        // print_r($stmtInsert->errorInfo());
     }
+		echo '<script>
+				setTimeout(function()
+				{
+					var errorAlerts = document.querySelectorAll(".error-message");
+					errorAlerts.forEach(function(errorAlert) {
+						errorAlert.style.display = "none";
+					});
+				}, 3000);
+				</script>';
 
     return $resultado;
 }

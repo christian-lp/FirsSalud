@@ -1,238 +1,83 @@
 <?php
 
-require_once "/var/www/html/MedicV4/FirsSalud/sitio/modelos/conexion.php";
-require_once "/var/www/html/MedicV4/FirsSalud/sitio/modelos/ModelUser.php";
+require_once "/var/www/html/FirsSalud/sitio/modelos/conexion.php";
+require_once "/var/www/html/FirsSalud/sitio/modelos/ModelUser.php";
 
 
 // Controlador de usuarios
 class ControladorUsuarios
 {
-    public function ctrLogin()
-    {
-		
-        if (empty($_POST['login'])) 
-		{
-            if (empty($_POST["loginUsr"]) || empty($_POST["passUsr"])) 
-			{
-                echo '<div class="alert alert-danger">LOS CAMPOS ESTÁN VACÍOS</div>';
-            }
-			else//((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
-			// 	(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["passUsr"])))) 
-			{
-				$user = trim($_POST['loginUsr']);
-				$pass = $_POST['passUsr'];
-
-				
-				//$rol = 1;
-				// Llama a la función mdlLogin para autenticar al usuario
-				$respuesta = ModeloUsuarios::mdlLogin($user,$pass);
-				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
-				// var_dump($respuesta);
-
-				if($respuesta != null ) 
-				{
-					if($respuesta['rol'] == "1") 
-					{
-						$_SESSION['usr_rol'] = $respuesta['rol'];
-						$_SESSION['email'] = $respuesta['email'];
-						$_SESSION['name'] = $respuesta['name'];
-					// 	$idCarrera = ModeloUsuarios::mdlAlumnoCarrera($respuesta['id_usr_rol']);
-					// 	$_SESSION['id_carrera'] = $idCarrera['id_carrera'];
-						echo 
-						'<script>
-						if (window.history.replaceState) 
-						{
-							window.history.replaceState(null, null, window.location.href);
-						}
-					
-						// Crea un elemento div para el alerta
-						var alertDiv = document.createElement("div");
-						alertDiv.style.position = "fixed";
-						alertDiv.style.top = "50%";
-						alertDiv.style.left = "50%";
-						alertDiv.style.transform = "translate(-50%, -50%)";
-						alertDiv.style.padding = "20px";
-						alertDiv.style.borderRadius = "10px";
-						alertDiv.style.textAlign = "center";
-						
-						// Crea un elemento img para el GIF animado
-						var gifImg = document.createElement("img");
-						gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-
-						gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
-						gifImg.style.height = "457px";
-						
-						// Crea un elemento de texto para el mensaje del alerta
-						var messageText = document.createElement("div");
-						messageText.textContent = "Iniciando sesión";
-						
-						// Agrega el GIF animado y el texto al elemento del alerta
-						alertDiv.appendChild(gifImg);
-						alertDiv.appendChild(messageText);
-						
-						// Agrega el elemento del alerta al documento
-						document.body.appendChild(alertDiv);
-					
-						// Redirige después de 3 segundos (3000 milisegundos)
-						setTimeout(function() {
-							window.location.href = "dashboard.php";
-						}, 3000);
-						</script>';
-					}
-
-
-					if($respuesta['rol'] == "2") 
-					{
-						$_SESSION['usr_rol'] = $respuesta['rol_medic'];
-						$_SESSION['email_medic'] = $respuesta['email_medic'];
-						$_SESSION['name_medic'] = $respuesta['name_medic'];
-						echo 
-						'<script>
-						if (window.history.replaceState) 
-						{
-							window.history.replaceState(null, null, window.location.href);
-						}
-					
-						// Crea un elemento div para el alerta
-						var alertDiv = document.createElement("div");
-						alertDiv.style.position = "fixed";
-						alertDiv.style.top = "50%";
-						alertDiv.style.left = "50%";
-						alertDiv.style.transform = "translate(-50%, -50%)";
-						alertDiv.style.padding = "20px";
-						alertDiv.style.borderRadius = "10px";
-						alertDiv.style.textAlign = "center";
-						
-						// Crea un elemento img para el GIF animado
-						var gifImg = document.createElement("img");
-						gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-						gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
-						gifImg.style.height = "457px";
-						
-						// Crea un elemento de texto para el mensaje del alerta
-						var messageText = document.createElement("div");
-						messageText.textContent = "Iniciando sesión";
-						
-						// Agrega el GIF animado y el texto al elemento del alerta
-						alertDiv.appendChild(gifImg);
-						alertDiv.appendChild(messageText);
-						
-						// Agrega el elemento del alerta al documento
-						document.body.appendChild(alertDiv);
-					
-						// Redirige después de 3 segundos (3000 milisegundos)
-						setTimeout(function() {
-							window.location.href = "../index.php";
-						}, 3000);
-						</script>';
-					}
-					
-				} 
-				else 
-				{
-					echo '<script>
-					if ( window.history.replaceState ) {
-						window.history.replaceState(null, null, window.location.href);
-					}
-					</script>
-					<div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
-				}
-				// } else {
-				// 	echo'<script>
-				// 	if ( window.history.replaceState ) {
-				// 		window.history.replaceState(null, null, window.location.href);
-				// 	}
-				// 	alert("Debes completar los campos");
-				// 	</script>';
-				// 	}
-			}	
-		}
-	}
 	public function ctrRegister()
-	{
-		if (!empty($_POST['sing_up'])) 
-		{
-            if (empty($_POST["emailUsr"]) || (empty($_POST["passUsr"])) || (empty($_POST["CpassUsr"]))) 
-			{
-                $successmsg = '
-				<div class="alert alert-success" id="success-alert">
-					<strong style="color: red;"><br>¡LOS CAMPOS ESTÁN VACÍOS! <br><br> Debe completar todos los campos!</strong>
-				</div>
-				';
-				// Agregar JavaScript para ocultar el mensaje de éxito después de 3 segundos
-				// Ademas redirige al formulario de login
-				echo $successmsg .= '
-					<script>
-						setTimeout(function() {
-							var successAlert = document.getElementById("success-alert");
-							if (successAlert) {
-								successAlert.style.display = "none";
-							}
-						}, 3000);
-					</script>
-				';
-            }
-		}
-		else//((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
-			// 	(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["passUsr"])))) 
-		{
+    {
+        if (isset($_POST['sing_up']))
+        {
 			$error = false;
-	
+			$error_messages = [];
 			$emailUsr = trim($_POST['emailUsr']);
 			$passUsr = trim($_POST['passUsr']);
 			$CpassUsr = trim($_POST['CpassUsr']);
-			
-			
-			$error_messages = [];
 
-			if (!filter_var($emailUsr, FILTER_VALIDATE_EMAIL)) {
+			if (empty($emailUsr) || empty($passUsr) || empty($CpassUsr))
+            {
 				$error = true;
-				$error_messages[] = 'Ingresa un correo electrónico válido!';
+				$error_messages[] = 'Complete los campos.';
+            }
+			
+			elseif (!filter_var($emailUsr, FILTER_VALIDATE_EMAIL))
+			{
+				$error = true;
+				$error_messages[] = 'Ingresa un correo electrónico válido.';
 			}
 
-			if (strlen($passUsr) < 6) {
+			elseif (strlen($passUsr) < 6)
+			{
 				$error = true;
-				$error_messages[] = 'La contraseña debe tener un mínimo de 6 caracteres!';
+				$error_messages[] = 'La contraseña debe tener un mínimo de 6 caracteres.';
 			}
 
-			if ($passUsr != $CpassUsr) {
+			elseif ($passUsr != $CpassUsr)
+			{
 				$error = true;
-				$error_messages[] = 'Las contraseñas no coinciden!';
+				$error_messages[] = 'Las contraseñas no coinciden.';
 			}
 
 			// Mostrar los mensajes de error y agregar JavaScript para ocultarlos después de 3 segundos
-			foreach ($error_messages as $error_message) {
+			foreach ($error_messages as $error_message)
+			{
 				echo '
-					<div class="alert alert-success error-message">
-						<strong style="color: red;">' . $error_message . '</strong>
+					<div class="alert alert-danger error-message">
+						<strong>' . $error_message . '</strong>
 					</div>
 				';
 			}
-					echo '<script>
-					setTimeout(function() {
-						var errorAlerts = document.querySelectorAll(".error-message");
-						errorAlerts.forEach(function(errorAlert) {
-							errorAlert.style.display = "none";
-						});
-					}, 4000);
-					</script>';
-			
-			if (!$error) 
+
+				echo '<script>
+				setTimeout(function()
+				{
+					var errorAlerts = document.querySelectorAll(".error-message");
+					errorAlerts.forEach(function(errorAlert) {
+						errorAlert.style.display = "none";
+					});
+				}, 3000);
+				</script>';
+
+			if (!$error)
 			{
 				// Llama a la función mdlLogin para autenticar al usuario
-			$respuesta = ModeloUsuarios::mdlRegister($emailUsr,$passUsr);
-			// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
-			// var_dump($respuesta);
+				$respuesta = ModeloUsuarios::mdlRegister($emailUsr, $passUsr);
+				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
+				// var_dump($respuesta);
 			}
 
-			if($respuesta != null ) 
+			if($respuesta != null )
 			{
 				require("../../funciones/funciones.php");
-				if (is_readable("../../data/Config.txt")){
-					$config_file=fopen('../../data/Config.txt','r+') or die ("Error de apertura de archivo, consulte con el administrador...");
+				if (is_readable("../../data/config.txt"))
+				{
+					$config_file=fopen('../../data/config.txt','r+') or die ("Error de apertura de archivo, consulte con el administrador...");
 					while(!feof($config_file))
 					{
-				
+
 						$linea=fgets($config_file);
 						if (!empty($linea)){
 							$datos=explode("|",$linea);
@@ -244,7 +89,7 @@ class ControladorUsuarios
 					$name = 'Paciente';
 					$email = $respuesta['email'];
 					enviar_mail($email,$name,$site,$sourcemail,$passmail);
-					
+
 					$successmsg = '
 					<div class="alert alert-success" id="success-alert">
 						<strong style="color: #03e9f4;">¡REGISTRADO CON EXITO! <br><br> Verifique su Correo..</strong>
@@ -263,10 +108,9 @@ class ControladorUsuarios
 							}, 3000);
 						</script>
 					';
-				
-				
-				} 
-				
+					exit;
+				}
+
 				else
 				{
 					// echo "no existe";
@@ -287,15 +131,175 @@ class ControladorUsuarios
 						}, 3000);
 					</script>
 					';
-				} 
+					exit;
+				}
+
+			}
+		}
+				//}
+	}
+    public function ctrLogin()
+    {
+		if (isset($_POST['login']))
+        {
+			$error = false;
+			$error_messages = [];
+			$emailUsr = trim($_POST['emailUsr']);
+			$passUsr = trim($_POST['passUsr']);
+
+			if (empty($emailUsr) || empty($passUsr))
+            {
+				$error = true;
+				$error_messages[] = '<strong style="color: red;">¡Complete los campos! <br></strong>';
 				
-			} 
-			//}
+            }
+			
+			elseif (!filter_var($emailUsr, FILTER_VALIDATE_EMAIL))
+			{
+				$error = true;
+				$error_messages[] = '<strong style="color: red;">¡Ingresa un correo electrónico válido!<br></strong>';
+			}
+
+			elseif (strlen($passUsr) < 6)
+			{
+				$error = true;
+				$error_messages[] = '<strong style="color: red;">¡La contraseña debe tener un mínimo de 6 caracteres!<br></strong>';
+			}
+
+			// Mostrar los mensajes de error y agregar JavaScript para ocultarlos después de 3 segundos
+			foreach ($error_messages as $error_message)
+			{
+				echo '
+					<div class="alert alert-danger error-message">
+						<strong>' . $error_message . '</strong>
+					</div>
+				';
+				
+			}
+
+				echo '<script>
+				setTimeout(function()
+				{
+					var errorAlerts = document.querySelectorAll(".error-message");
+					errorAlerts.forEach(function(errorAlert) {
+						errorAlert.style.display = "none";
+					});
+				}, 3000);
+				</script>';
+
+			if (!$error)
+			{
+				// Llama a la función mdlLogin para autenticar al usuario
+				$respuesta = ModeloUsuarios::mdlLogin($emailUsr, $passUsr);
+				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
+				// var_dump($respuesta);
+			}
+
+			if($respuesta != null )
+			{
+				if($respuesta['rol'] == "1")
+				{
+					$_SESSION['usr_rol'] = $respuesta['rol'];
+					$_SESSION['email'] = $respuesta['email'];
+					$_SESSION['name'] = $respuesta['name'];
+				// 	$idCarrera = ModeloUsuarios::mdlAlumnoCarrera($respuesta['id_usr_rol']);
+				// 	$_SESSION['id_carrera'] = $idCarrera['id_carrera'];
+					echo
+					'<script>
+					if (window.history.replaceState)
+					{
+						window.history.replaceState(null, null, window.location.href);
+					}
+
+					// Crea un elemento div para el alerta
+					var alertDiv = document.createElement("div");
+					alertDiv.style.position = "fixed";
+					alertDiv.style.top = "50%";
+					alertDiv.style.left = "50%";
+					alertDiv.style.transform = "translate(-50%, -50%)";
+					alertDiv.style.padding = "20px";
+					alertDiv.style.borderRadius = "10px";
+					alertDiv.style.textAlign = "center";
+
+					// Crea un elemento img para el GIF animado
+					var gifImg = document.createElement("img");
+					gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+
+					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
+					gifImg.style.height = "457px";
+
+					// Crea un elemento de texto para el mensaje del alerta
+					var messageText = document.createElement("div");
+					messageText.textContent = "Iniciando sesión";
+
+					// Agrega el GIF animado y el texto al elemento del alerta
+					alertDiv.appendChild(gifImg);
+					alertDiv.appendChild(messageText);
+
+					// Agrega el elemento del alerta al documento
+					document.body.appendChild(alertDiv);
+
+					// Redirige después de 3 segundos (3000 milisegundos)
+					setTimeout(function() {
+						window.location.href = "dashboard.php";
+					}, 3000);
+					</script>';
+				}
+
+
+				if($respuesta['rol'] == "2")
+				{
+					$_SESSION['usr_rol'] = $respuesta['rol_medic'];
+					$_SESSION['email_medic'] = $respuesta['email_medic'];
+					$_SESSION['name_medic'] = $respuesta['name_medic'];
+					echo
+					'<script>
+					if (window.history.replaceState)
+					{
+						window.history.replaceState(null, null, window.location.href);
+					}
+
+					// Crea un elemento div para el alerta
+					var alertDiv = document.createElement("div");
+					alertDiv.style.position = "fixed";
+					alertDiv.style.top = "50%";
+					alertDiv.style.left = "50%";
+					alertDiv.style.transform = "translate(-50%, -50%)";
+					alertDiv.style.padding = "20px";
+					alertDiv.style.borderRadius = "10px";
+					alertDiv.style.textAlign = "center";
+
+					// Crea un elemento img para el GIF animado
+					var gifImg = document.createElement("img");
+					gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
+					gifImg.style.height = "457px";
+
+					// Crea un elemento de texto para el mensaje del alerta
+					var messageText = document.createElement("div");
+					messageText.textContent = "Iniciando sesión";
+
+					// Agrega el GIF animado y el texto al elemento del alerta
+					alertDiv.appendChild(gifImg);
+					alertDiv.appendChild(messageText);
+
+					// Agrega el elemento del alerta al documento
+					document.body.appendChild(alertDiv);
+
+					// Redirige después de 3 segundos (3000 milisegundos)
+					setTimeout(function() {
+						window.location.href = "../index.php";
+					}, 3000);
+					</script>';
+				}
+
+			}
 		}
 	}
 }
 
-				
+
+
 			// if ((strcmp(trim($_POST["loginUsr"]), getenv("USER_ADMIN_SITE")) == 0 ) &&
 			// 	(strcmp(trim($_POST["passUsr"]), getenv("USER_ADMIN_PASS")) == 0 ) ){
 			// 	$_SESSION['id_usuario'] = 1;
@@ -306,8 +310,8 @@ class ControladorUsuarios
 			// 		window.history.replaceState(null, null, window.location.href);
 			// 	}
 			// 	window.location = "index.php?pagina=inicio";
-			// 	</script>';	
-						
+			// 	</script>';
+
 			//}
 			// if((preg_match('/^[0-9]+$/', trim($_POST["loginUsr"]))) &&
 			// 	(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["passUsr"])))) {
@@ -363,14 +367,14 @@ class ControladorUsuarios
 	// public function ctrActivacion() {
 	// 	if ((!empty($_POST['a_pass'])) &&
 	// 		(!empty($_POST['re_pass']))	) {
-	// 		if ((strcmp(trim($_POST['a_pass']),trim($_POST['re_pass'])) == 0) &&				
+	// 		if ((strcmp(trim($_POST['a_pass']),trim($_POST['re_pass'])) == 0) &&
 	// 			(strlen(trim($_POST["a_pass"])) >= 8) &&
-	// 			(strlen(trim($_POST["re_pass"])) >= 8) &&				
+	// 			(strlen(trim($_POST["re_pass"])) >= 8) &&
 	// 			(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["a_pass"]))) &&
 	// 			(preg_match('/^[0-9a-zA-Z@#$%]+$/', trim($_POST["re_pass"]))) ) {
 	// 			$usr = $_SESSION['id_usuario'];
 	// 			$psw = sha1(trim($_POST['a_pass']));
-	// 			$ejecutar = ModeloUsuarios::mdlActivacion($usr,$psw);	
+	// 			$ejecutar = ModeloUsuarios::mdlActivacion($usr,$psw);
 	// 			if($ejecutar) {
 	// 				$_SESSION['estado'] = 1;
     //     			echo '<script>
@@ -399,11 +403,11 @@ class ControladorUsuarios
 	// 	}
 	// }
 
-//	Datos del usuario 
+//	Datos del usuario
 	// static public function ctrDatosUsuario($id){
 	// 	$datos = ModeloUsuarios::mdlDatosUsuario($id);
 	// 	return $datos;
-	// }	
+	// }
 
 	// static public function ctrAltaAlumno() {
 	// 	if(isset($_POST['nombres_al'])) {
@@ -411,15 +415,15 @@ class ControladorUsuarios
 	// 			"nombres" => ucwords(strtolower($_POST['nombres_al'])),
 	// 			"apellidos" => ucwords(strtolower($_POST['apellidos_al'])),
 	// 			"dni" => $_POST['dni_al'],
-	// 			"fecha_nac_al" => $_POST['fecha_nac_al'], 
+	// 			"fecha_nac_al" => $_POST['fecha_nac_al'],
 	// 			"id_carrera" => base64_decode($_POST['carrera_id']),
 	// 			"legajo" => strtoupper($_POST['legajo']),
 	// 			"pass" => sha1($_POST['dni_al'])
 	// 		);
 	// 		$alumno = ModeloUsuarios::mdlAltaAlumno($datos);
-// el SP se ejecuta siempre y va a devolver un mensaje			
+// el SP se ejecuta siempre y va a devolver un mensaje
 	// 		return $alumno;
-	// 	}	
+	// 	}
 	// }
 
 	// static public function ctrAltaProfesor() {
@@ -432,9 +436,9 @@ class ControladorUsuarios
 	// 			"pass" => sha1($_POST['dni_prof'])
 	// 		);
 	// 		$profe = ModeloUsuarios::mdlAltaProfesor($datos);
-// el SP se ejecuta siempre y va a devolver un mensaje			
+// el SP se ejecuta siempre y va a devolver un mensaje
 	// 		return $profe;
-	// 	}	
+	// 	}
 	// }
 
 	// static public function ctrAltaPreceptor() {
@@ -447,9 +451,9 @@ class ControladorUsuarios
 	// 			"pass" => sha1($_POST['dni_prece'])
 	// 		);
 	// 		$prece = ModeloUsuarios::mdlAltaPreceptor($datos);
-// el SP se ejecuta siempre y va a devolver un mensaje			
+// el SP se ejecuta siempre y va a devolver un mensaje
 	// 		return $prece;
-	// 	}	
+	// 	}
 	// }
 
 	// static public function ctrAltaDirectivo() {
@@ -462,9 +466,9 @@ class ControladorUsuarios
 	// 			"pass" => sha1($_POST['dni_direc'])
 	// 		);
 	// 		$direc = ModeloUsuarios::mdlAltaDirectivo($datos);
-// el SP se ejecuta siempre y va a devolver un mensaje			
+// el SP se ejecuta siempre y va a devolver un mensaje
 	// 		return $direc;
-	// 	}	
+	// 	}
 	// }
 
 	// static public function ctrLibreta() {
@@ -493,7 +497,7 @@ class ControladorUsuarios
 	// }
 
 	// static public function ctrPerfilDataUpdate() {
-	// validar los datos luego	
+	// validar los datos luego
 	// 	$datos = array(
 	// 			"id_usuario" => $_SESSION['id_usuario'],
 	// 			"usr_mail" => strtolower($_POST['usr_mail']),
@@ -518,7 +522,7 @@ class ControladorUsuarios
 	// }
 
 	// static public function ctrUpdateUsuario($id) {
-	// validar los datos luego	
+	// validar los datos luego
 	// 	$id = base64_decode($id);
 	// 	$datos = array(
 	// 			"id_usuario" => $id,
@@ -527,27 +531,27 @@ class ControladorUsuarios
 	// 			"up_user_dni" => $_POST['up_user_dni'],
 	// 			"up_user_cumple" => $_POST['up_user_cumple']
 	// 		);
-	// 	return  ModeloUsuarios::mdlUpdateUsuario($datos);		
+	// 	return  ModeloUsuarios::mdlUpdateUsuario($datos);
 	// }
 
 	// static public function ctrCarrerasProfe($id) {
 	// 	$id = base64_decode($id);
 	// 	return ModeloUsuarios::mdlCarrerasProfe($id);
 	// }
-	
+
 	// static public function ctrCarrerasProfeAsignar() {
-	// 	$datos = array(				
+	// 	$datos = array(
 	// 			"carrera" => base64_decode($_POST['carrera']),
 	// 			"prof" => base64_decode($_POST['prof'])
 	// 		);
-	// 	return ModeloUsuarios::mdlCarrerasProfeAsignar($datos);		
+	// 	return ModeloUsuarios::mdlCarrerasProfeAsignar($datos);
 	// }
 
 	// static public function ctrCarrerasProfeQuitar() {
-	// 	$datos = array(				
-	// 			"carrera" => base64_decode($_POST['q_carrera'])				
+	// 	$datos = array(
+	// 			"carrera" => base64_decode($_POST['q_carrera'])
 	// 		);
-	// 	return ModeloUsuarios::mdlCarrerasProfeQuitar($datos);		
+	// 	return ModeloUsuarios::mdlCarrerasProfeQuitar($datos);
 	// }
 
 //}

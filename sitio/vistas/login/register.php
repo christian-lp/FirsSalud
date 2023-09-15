@@ -32,8 +32,8 @@ if (session_status() == PHP_SESSION_NONE)
 		<div id="error-message" style="color: red;"></div>
 
     <?php      
-        include("/var/www/html/MedicV4/FirsSalud/sitio/modelos/conexion.php");
-        include("/var/www/html/MedicV4/FirsSalud/sitio/controladores/UserController.php");
+        include("/var/www/html/FirsSalud/sitio/modelos/conexion.php");
+        include("/var/www/html/FirsSalud/sitio/controladores/UserController.php");
     ?> 
     <div class="user-box">
         <label for="emailUsr"></label>

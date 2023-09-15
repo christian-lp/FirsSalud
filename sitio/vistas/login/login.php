@@ -28,17 +28,17 @@ if (session_status() == PHP_SESSION_NONE)
   <form method="post">
 
     <?php      
-        include("/var/www/html/MedicV4/FirsSalud/sitio/modelos/conexion.php");
-        include("/var/www/html/MedicV4/FirsSalud/sitio/controladores/UserController.php");
+        include("/var/www/html/FirsSalud/sitio/modelos/conexion.php");
+        include("/var/www/html/FirsSalud/sitio/controladores/UserController.php");
     ?> 
     <div class="user-box">
     <label for="username"></label>
-    <input type="text" name="loginUsr" maxlength="50" placeholder="Usuario (email)" required>
+    <input type="text" name="emailUsr" maxlength="50" placeholder="Usuario (email)" >
 </div>
 
 <div class="user-box">
     <label for="password"></label>
-    <input type="password" name="passUsr" placeholder="Contraseña" required>
+    <input type="password" name="passUsr" placeholder="Contraseña" >
 </div>
 
 <div>
