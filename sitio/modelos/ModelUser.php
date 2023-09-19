@@ -33,65 +33,67 @@ class ModeloUsuarios {
 	// }
 
 	static public function mdlLogin($emailUsr, $passUsr) 
-	{
-		$resultado = null;
-		// Define las consultas SQL para cada rol
-		// echo "Valor de rol: " . $rol;
+{
+    try {
+        $resultado = null;
+    
+        // Define las consultas SQL para cada rol
+        $sqlPatient = SQL_LOGIN_PATIENT;
+        $sqlMedic = SQL_LOGIN_MEDIC;
+        $sqlAdmin = SQL_LOGIN_ADMIN;
+    
+        $conexion = Conexion::conectar();
+        $stmt = null;
+    
+        // Intenta ejecutar la consulta para el rol de paciente
+        $stmt = $conexion->prepare($sqlPatient);
+        $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
+        $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
+        
+        if ($stmt->execute()) {
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        } else {
+            // Si la consulta para el rol de paciente no se ejecuta correctamente, intenta la consulta para el rol de médico
+            $stmt = $conexion->prepare($sqlMedic);
+            $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
+            $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
+            
+            if ($stmt->execute()) {
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                // Si la consulta para el rol de médico no se ejecuta correctamente, intenta la consulta para el rol de administrador
+                $stmt = $conexion->prepare($sqlAdmin);
+                $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
+                $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
+                
+                if ($stmt->execute()) {
+                    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                }
+            }
+        }
+    
+        // Si $resultado sigue siendo nulo, muestra un mensaje de error
+        if ($resultado === null) {
+            echo '<script>
+            if ( window.history.replaceState ) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+            </script>
+            <strong><div class="alert alert-danger mt-2">Usuario o Contraseña Incorrectaaaaaa!</div>';
+            exit;
+        }
+    
+        // Devuelve los datos
+        return $resultado;
+    } catch (PDOException $e) {
+        // Captura errores de PDO y muestra un mensaje de error personalizado
+        echo "Error de base de datos: " . $e->getMessage();
+        exit;
+    }
+}
 
-		$sql = SQL_LOGIN;
-		//$sql2 = SQL_LOGIN_MEDIC;
-		// switch ($rol) {
-		// 	case 1:
-		// 		$sql = SQL_LOGIN;
-		// 		break;
-		// 	case 2:
-		// 		$sql = SQL_LOGIN_MEDIC;
-		// 		break;
-		// 	default:
-		// 		echo '<script>
-		// 		if ( window.history.replaceState ) {
-		// 			window.history.replaceState(null, null, window.location.href);
-		// 		}
-		// 		</script>
-		// 		<div class="alert alert-danger mt-2">Rol no válido</div>';
-		// 		return null;
-		//}
-	
-		// Prepara la consulta SQL
-		$stmt = Conexion::conectar()->prepare($sql);
-		$stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
-		$stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
-		// $stmt2 = Conexion::conectar()->prepare($sql2);
-		// $stmt2->bindParam(1, $user, PDO::PARAM_STR);
-		// $stmt2->bindParam(2, $pass, PDO::PARAM_STR);
-	
-		// Si se está ejecutando la sentencia SQL
-		if ($stmt->execute()) 
-		{
-			$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-			//$resultado = $stmt2->fetch(PDO::FETCH_ASSOC);
-			if ($resultado == false) 
-			{
-				echo '<script>
-				if ( window.history.replaceState ) {
-					window.history.replaceState(null, null, window.location.href);
-				}
-				</script>
-				<strong><div class="alert alert-danger mt-2">Usuario o Contraseña Incorrecta!</div>';
-				exit;
-			}
-		}
-		// Si no se ejecuta la consulta 
-		else 
-		{
-			print_r($stmt->errorInfo());
-			//print_r($stmt2->errorInfo());
-		}
-		// Devuelve los datos
-		return $resultado;
-		$stmt = null; // Por seguridad, vaciamos el objeto de la conexión
-		//$stmt2 = null;
-	}
+
+
 
 	static public function mdlRegister($emailUsr, $passUsr) 
 {

@@ -197,7 +197,7 @@ class ControladorUsuarios
 
 			if($respuesta != null )
 			{
-				if($respuesta['rol'] == "1")
+				if($respuesta['rol'] == 1)
 				{
 					$_SESSION['usr_rol'] = $respuesta['rol'];
 					$_SESSION['email'] = $respuesta['email'];
@@ -223,7 +223,7 @@ class ControladorUsuarios
 
 					// Crea un elemento img para el GIF animado
 					var gifImg = document.createElement("img");
-					gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
 
 					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
 					gifImg.style.height = "457px";
@@ -241,15 +241,15 @@ class ControladorUsuarios
 
 					// Redirige después de 3 segundos (3000 milisegundos)
 					setTimeout(function() {
-						window.location.href = "dashboard.php";
+						window.location.href = "../../patient/index.php";
 					}, 3000);
 					</script>';
 				}
 
 
-				if($respuesta['rol'] == "2")
+				elseif($respuesta['rol'] == 2)
 				{
-					$_SESSION['usr_rol'] = $respuesta['rol_medic'];
+					$_SESSION['usr_rol'] = $respuesta['rol'];
 					$_SESSION['email_medic'] = $respuesta['email_medic'];
 					$_SESSION['name_medic'] = $respuesta['name_medic'];
 					echo
@@ -271,7 +271,7 @@ class ControladorUsuarios
 
 					// Crea un elemento img para el GIF animado
 					var gifImg = document.createElement("img");
-					gifImg.src = "/var/www/html/MedicV4/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
 					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
 					gifImg.style.height = "457px";
 
@@ -288,7 +288,52 @@ class ControladorUsuarios
 
 					// Redirige después de 3 segundos (3000 milisegundos)
 					setTimeout(function() {
-						window.location.href = "../index.php";
+						window.location.href = "../../doctor/index.php";
+					}, 3000);
+					</script>';
+				}
+				elseif($respuesta['rol'] == 3)
+				{
+					echo $_SESSION['usr_rol'] = $respuesta['rol'];
+					echo $_SESSION['email'] = $respuesta['email'];
+					echo $_SESSION['name'] = $respuesta['name'];
+					echo
+					'<script>
+					if (window.history.replaceState)
+					{
+						window.history.replaceState(null, null, window.location.href);
+					}
+
+					// Crea un elemento div para el alerta
+					var alertDiv = document.createElement("div");
+					alertDiv.style.position = "fixed";
+					alertDiv.style.top = "50%";
+					alertDiv.style.left = "50%";
+					alertDiv.style.transform = "translate(-50%, -50%)";
+					alertDiv.style.padding = "20px";
+					alertDiv.style.borderRadius = "10px";
+					alertDiv.style.textAlign = "center";
+
+					// Crea un elemento img para el GIF animado
+					var gifImg = document.createElement("img");
+					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
+					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
+					gifImg.style.height = "457px";
+
+					// Crea un elemento de texto para el mensaje del alerta
+					var messageText = document.createElement("div");
+					messageText.textContent = "Iniciando sesión";
+
+					// Agrega el GIF animado y el texto al elemento del alerta
+					alertDiv.appendChild(gifImg);
+					alertDiv.appendChild(messageText);
+
+					// Agrega el elemento del alerta al documento
+					document.body.appendChild(alertDiv);
+
+					// Redirige después de 3 segundos (3000 milisegundos)
+					setTimeout(function() {
+						window.location.href = "../../patient/index.php";
 					}, 3000);
 					</script>';
 				}

@@ -79,7 +79,7 @@ session_start();
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="index-turns.php"  target="_blank">Turnos Disponibles</a></li>
-                    <li><a href="index-buscador.html">Cancelación Turnos</a></li>
+                    <li><a href="cancel-turn.php">Cancelación Turnos</a></li>
                 </ul>
             </li>
           </ul>
