@@ -150,28 +150,28 @@
                     <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda Doctor, Nombre, Correo, Fecha (YYYY-MM-DD)" list="doctors">&nbsp;&nbsp;
 
                     <?php
-                    // echo '<datalist id="doctors">';
-                    // $list11 = $database->prepare("select DISTINCT * from  medics;");
-                    // $list11->execute();
-                    // $num_rows11 = $list11->rowCount();
+                    echo '<datalist id="doctors">';
+                    $list11 = $database->prepare("select DISTINCT * from  medics;");
+                    $list11->execute();
+                    $num_rows11 = $list11->rowCount();
 
-                    // $list12 = $database->prepare("select DISTINCT * from  schedule GROUP BY title;");
-                    // $list12->execute();
-                    // $num_rows12 = $list12->rowCount();
+                    $list12 = $database->prepare("select DISTINCT * from  schedule GROUP BY title;");
+                    $list12->execute();
+                    $num_rows12 = $list12->rowCount();
 
-                    // for ($y = 0; $y < $num_rows11; $y++) {
-                    //     $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-                    //     $d = $row00["name_medic"];
-                    //     echo "<option value='$d'>";
-                    // }
+                    for ($y = 0; $y < $num_rows11; $y++) {
+                        $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                        $d = $row00["name_medic"];
+                        echo "<option value='$d'>";
+                    }
 
-                    // for ($y = 0; $y < $num_rows12; $y++) {
-                    //     $row00 = $list12->fetch(PDO::FETCH_ASSOC);
-                    //     $d = $row00["title"];
-                    //     echo "<option value='$d'>";
-                    // }
+                    for ($y = 0; $y < $num_rows12; $y++) {
+                        $row00 = $list12->fetch(PDO::FETCH_ASSOC);
+                        $d = $row00["title"];
+                        echo "<option value='$d'>";
+                    }
 
-                    // echo '</datalist>';
+                    echo '</datalist>';
                     ?>
 
                     <input type="submit" value="Búsqueda" class="login-btn btn-primary btn" style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;">
@@ -220,11 +220,12 @@
 
                                     if (($_GET)) {
 
-
                                         if (isset($_GET["id"])) {
 
 
                                             $id = $_GET["id"];
+                                            // var_dump($id);
+                                            // exit;
 
                                             $sqlmain = "SELECT * FROM schedule
                                             INNER JOIN medics ON schedule.id_medic = medics.id_medic
@@ -234,28 +235,26 @@
                                             $result = $database->prepare($sqlmain);
                                             $result->execute();
                                             $row = $result->fetch(PDO::FETCH_ASSOC);
+                                            // var_dump($row);
+                                            // exit();
                                             $scheduleid = $row["scheduleid"];
                                             $title = $row["title"];
                                             $docname = $row["name_medic"];
                                             $docemail = $row["email_medic"];
                                             $scheduledate = $row["scheduledate"];
                                             $scheduletime = $row["scheduletime"];
-                                            $sql2 = "select * from appointment where scheduleid='$id'";
+                                            $sql2 = "select * from appointment where scheduleid=$id";
                                             //echo $sql2;
                                             $result12 = $database->prepare($sql2);
                                             $apponum = ($num_rows12) + 1;
 
                                             echo '
                                             <form action="booking-complete.php" method="post">
-                                            <input type="hidden" name="scheduleid" value="' . $scheduleid . '" >
-                                            <input type="hidden" name="apponum" value="' . $apponum . '" >
-                                            <input type="hidden" name="date" value="' . $today . '" >
+                                                <input type="hidden" name="scheduleid" value="' . $scheduleid . '" >
+                                                <input type="hidden" name="apponum" value="' . $apponum . '" >
+                                                <input type="hidden" name="date" value="' . $today . '" >
 
-                                        
-                                    
-                                    ';
-
-
+                                                ';
                                             echo '
                                             <td style="width: 50%;" rowspan="2">
                                             <div  class="dashboard-items search-items"  >
@@ -281,15 +280,13 @@
                                                         <br>
                                                         
                                                 </div>
-                                                        
-                                            </div>
-                                        </td>
-                                        
-                                        
-                                        
-                                        <td style="width: 25%;">
-                                            <div  class="dashboard-items search-items"  >
+                                                            
+                                                </div>
+                                            </td>
                                             
+                                            <td style="width: 25%;">
+                                                <div  class="dashboard-items search-items"  >
+                                                
                                                 <div style="width:100%;padding-top: 15px;padding-bottom: 15px;">
                                                         <div class="h1-search" style="font-size:20px;line-height: 35px;margin-left:8px;text-align:center;">
                                                         Tu número de cita
@@ -303,8 +300,8 @@
                                                         <br>
                                                 </div>
                                                         
-                                            </div>
-                                        </td>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>

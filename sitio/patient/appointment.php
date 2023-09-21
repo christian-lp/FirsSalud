@@ -1,40 +1,38 @@
 <?php
+session_start();
 
-use PSpell\Config;
-
-    session_start();
-
-    if (isset($_SESSION["usr_rol"])) {
-        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '1') {
-            header("location: ../vistas/login/login.php");
-        } else {
-            $useremail = $_SESSION["email"];
-        }
-    } else {
+if (isset($_SESSION["usr_rol"])) {
+    if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '1') {
         header("location: ../vistas/login/login.php");
+    } else {
+        $useremail = $_SESSION["email"];
     }
+} else {
+    header("location: ../vistas/login/login.php");
+}
 
+//import link
+include("../modelos/conexion.php");
+$database = Conexion::conectar();
 
-    //import link
-    include("../modelos/conexion.php");
-    $database = Conexion::conectar();
+$sql = "SELECT * FROM patients WHERE email = :useremail";
+// Prepara la consulta SQL
+$stmt = $database->prepare($sql);
+$stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 
-
-    $sql = "SELECT * FROM patients WHERE email = :useremail";
-    // Prepara la consulta SQL
-    $stmt = $database->prepare($sql);
-    $stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
-
-    // Si se está ejecutando la sentencia SQL
-    if ($stmt->execute()) {
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
-        if ($resultado) {
-            $userid = $resultado["id_patient"];
-            $username = $resultado["name"];
-        } else {
-                echo 'No se encontraron resultados';
-            }
+// Si se está ejecutando la sentencia SQL
+if ($stmt->execute()) {
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
+    if ($resultado) {
+        $userid = $resultado["id_patient"];
+        // var_dump($userid);
+        // exit();
+        $username = $resultado["name"];
+    } else {
+        echo 'No se encontraron resultados';
     }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -64,51 +62,35 @@ use PSpell\Config;
 <body>
     <?php
 
-    $userid = $_SESSION['id_patient']; // Asegúrate de tener el valor correcto para $userid
+        $userid = $_SESSION['id_patient'];
 
-    $sqlmain = "SELECT 
-                appointment.appointment_id AS app_id, 
-                schedule.scheduleid AS sched_id, 
-                schedule.title AS sched_title, 
-                medics.name_medic AS medic_name, 
-                patients.name AS patient_name, 
-                schedule.scheduledate AS sched_date, 
-                schedule.scheduletime AS sched_time, 
-                appointment.apponum AS app_num, 
-                appointment.appodate AS app_date 
-            FROM schedule 
-            INNER JOIN appointment ON schedule.scheduleid = appointment.scheduleid 
-            INNER JOIN patients ON patients.id_patient = appointment.patient_id 
-            INNER JOIN medics ON schedule.id_medic = medics.id_medic 
-            WHERE patients.id_patient = :userid";
+        $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where  patients.id_patient=$userid ";
 
-    if ($_POST) {
+    // $sqlmain .= " ORDER BY appointment.appodate ASC";
+
+    // Prepara la consulta
+    $result = Conexion::conectar()->prepare($sqlmain);
+    $result->execute();
+    $num_rows = $result->rowCount();
+    var_dump($num_rows);
+    exit();
+    
+    if ($_POST) 
+    {
         if (!empty($_POST["sheduledate"])) {
-            $sheduledate = $_POST["sheduledate"];
-            $sqlmain .= " AND schedule.scheduledate = :sheduledate";
+        $sheduledate = $_POST["sheduledate"];
+        $sqlmain .= " AND schedule.scheduledate = :sheduledate";
         }
     }
 
-    $sqlmain .= " ORDER BY appointment.appodate ASC";
+   
 
-    // Prepara la consulta
-    $stmt = $database->prepare($sqlmain);
 
-    // Sustituye los marcadores de posición con los valores correspondientes
-    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
+    // var_dump($num_rows);
+    // exit();
 
-    if (isset($sheduledate)) {
-        $stmt->bindParam(':sheduledate', $sheduledate, PDO::PARAM_STR);
-    }
-
-    // Ejecuta la consulta
-    $stmt->execute();
-    $num_rows = $stmt->rowCount();
     // Obtiene los resultados
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    
-
     ?>
     <div class="container">
         <div class="menu">
@@ -127,7 +109,7 @@ use PSpell\Config;
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                                 
                             </tr>
