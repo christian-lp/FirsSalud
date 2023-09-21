@@ -80,7 +80,7 @@ if ($stmt->execute()) {
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                             <tr>
@@ -154,21 +154,21 @@ if ($stmt->execute()) {
 
                         <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda por Nombre, Doctor o Correo" list="doctors">&nbsp;&nbsp;
 
-                        <?php
+                    <?php
                         $database = Conexion::conectar();
-                        $list11 = $database->prepare("select name_medic, email_medic, from medics;");
-                        $list11->execute();
-
+                    
                         echo '<datalist id="doctors">';
+                        $list11 = $database->prepare("select name_medic,email_medic from  medics;");
+                        $list11->execute();
+                        $num_rows = $list11->rowCount();
 
-                        while ($row00 = $list11->fetch(PDO::FETCH_ASSOC)) {
+                        for ($y = 0; $y < $num_rows; $y++) {
+                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
                             $d = $row00["name_medic"];
                             $c = $row00["email_medic"];
-                            $d = $row00["specialty_medic"];
                             echo "<option value='$d'><br/>";
                             echo "<option value='$c'><br/>";
-                            echo "<option value='$d'><br/>";
-                        }
+                        };
 
                         echo ' </datalist>';
                         ?>
@@ -273,14 +273,13 @@ if ($stmt->execute()) {
                                         </tr>';
                                         } 
                                         else {
-                                            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                                            for ($x = 0; $x < $num_rows; $x++) {
+                                                $row = $result->fetch(PDO::FETCH_ASSOC);
                                                 $docid = $row["id_medic"];
                                                 $name = $row["name_medic"];
                                                 $email = $row["email_medic"];
                                                 $spe = $row["specialty_medic"];
                                                 $spcil_res = $database->prepare("select specialty_name from specialties where id_specialty=:spe");
-                                                $spcil_res->bindParam(':spe', $spe, PDO::PARAM_INT);
-                                                $spcil_res->execute();
                                                 $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
                                                 $spcil_name = $spcil_array["specialty_name"];
                                                 

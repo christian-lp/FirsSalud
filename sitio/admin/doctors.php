@@ -143,23 +143,22 @@ if ($stmt->execute()) {
                     <form action="" method="post" class="header-search">
 
                         <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda por Nombre, Doctor o Correo" list="doctors">&nbsp;&nbsp;
-
+                    
                         <?php
                         $database = Conexion::conectar();
-                        $list11 = $database->prepare("select name_medic, email_medic, from medics;");
+                    
+                        echo '<datalist id="doctors">';
+                        $list11 = $database->prepare("select name_medic,email_medic from  medics;");
                         $list11->execute();
                         $num_rows = $list11->rowCount();
 
-                        echo '<datalist id="doctors">';
-
-                        while ($row00 = $list11->fetch(PDO::FETCH_ASSOC)) {
+                        for ($y = 0; $y < $num_rows; $y++) {
+                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
                             $d = $row00["name_medic"];
                             $c = $row00["email_medic"];
-                            $d = $row00["specialty_medic"];
                             echo "<option value='$d'><br/>";
                             echo "<option value='$c'><br/>";
-                            echo "<option value='$d'><br/>";
-                        }
+                        };
 
                         echo ' </datalist>';
                         ?>

@@ -7,6 +7,7 @@ if (isset($_SESSION["usr_rol"])) {
         header("location: ../vistas/login/login.php");
     } else {
         $useremail = $_SESSION["email"];
+        $username = $_SESSION["name"];
     }
 } else {
     header("location: ../vistas/login/login.php");
@@ -28,7 +29,7 @@ $database = Conexion::conectar();
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="../img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../img/Logo.png">
 
     <title>Citas</title>
     <style>
@@ -52,7 +53,7 @@ $database = Conexion::conectar();
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px">
-                                    <img src="../../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                    <img src="../../img/Logo.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
                                     <p class="profile-title"><?php echo $username  ?>..</p>
@@ -61,7 +62,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                         </table>

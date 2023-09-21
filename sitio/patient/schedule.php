@@ -64,7 +64,7 @@ if ($stmt->execute()) {
     //echo $username;
 
     date_default_timezone_set('America/Argentina/Buenos_Aires');
-    $today = date('d-M-Y');
+    $today = date('Y-m-d');
     //echo $userid;
     ?>
     <div class="container">
