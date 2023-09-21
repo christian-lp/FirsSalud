@@ -140,7 +140,7 @@
 
                         date_default_timezone_set('America/Bogota');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
 
                         $list110 = $database->query("select * from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where  doctor.docid=$userid ");

@@ -1,3 +1,40 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION["usr_rol"])) {
+    if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '3') {
+        header("location: ../vistas/login/login.php");
+    } else {
+        $useremail = $_SESSION["email"];
+    }
+} else {
+    header("location: ../vistas/login/login.php");
+}
+
+
+//import link
+include("../modelos/conexion.php");
+
+$sql = "SELECT * FROM admins WHERE email = :useremail";
+// Prepara la consulta SQL
+$stmt = Conexion::conectar()->prepare($sql);
+$stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
+
+// Si se está ejecutando la sentencia SQL
+if ($stmt->execute()) {
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
+    if ($resultado) {
+        $userid = $resultado["id_admin"];
+        $username = $resultado["name"];
+    } else {
+        echo 'No se encontraron resultados!';
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +45,7 @@
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="../img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../img/Logo.png">
 
     <title>Inicio</title>
     <style>
@@ -29,26 +66,6 @@
 </head>
 
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if (isset($_SESSION["user"])) {
-        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'a') {
-            header("location: ../login.php");
-        }
-    } else {
-        header("location: ../login.php");
-    }
-
-
-    //import database
-    include("../connection.php");
-
-
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -57,16 +74,16 @@
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px">
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                    <img src="../../img/Logo.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">ConfiguroWeb</p>
-                                    <p class="profile-subtitle">configuroweb.com</p>
+                                    <p class="profile-title"><?php echo $username  ?>..</p>
+                                    <p class="profile-subtitle"><?php echo substr($useremail, 0, 22)  ?></p>                      
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                         </table>
@@ -130,18 +147,23 @@
 
                         <?php
                         echo '<datalist id="doctors">';
-                        $list11 = $database->query("select  docname,docemail from  doctor;");
+                        try {
+                            $stmt = Conexion::conectar()->prepare("SELECT name_medic, email_medic FROM medics");
+                            $stmt->execute();
 
-                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                            $row00 = $list11->fetch_assoc();
-                            $d = $row00["docname"];
-                            $c = $row00["docemail"];
-                            echo "<option value='$d'><br/>";
-                            echo "<option value='$c'><br/>";
-                        };
-
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                $d = $row["name_medic"];
+                                $c = $row["email_medic"];
+                                echo "<option value='$d'><br/>";
+                                echo "<option value='$c'><br/>";
+                            }
+                        } catch (PDOException $e) {
+                            // Manejar el error de la base de datos aquí
+                            echo "Error de base de datos: " . $e->getMessage();
+                        }
                         echo ' </datalist>';
                         ?>
+
 
 
                         <input type="Submit" value="Búsqueda" class="login-btn btn-primary-soft btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
@@ -155,23 +177,32 @@
                     </p>
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
-                        date_default_timezone_set('America/Bogota');
+                        date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
-
-
-                        $patientrow = $database->query("select  * from  patient;");
-                        $doctorrow = $database->query("select  * from  doctor;");
-                        $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                        $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
-
+                        
+                        $patientstmt = Conexion::conectar()->prepare("select  * from  patients;");
+                        $patientstmt->execute();
+                        $patientCount = $patientstmt->rowCount();
+                        
+                        $doctorstmt = Conexion::conectar()->prepare("select  * from  medics;");
+                        $doctorstmt->execute();
+                        $doctorCount = $doctorstmt->rowCount();
+                        
+                        $appointmentstmt = Conexion::conectar()->prepare("select  * from  appointment where appodate>='$today';");
+                        $appointmentstmt->execute();
+                        $appointmentCount = $appointmentstmt->rowCount();
+                        
+                        $schedulestmt = Conexion::conectar()->prepare("select  * from  schedule where scheduledate='$today';");
+                        $schedulestmt->execute();
+                        $scheduleCount = $schedulestmt->rowCount();
 
                         ?>
                     </p>
                 </td>
                 <td width="10%">
-                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
+                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../../img/calendar.svg" width="100%"></button>
                 </td>
 
 
@@ -191,52 +222,52 @@
                                     <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex">
                                         <div>
                                             <div class="h1-dashboard">
-                                                <?php echo $doctorrow->num_rows  ?>
+                                                <?php echo $doctorCount  ?>
                                             </div><br>
                                             <div class="h3-dashboard">
                                                 Doctores &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </div>
                                         </div>
-                                        <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
+                                        <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/doctors-hover.svg');"></div>
                                     </div>
                                 </td>
                                 <td style="width: 25%;">
                                     <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex;">
                                         <div>
                                             <div class="h1-dashboard">
-                                                <?php echo $patientrow->num_rows  ?>
+                                                <?php echo $patientCount  ?>
                                             </div><br>
                                             <div class="h3-dashboard">
                                                 Pacientes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             </div>
                                         </div>
-                                        <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/patients-hover.svg');"></div>
+                                        <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/patients-hover.svg');"></div>
                                     </div>
                                 </td>
                                 <td style="width: 25%;">
                                     <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex; ">
                                         <div>
                                             <div class="h1-dashboard">
-                                                <?php echo $appointmentrow->num_rows  ?>
+                                                <?php echo $appointmentCount  ?>
                                             </div><br>
                                             <div class="h3-dashboard">
                                                 Nuevas Reservas &nbsp;&nbsp;
                                             </div>
                                         </div>
-                                        <div class="btn-icon-back dashboard-icons" style="margin-left: 0px;background-image: url('../img/icons/book-hover.svg');"></div>
+                                        <div class="btn-icon-back dashboard-icons" style="margin-left: 0px;background-image: url('../../img/icons/book-hover.svg');"></div>
                                     </div>
                                 </td>
                                 <td style="width: 25%;">
                                     <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex;padding-top:26px;padding-bottom:26px;">
                                         <div>
                                             <div class="h1-dashboard">
-                                                <?php echo $schedulerow->num_rows  ?>
+                                                <?php echo $scheduleCount  ?>
                                             </div><br>
                                             <div class="h3-dashboard" style="font-size: 15px">
                                                 Sesiones Hoy
                                             </div>
                                         </div>
-                                        <div class="btn-icon-back dashboard-icons" style="background-image: url('../img/icons/session-iceblue.svg');"></div>
+                                        <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/session-iceblue.svg');"></div>
                                     </div>
                                 </td>
 
@@ -312,16 +343,18 @@
 
                                                 <?php
                                                 $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                                $sqlmain = "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                                $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patients on patient.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
 
-                                                $result = $database->query($sqlmain);
+                                                $result = Conexion::conectar()->prepare($sqlmain);
+                                                $result->execute();
+                                                $num_rows = $result->rowCount();
 
-                                                if ($result->num_rows == 0) {
+                                                if ($num_rows == 0) {
                                                     echo '<tr>
                                                     <td colspan="3">
                                                     <br><br><br><br>
                                                     <center>
-                                                    <img src="../img/notfound.svg" width="25%">
+                                                    <img src="../../img/notfound.svg" width="25%">
                                                     
                                                     <br>
                                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
@@ -332,15 +365,15 @@
                                                     </td>
                                                     </tr>';
                                                 } else {
-                                                    for ($x = 0; $x < $result->num_rows; $x++) {
-                                                        $row = $result->fetch_assoc();
-                                                        $appoid = $row["appoid"];
+                                                    for ($x = 0; $x < $num_rows; $x++) {
+                                                        $row = $result->fetchAll();
+                                                        $appoid = $row["appointment_id"];
                                                         $scheduleid = $row["scheduleid"];
                                                         $title = $row["title"];
-                                                        $docname = $row["docname"];
+                                                        $docname = $row["name_medic"];
                                                         $scheduledate = $row["scheduledate"];
                                                         $scheduletime = $row["scheduletime"];
-                                                        $pname = $row["pname"];
+                                                        $pname = $row["name"];
                                                         $apponum = $row["apponum"];
                                                         $appodate = $row["appodate"];
                                                         echo '<tr>
@@ -359,7 +392,6 @@
 
                                                             substr($docname, 0, 25)
                                                             . '</td >
-                                                           
                                                         
                                                         <td>
                                                         ' . substr($title, 0, 15) . '
@@ -405,15 +437,16 @@
 
                                                 <?php
                                                 $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                                $sqlmain = "select schedule.scheduleid,schedule.title,doctor.docname,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join doctor on schedule.docid=doctor.docid  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
-                                                $result = $database->query($sqlmain);
+                                                $sqlmain = "select schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join medics on schedule.id_medic=medics.id_medic  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                                $result = Conexion::conectar()->prepare($sqlmain);
+                                                $num_rows = $result->rowCount();
 
-                                                if ($result->num_rows == 0) {
+                                                if ($num_rows == 0) {
                                                     echo '<tr>
                                                     <td colspan="4">
                                                     <br><br><br><br>
                                                     <center>
-                                                    <img src="../img/notfound.svg" width="25%">
+                                                    <img src="../../img/notfound.svg" width="25%">
                                                     
                                                     <br>
                                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
@@ -424,11 +457,11 @@
                                                     </td>
                                                     </tr>';
                                                 } else {
-                                                    for ($x = 0; $x < $result->num_rows; $x++) {
-                                                        $row = $result->fetch_assoc();
+                                                    for ($x = 0; $x < $num_rows; $x++) {
+                                                        $row = $result->fetchAll();
                                                         $scheduleid = $row["scheduleid"];
                                                         $title = $row["title"];
-                                                        $docname = $row["docname"];
+                                                        $docname = $row["name_medic"];
                                                         $scheduledate = $row["scheduledate"];
                                                         $scheduletime = $row["scheduletime"];
                                                         $nop = $row["nop"];

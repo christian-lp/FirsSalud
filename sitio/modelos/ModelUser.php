@@ -2,41 +2,13 @@
 require_once "/var/www/html/FirsSalud/sitio/modelos/conexion.php";
 require_once "/var/www/html/FirsSalud/sitio/sql/querys.usuarios.php";
 
-class ModeloUsuarios {
-	
-
-	// static public function mdlLogin($user,$pass){
-		
-	// 	$sql = SQL_LOGIN;
-	// 	$stmt = Conexion::conectar()->prepare($sql);
-	// 	$stmt->bindParam(1, $user, PDO::PARAM_STR);
-	// 	$stmt->bindParam(2, $pass, PDO::PARAM_STR);
-	// 	// Si se esta ejecutando la sentencia SQL
-	// 	if ($stmt->execute()) {
-	// 		$resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-	// 		if ($resultado !== false) {
-	// 			// Autenticación exitosa
-	// 			return $resultado;
-	// 		} else {
-	// 			echo '<script>
-	// 			if ( window.history.replaceState ) {
-	// 				window.history.replaceState(null, null, window.location.href);
-	// 			}
-	// 			</script>
-	// 			<div class="alert alert-danger mt-2">Usuario o Contraseña incorrecta</div>';
-	// 		}
-	// 	} else {
-	// 		print_r($stmt->errorInfo());
-	// 	}
-		
-	// 	$stmt = null; // por seguridad vaciamos el objeto de la conexion	
-	// }
-
-	static public function mdlLogin($emailUsr, $passUsr) 
+class ModeloUsuarios
 {
-    try {
+	static public function mdlLogin($emailUsr, $passUsr)
+	{
+    try 
+	{
         $resultado = null;
-    
         // Define las consultas SQL para cada rol
         $sqlPatient = SQL_LOGIN_PATIENT;
         $sqlMedic = SQL_LOGIN_MEDIC;
@@ -49,18 +21,33 @@ class ModeloUsuarios {
         $stmt = $conexion->prepare($sqlPatient);
         $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
         $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
-        
-        if ($stmt->execute()) {
+		// $stmt3 = $conexion->prepare($sqlAdmin);
+        // $stmt3->bindParam(1, $emailUsr, PDO::PARAM_STR);
+        // $stmt3->bindParam(2, $passUsr, PDO::PARAM_STR);
+		// var_dump($sqlPatient);
+		// var_dump($sqlMedic);
+		// var_dump($sqlAdmin);
+		// var_dump($emailUsr);
+		// var_dump($passUsr);
+		// exit;
+
+        if ($stmt->execute()) 
+		{
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-        } else {
+        } 
+		if($resultado == false)
+		{
             // Si la consulta para el rol de paciente no se ejecuta correctamente, intenta la consulta para el rol de médico
             $stmt = $conexion->prepare($sqlMedic);
             $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
             $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
-            
+			
             if ($stmt->execute()) {
                 $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
+            }
+
+			if($resultado == false)
+			{
                 // Si la consulta para el rol de médico no se ejecuta correctamente, intenta la consulta para el rol de administrador
                 $stmt = $conexion->prepare($sqlAdmin);
                 $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
@@ -73,7 +60,7 @@ class ModeloUsuarios {
         }
     
         // Si $resultado sigue siendo nulo, muestra un mensaje de error
-        if ($resultado === null) {
+        if ($resultado === false) {
             echo '<script>
             if ( window.history.replaceState ) {
                 window.history.replaceState(null, null, window.location.href);
@@ -91,9 +78,6 @@ class ModeloUsuarios {
         exit;
     }
 }
-
-
-
 
 	static public function mdlRegister($emailUsr, $passUsr) 
 {

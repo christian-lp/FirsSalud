@@ -1,3 +1,23 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION["usr_rol"])) {
+    if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '3') {
+        header("location: ../vistas/login/login.php");
+    } else {
+        $useremail = $_SESSION["email"];
+    }
+} else {
+    header("location: ../vistas/login/login.php");
+}
+
+
+//import link
+include("../modelos/conexion.php");
+$database = Conexion::conectar();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,27 +43,7 @@
 </head>
 
 <body>
-    <?php
 
-    //learn from w3schools.com
-
-    session_start();
-
-    if (isset($_SESSION["user"])) {
-        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'a') {
-            header("location: ../login.php");
-        }
-    } else {
-        header("location: ../login.php");
-    }
-
-
-
-    //import database
-    include("../connection.php");
-
-
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -52,11 +52,11 @@
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px">
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                    <img src="../../img/user.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">ConfiguroWeb</p>
-                                    <p class="profile-subtitle">configuroweb.com</p>
+                                    <p class="profile-title"><?php echo $username  ?>..</p>
+                                    <p class="profile-subtitle"><?php echo substr($useremail, 0, 22)  ?></p>                      
                                 </td>
                             </tr>
                             <tr>
@@ -133,12 +133,13 @@
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
 
-                        date_default_timezone_set('America/Bogota');
+                        date_default_timezone_set('America/Argentian/Buenos_Aires');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
 
-                        $list110 = $database->query("select  * from  appointment;");
+                        $list110 = $database->prepare("select  * from  appointment;");
+                        $num_rows = $list110->rowCount();
 
                         ?>
                     </p>
@@ -160,9 +161,9 @@
                     </td>
                 </tr> -->
             <tr>
-                <td colspan="4" style="padding-top:10px;width: 100%;">
 
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todas las Citas (<?php echo $list110->num_rows; ?>)</p>
+                <td colspan="4" style="padding-top:10px;width: 100%;">
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todas las Citas (<?php echo $num_rows; ?>)</p>
                 </td>
 
             </tr>
@@ -192,12 +193,13 @@
 
                                         <?php
 
-                                        $list11 = $database->query("select  * from  doctor order by docname asc;");
+                                        $list11 = $database->prepare("select  * from  medics order by name_medic asc;");
+                                        $num_rows = $list11->rowCount();
 
-                                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                                            $row00 = $list11->fetch_assoc();
-                                            $sn = $row00["docname"];
-                                            $id00 = $row00["docid"];
+                                        for ($y = 0; $y < $num_rows; $y++) {
+                                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                            $sn = $row00["name_medic"];
+                                            $id00 = $row00["id_medic"];
                                             echo "<option value=" . $id00 . ">$sn</option><br/>";
                                         };
 
@@ -230,13 +232,13 @@
 
 
                 $sqlpt2 = "";
-                if (!empty($_POST["docid"])) {
-                    $docid = $_POST["docid"];
-                    $sqlpt2 = " doctor.docid=$docid ";
+                if (!empty($_POST["id_medic"])) {
+                    $docid = $_POST["id_medic"];
+                    $sqlpt2 = " medics.id_medic=$docid ";
                 }
                 //echo $sqlpt2;
                 //echo $sqlpt1;
-                $sqlmain = "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid";
+                $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic";
                 $sqllist = array($sqlpt1, $sqlpt2);
                 $sqlkeywords = array(" where ", " and ");
                 $key2 = 0;
@@ -248,16 +250,9 @@
                     };
                 };
                 //echo $sqlmain;
-
-
-
-                //
             } else {
-                $sqlmain = "select appointment.appoid,schedule.scheduleid,schedule.title,doctor.docname,patient.pname,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patient on patient.pid=appointment.pid inner join doctor on schedule.docid=doctor.docid  order by schedule.scheduledate desc";
+                $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patient.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  order by schedule.scheduledate desc";
             }
-
-
-
             ?>
 
             <tr>
@@ -310,14 +305,14 @@
                                     <?php
 
 
-                                    $result = $database->query($sqlmain);
-
-                                    if ($result->num_rows == 0) {
+                                    $result = $database->prepare($sqlmain);
+                                    $num_rows = $result->rowCount();
+                                    if ($num_rows == 0) {
                                         echo '<tr>
                                     <td colspan="7">
                                     <br><br><br><br>
                                     <center>
-                                    <img src="../img/notfound.svg" width="25%">
+                                    <img src="../../img/notfound.svg" width="25%">
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
@@ -328,49 +323,49 @@
                                     </td>
                                     </tr>';
                                     } else {
-                                        for ($x = 0; $x < $result->num_rows; $x++) {
-                                            $row = $result->fetch_assoc();
-                                            $appoid = $row["appoid"];
+                                        for ($x = 0; $x < $num_rows; $x++) {
+                                            $row = $result->fetch(PDO::FETCH_ASSOC);
+                                            $appoid = $row["appointment_id"];
                                             $scheduleid = $row["scheduleid"];
                                             $title = $row["title"];
-                                            $docname = $row["docname"];
+                                            $docname = $row["name_medic"];
                                             $scheduledate = $row["scheduledate"];
                                             $scheduletime = $row["scheduletime"];
-                                            $pname = $row["pname"];
+                                            $pname = $row["name"];
                                             $apponum = $row["apponum"];
                                             $appodate = $row["appodate"];
                                             echo '<tr >
-                                        <td style="font-weight:600;"> &nbsp;' .
+                                            <td style="font-weight:600;"> &nbsp;' .
 
-                                                substr($pname, 0, 25)
-                                                . '</td >
-                                        <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
-                                        ' . $apponum . '
-                                        
-                                        </td>
-                                        <td>
-                                        ' . substr($docname, 0, 25) . '
-                                        </td>
-                                        <td>
-                                        ' . substr($title, 0, 15) . '
-                                        </td>
-                                        <td style="text-align:center;font-size:12px;">
-                                            ' . substr($scheduledate, 0, 10) . ' <br>' . substr($scheduletime, 0, 5) . '
-                                        </td>
-                                        
-                                        <td style="text-align:center;">
-                                            ' . $appodate . '
-                                        </td>
+                                                    substr($pname, 0, 25)
+                                                    . '</td >
+                                            <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
+                                            ' . $apponum . '
+                                            
+                                            </td>
+                                            <td>
+                                            ' . substr($docname, 0, 25) . '
+                                            </td>
+                                            <td>
+                                            ' . substr($title, 0, 15) . '
+                                            </td>
+                                            <td style="text-align:center;font-size:12px;">
+                                                ' . substr($scheduledate, 0, 10) . ' <br>' . substr($scheduletime, 0, 5) . '
+                                            </td>
+                                            
+                                            <td style="text-align:center;">
+                                                ' . $appodate . '
+                                            </td>
 
-                                        <td>
-                                        <div style="display:flex;justify-content: center;">
-                                        
-                                        <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;-->
-                                       <a href="?action=drop&id=' . $appoid . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;</div>
-                                        </td>
-                                    </tr>';
+                                            <td>
+                                            <div style="display:flex;justify-content: center;">
+                                            
+                                            <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
+                                        &nbsp;&nbsp;&nbsp;-->
+                                        <a href="?action=drop&id=' . $appoid . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
+                                        &nbsp;&nbsp;&nbsp;</div>
+                                            </td>
+                                        </tr>';
                                         }
                                     }
 
@@ -418,84 +413,84 @@
                                     <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar Nueva Sesión.</p><br>
                                 </td>
                             </tr>
+
+                            // formulario
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                <form action="add-session.php" method="POST" class="add-new-form">
-                                    <label for="title" class="form-label">Nombre Sesión : </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="title" class="input-text" placeholder="Nombre de Sesión" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="docid" class="form-label">Selecicona Doctor: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <select name="docid" id="" class="box" >
-                                    <option value="" disabled selected hidden>Escoge Nombre Doctor from the list</option><br/>';
+                            <form action="add-session.php" method="POST" class="add-new-form">
+                                <label for="title" class="form-label">Nombre Sesión : </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <input type="text" name="title" class="input-text" placeholder="Nombre de Sesión" required><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td class="label-td" colspan="2">
+                                        <label for="docid" class="form-label">Selecicona Doctor: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <select name="docid" id="" class="box" >
+                                        <option value="" disabled selected hidden>Escoge Nombre Doctor</option><br/>';
 
 
-            $list11 = $database->query("select  * from  doctor;");
+                                        $list11 = $database->prepare("select  * from  medics;");
+                                        $num_rows = $list11->rowCount();
 
-            for ($y = 0; $y < $list11->num_rows; $y++) {
-                $row00 = $list11->fetch_assoc();
-                $sn = $row00["docname"];
-                $id00 = $row00["docid"];
-                echo "<option value=" . $id00 . ">$sn</option><br/>";
-            };
+                                        for ($y = 0; $y < $num_rows; $y++) {
+                                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                            $sn = $row00["name_medic"];
+                                            $id00 = $row00["id_medic"];
+                                            echo "<option value=" . $id00 . ">$sn</option><br/>";
+                                        };
 
+                echo     '       </select><br><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="nop" class="form-label">Numero de Pacientes/Appointment Numbers : </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <input type="number" name="nop" class="input-text" min="0"  placeholder="The final appointment number for this session depends on this number" required><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="date" class="form-label">Fecha de Sesión: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <input type="date" name="date" class="input-text" min="' . date('Y-m-d') . '" required><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="time" class="form-label">Calendario Time: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <input type="time" name="time" class="input-text" placeholder="Time" required><br>
+                                    </td>
+                                </tr>
 
-
-
-            echo     '       </select><br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nop" class="form-label">Number of Pacientes/Appointment Numbers : </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="number" name="nop" class="input-text" min="0"  placeholder="The final appointment number for this session depends on this number" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="date" class="form-label">Fecha de Sesión: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="date" name="date" class="input-text" min="' . date('Y-m-d') . '" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="time" class="form-label">Calendario Time: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="time" name="time" class="input-text" placeholder="Time" required><br>
-                                </td>
-                            </tr>
-                           
-                            <tr>
-                                <td colspan="2">
-                                    <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                    <input type="submit" value="Place this Sesión" class="login-btn btn-primary btn" name="shedulesubmit">
-                                </td>
-                
-                            </tr>
-                           
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    
+                                        <input type="submit" value="Place this Sesión" class="login-btn btn-primary btn" name="shedulesubmit">
+                                    </td>
+                    
+                                </tr>
                             </form>
                             </tr>
                         </table>
@@ -554,18 +549,18 @@
             </div>
             ';
         } elseif ($action == 'view') {
-            $sqlmain = "select * from doctor where docid='$id'";
-            $result = $database->query($sqlmain);
-            $row = $result->fetch_assoc();
-            $name = $row["docname"];
-            $email = $row["docemail"];
-            $spe = $row["specialties"];
+            $sqlmain = "select * from medics where id_medic='$id'";
+            $result = $database->prepare($sqlmain);
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name_medic"];
+            $email = $row["email_medic"];
+            $spe = $row["specialty_medic"];
 
-            $spcil_res = $database->query("select sname from specialties where id='$spe'");
-            $spcil_array = $spcil_res->fetch_assoc();
-            $spcil_name = $spcil_array["sname"];
-            $nic = $row['docnic'];
-            $tele = $row['doctel'];
+            $spcil_res = $database->prepare("select specialty_name from specialties where id='$spe'");
+            $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
+            $spcil_name = $spcil_array["specialty_name"];
+            $dni = $row['dni_medic'];
+            $tele = $row['phone_medic'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -646,7 +641,6 @@
                                 </td>
                 
                             </tr>
-                           
 
                         </table>
                         </div>

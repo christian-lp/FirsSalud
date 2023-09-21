@@ -1,3 +1,47 @@
+<?php
+
+    session_start();
+
+    if (isset($_SESSION["usr_rol"])) {
+        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '1') {
+            header("location: ../vistas/login/login.php");
+        } else {
+            $useremail = $_SESSION["email"];
+        }
+    } else {
+        header("location: ../vistas/login/login.php");
+    }
+
+
+    //import link
+    include("../modelos/conexion.php");
+    $database = Conexion::conectar();
+
+    $sql = "SELECT * FROM patients WHERE email = :useremail";
+    // Prepara la consulta SQL
+    $stmt = $database->prepare($sql);
+    $stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
+
+    // Si se está ejecutando la sentencia SQL
+    if ($stmt->execute()) {
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
+        if ($resultado) {
+            $userid = $resultado["id_patient"];
+            $username = $resultado["name"];
+            // var_dump($userid);
+            // var_dump($username);
+            // exit();
+        } else {
+            echo 'No se encontraron resultados!';
+        }
+    }
+
+    date_default_timezone_set('America/Argentina/Buenos_Aires');
+
+    $today = date('d-M-Y');
+
+    //echo $userid;
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,43 +66,6 @@
 </head>
 
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if (isset($_SESSION["user"])) {
-        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'p') {
-            header("location: ../login.php");
-        } else {
-            $useremail = $_SESSION["user"];
-        }
-    } else {
-        header("location: ../login.php");
-    }
-
-
-    //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
-    $userfetch = $userrow->fetch_assoc();
-    $userid = $userfetch["pid"];
-    $username = $userfetch["pname"];
-
-
-    //echo $userid;
-    //echo $username;
-
-
-
-    date_default_timezone_set('America/Bogota');
-
-    $today = date('Y-m-d');
-
-
-    //echo $userid;
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -76,7 +83,7 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                         </table>
@@ -139,40 +146,37 @@
                         </button></a>
                 </td>
                 <td>
-                    <form action="schedule.php" method="post" class="header-search">
+                <form action="schedule.php" method="post" class="header-search">
+                    <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda Doctor, Nombre, Correo, Fecha (YYYY-MM-DD)" list="doctors">&nbsp;&nbsp;
 
-                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda Doctor, Nombre, Correo, Fecha (YYYY-MM-DD)" list="doctors">&nbsp;&nbsp;
+                    <?php
+                    // echo '<datalist id="doctors">';
+                    // $list11 = $database->prepare("select DISTINCT * from  medics;");
+                    // $list11->execute();
+                    // $num_rows11 = $list11->rowCount();
 
-                        <?php
-                        echo '<datalist id="doctors">';
-                        $list11 = $database->query("select DISTINCT * from  doctor;");
-                        $list12 = $database->query("select DISTINCT * from  schedule GROUP BY title;");
+                    // $list12 = $database->prepare("select DISTINCT * from  schedule GROUP BY title;");
+                    // $list12->execute();
+                    // $num_rows12 = $list12->rowCount();
 
+                    // for ($y = 0; $y < $num_rows11; $y++) {
+                    //     $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                    //     $d = $row00["name_medic"];
+                    //     echo "<option value='$d'>";
+                    // }
 
+                    // for ($y = 0; $y < $num_rows12; $y++) {
+                    //     $row00 = $list12->fetch(PDO::FETCH_ASSOC);
+                    //     $d = $row00["title"];
+                    //     echo "<option value='$d'>";
+                    // }
 
+                    // echo '</datalist>';
+                    ?>
 
+                    <input type="submit" value="Búsqueda" class="login-btn btn-primary btn" style="padding-left: 25px; padding-right: 25px; padding-top: 10px; padding-bottom: 10px;">
+                </form>
 
-                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                            $row00 = $list11->fetch_assoc();
-                            $d = $row00["docname"];
-
-                            echo "<option value='$d'><br/>";
-                        };
-
-
-                        for ($y = 0; $y < $list12->num_rows; $y++) {
-                            $row00 = $list12->fetch_assoc();
-                            $d = $row00["title"];
-
-                            echo "<option value='$d'><br/>";
-                        };
-
-                        echo ' </datalist>';
-                        ?>
-
-
-                        <input type="Submit" value="Búsqueda" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                    </form>
                 </td>
                 <td width="15%">
                     <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
@@ -181,16 +185,13 @@
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
 
-
                         echo $today;
-
-
 
                         ?>
                     </p>
                 </td>
                 <td width="10%">
-                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
+                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../../img/calendar.svg" width="100%"></button>
                 </td>
 
 
@@ -225,24 +226,27 @@
 
                                             $id = $_GET["id"];
 
-                                            $sqlmain = "select * from schedule inner join doctor on schedule.docid=doctor.docid where schedule.scheduleid=$id  order by schedule.scheduledate desc";
-
-                                            //echo $sqlmain;
-                                            $result = $database->query($sqlmain);
-                                            $row = $result->fetch_assoc();
+                                            $sqlmain = "SELECT * FROM schedule
+                                            INNER JOIN medics ON schedule.id_medic = medics.id_medic
+                                            WHERE schedule.scheduleid = '$id'
+                                            ORDER BY schedule.scheduledate DESC";
+                                
+                                            $result = $database->prepare($sqlmain);
+                                            $result->execute();
+                                            $row = $result->fetch(PDO::FETCH_ASSOC);
                                             $scheduleid = $row["scheduleid"];
                                             $title = $row["title"];
-                                            $docname = $row["docname"];
-                                            $docemail = $row["docemail"];
+                                            $docname = $row["name_medic"];
+                                            $docemail = $row["email_medic"];
                                             $scheduledate = $row["scheduledate"];
                                             $scheduletime = $row["scheduletime"];
-                                            $sql2 = "select * from appointment where scheduleid=$id";
+                                            $sql2 = "select * from appointment where scheduleid='$id'";
                                             //echo $sql2;
-                                            $result12 = $database->query($sql2);
-                                            $apponum = ($result12->num_rows) + 1;
+                                            $result12 = $database->prepare($sql2);
+                                            $apponum = ($num_rows12) + 1;
 
                                             echo '
-                                        <form action="booking-complete.php" method="post">
+                                            <form action="booking-complete.php" method="post">
                                             <input type="hidden" name="scheduleid" value="' . $scheduleid . '" >
                                             <input type="hidden" name="apponum" value="' . $apponum . '" >
                                             <input type="hidden" name="date" value="' . $today . '" >
@@ -253,7 +257,7 @@
 
 
                                             echo '
-                                    <td style="width: 50%;" rowspan="2">
+                                            <td style="width: 50%;" rowspan="2">
                                             <div  class="dashboard-items search-items"  >
                                             
                                                 <div style="width:100%">
@@ -265,7 +269,7 @@
                                                             Correo Doctor:  &nbsp;&nbsp;<b>' . $docemail . '</b> 
                                                         </div>
                                                         <div class="h3-search" style="font-size:18px;">
-                                                          
+
                                                         </div><br>
                                                         <div class="h3-search" style="font-size:18px;">
                                                             Título Cita: ' . $title . '<br>
@@ -293,7 +297,6 @@
                                                         <center>
                                                         <div class=" dashboard-icons" style="margin-left: 0px;width:90%;font-size:70px;font-weight:800;text-align:center;color:var(--btnnictext);background-color: var(--btnice)">' . $apponum . '</div>
                                                     </center>
-                                                       
                                                         </div><br>
                                                         
                                                         <br>

@@ -1,43 +1,42 @@
 <?php
 
-//learn from w3schools.com
+use PSpell\Config;
 
-session_start();
+    session_start();
 
-if (isset($_SESSION["usr_rol"])) {
-    if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '1') {
+    if (isset($_SESSION["usr_rol"])) {
+        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '1') {
+            header("location: ../vistas/login/login.php");
+        } else {
+            $useremail = $_SESSION["email"];
+        }
+    } else {
         header("location: ../vistas/login/login.php");
-    } else {
-        $useremail = $_SESSION["email"];
     }
-} else {
-    header("location: ../vistas/login/login.php");
-}
 
 
-//import link
-include("../modelos/conexion.php");
+    //import link
+    include("../modelos/conexion.php");
+    $database = Conexion::conectar();
 
-$sql = "SELECT * FROM patients WHERE email = :useremail";
-// Prepara la consulta SQL
-$stmt = Conexion::conectar()->prepare($sql);
-$stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 
-// Si se está ejecutando la sentencia SQL
-if ($stmt->execute()) {
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
-    if ($resultado) {
-        $userid = $resultado["id_patient"];
-        $username = $resultado["name"];
-    } else {
-        // No se encontraron resultados
-        // Puedes manejar esto según tus necesidades
+    $sql = "SELECT * FROM patients WHERE email = :useremail";
+    // Prepara la consulta SQL
+    $stmt = $database->prepare($sql);
+    $stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
+
+    // Si se está ejecutando la sentencia SQL
+    if ($stmt->execute()) {
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
+        if ($resultado) {
+            $userid = $resultado["id_patient"];
+            $username = $resultado["name"];
+        } else {
+                echo 'No se encontraron resultados';
+            }
     }
-}
-
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,12 +64,23 @@ if ($stmt->execute()) {
 <body>
     <?php
 
-   // Obtiene una instancia de la conexión PDO
-    $database = Conexion::conectar();
-
     $userid = $_SESSION['id_patient']; // Asegúrate de tener el valor correcto para $userid
 
-    $sqlmain = "SELECT appointment.appointment_id, schedule.scheduleid, schedule.title, medics.name_medic, patients.name, schedule.scheduledate, schedule.scheduletime, appointment.apponum, appointment.appodate FROM schedule INNER JOIN appointment ON schedule.scheduleid = appointment.scheduleid INNER JOIN patients ON patients.id_patient = appointment.patient_id INNER JOIN medics ON schedule.id_medic = medics.id_medic WHERE patients.id_patient = :userid";
+    $sqlmain = "SELECT 
+                appointment.appointment_id AS app_id, 
+                schedule.scheduleid AS sched_id, 
+                schedule.title AS sched_title, 
+                medics.name_medic AS medic_name, 
+                patients.name AS patient_name, 
+                schedule.scheduledate AS sched_date, 
+                schedule.scheduletime AS sched_time, 
+                appointment.apponum AS app_num, 
+                appointment.appodate AS app_date 
+            FROM schedule 
+            INNER JOIN appointment ON schedule.scheduleid = appointment.scheduleid 
+            INNER JOIN patients ON patients.id_patient = appointment.patient_id 
+            INNER JOIN medics ON schedule.id_medic = medics.id_medic 
+            WHERE patients.id_patient = :userid";
 
     if ($_POST) {
         if (!empty($_POST["sheduledate"])) {
@@ -93,9 +103,12 @@ if ($stmt->execute()) {
 
     // Ejecuta la consulta
     $stmt->execute();
-
+    $num_rows = $stmt->rowCount();
     // Obtiene los resultados
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    
+
     ?>
     <div class="container">
         <div class="menu">
@@ -195,9 +208,8 @@ if ($stmt->execute()) {
 
                         date_default_timezone_set('America/Aregentina/Buenos_Aires');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
-
 
                         ?>
                     </p>
@@ -221,7 +233,7 @@ if ($stmt->execute()) {
             <tr>
                 <td colspan="4" style="padding-top:10px;width: 100%;">
 
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Mis Reservas (<?php echo $result->num_rows; ?>)</p>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Mis Reservas (<?php echo $num_rows; ?>)</p>
                 </td>
 
             </tr>
@@ -271,7 +283,7 @@ if ($stmt->execute()) {
 
 
 
-                                    if ($result->num_rows == 0) {
+                                    if ($num_rows == 0) {
                                         echo '<tr>
                                     <td colspan="7">
                                     <br><br><br><br>
@@ -288,18 +300,18 @@ if ($stmt->execute()) {
                                     </tr>';
                                     } else {
 
-                                        for ($x = 0; $x < ($result->num_rows); $x++) {
+                                        for ($x = 0; $x < ($num_rows); $x++) {
                                             echo "<tr>";
                                             for ($q = 0; $q < 3; $q++) {
-                                                $row = $result->fetch_assoc();
+                                                $row = $result->fetch(PDO::FETCH_ASSOC);
                                                 $scheduleid = isset($row["scheduleid"]) ? $row["scheduleid"] : '';
                                                 $title = isset($row["title"]) ? $row["title"] : '';
-                                                $docname = isset($row["docname"]) ? $row["docname"] : '';
+                                                $docname = isset($row["name_medic"]) ? $row["name_medic"] : '';
                                                 $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
                                                 $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
                                                 $apponum = isset($row["apponum"]) ? $row["apponum"] : '';
                                                 $appodate = isset($row["appodate"]) ? $row["appodate"] : '';
-                                                $appoid = isset($row["appoid"]) ? $row["appoid"] : '';
+                                                $appoid = isset($row["appointment_id"]) ? $row["appointment_id"] : '';
 
                                                 if ($scheduleid == "") {
                                                     break;
@@ -449,18 +461,18 @@ if ($stmt->execute()) {
             </div>
             ';
         } elseif ($action == 'view') {
-            $sqlmain = "select * from doctor where docid='$id'";
-            $result = $database->query($sqlmain);
-            $row = $result->fetch_assoc();
-            $name = $row["docname"];
-            $email = $row["docemail"];
-            $spe = $row["specialties"];
+            $sqlmain = "select * from medics where id_medic='$id'";
+            $result = $database->prepare($sqlmain);
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name_medic"];
+            $email = $row["email_medic"];
+            $spe = $row["specialty_medic"];
 
-            $spcil_res = $database->query("select sname from specialties where id='$spe'");
-            $spcil_array = $spcil_res->fetch_assoc();
-            $spcil_name = $spcil_array["sname"];
-            $nic = $row['docnic'];
-            $tele = $row['doctel'];
+            $spcil_res = $database->prepare("select specialty_name from specialties where id='$spe'");
+            $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
+            $spcil_name = $spcil_array["specialty_name"];
+            $dni = $row['dni_medic'];
+            $tele = $row['phone_medic'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -541,7 +553,6 @@ if ($stmt->execute()) {
                                 </td>
                 
                             </tr>
-                           
 
                         </table>
                         </div>

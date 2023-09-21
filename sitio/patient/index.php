@@ -1,7 +1,5 @@
 <?php
 
-//learn from w3schools.com
-
 session_start();
 
 if (isset($_SESSION["usr_rol"])) {
@@ -29,9 +27,11 @@ if ($stmt->execute()) {
     if ($resultado) {
         $userid = $resultado["id_patient"];
         $username = $resultado["name"];
+        // var_dump($userid);
+        // var_dump($username);
+        // exit();
     } else {
-        // No se encontraron resultados
-        // Puedes manejar esto según tus necesidades
+        echo 'No se encontraron resultados!';
     }
 }
 
@@ -170,7 +170,7 @@ if ($stmt->execute()) {
                     <?php
                     try {
                         date_default_timezone_set('America/Argentina/Buenos_Aires');
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
 
                         // Consulta de pacientes
@@ -234,30 +234,34 @@ if ($stmt->execute()) {
                         </p>
 
                         <h3>Puedes buscar tu doctor aquí</h3>
-                        <form action="schedule.php" method="post" style="display: flex">
+                        <form action="doctors.php" method="post" class="header-search">
 
-                            <input type="search" name="search" class="input-text " placeholder="Busca tu doctor aquí" list="doctors" style="width:45%;">&nbsp;&nbsp;
+                        <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda por Nombre, Doctor o Correo" list="doctors">&nbsp;&nbsp;
 
-                            <?php
-                            echo '<datalist id="doctors">';
-                            $list11 = Conexion::conectar()->prepare("SELECT  name_medic,email_medic FROM  medics;");
-                            $list11->execute();
-                            $resultList11 = $list11->fetchAll(PDO::FETCH_ASSOC);
+                        <?php
+                        echo '<datalist id="doctors">';
+                        try {
+                            $stmt = Conexion::conectar()->prepare("SELECT name_medic, email_medic FROM medics");
+                            $stmt->execute();
 
-                            foreach ($resultList11 as $row00) {
-                                $d = $row00["name_medic"];
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                $d = $row["name_medic"];
+                                $c = $row["email_medic"];
                                 echo "<option value='$d'><br/>";
+                                echo "<option value='$c'><br/>";
                             }
+                        } catch (PDOException $e) {
+                            // Manejar el error de la base de datos aquí
+                            echo "Error de base de datos: " . $e->getMessage();
+                        }
+                        echo ' </datalist>';
+                        ?>
 
-                            echo ' </datalist>';
-                            ?>
 
 
-                            <input type="Submit" value="Búsqueda" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                        <input type="Submit" value="Búsqueda" class="login-btn btn-primary-soft btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
 
-                            <br>
-                            <br>
-                        </form>
+                    </form>
                     </td>
                 </tr>
             </table>

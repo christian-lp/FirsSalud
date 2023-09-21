@@ -1,89 +1,64 @@
+<?php
+session_start();
+
+if (isset($_SESSION["usr_rol"])) {
+    if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '3') {
+        header("location: ../vistas/login/login.php");
+    } else {
+        $useremail = $_SESSION["email"];
+    }
+} else {
+    header("location: ../vistas/login/login.php");
+}
+
+// Importar la conexión a la base de datos
+include("../modelos/conexion.php");
+
+$database = Conexion::conectar();
+
+if ($_POST) {
+    // Tu código de procesamiento de formulario aquí
+    $result = $database->prepare("select * from medics");
+    $list11->execute();
+    $name = $_POST['name_medic'];
+    $spec = $_POST['specialty_medic'];
+    $dni = $_POST['dni_medic'];
+    $email = $_POST['email_medic'];
+    $tele = $_POST['phone_medic'];
+    $password = $_POST['password_medic'];
+    $cpassword = $_POST['cpassword_medic'];
+
+    if ($password == $cpassword) {
+        $error = '3';
+        $result = $database->prepare("select * from medics where email_medic='$email';");
+        $result->execute();
+        $num_rows = $result->rowCount();
+        if ($num_rows == 1) {
+            // Ya existe una cuenta con esta dirección de correo electrónico.
+            $error = '1';
+        } else {
+            $sql1 = "insert into medics(email_medic, name_medic, password_medic, phone_medic, specialty_medic, dni_medic) values('$email','$name','$password','$tele',$spec,$dni);";
+            $hola = $database->prepare($sql1);
+            $hola->execute();
+            // Edición Exitosa
+            $error = '4';
+        }
+    } else {
+        // Error de confirmación de contraseña. Vuelve a confirmar la contraseña.
+        $error = '2';
+    }
+
+    // Redirecciona después de procesar el formulario
+    header("location: doctors.php?action=add&error=" . $error);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/animations.css">  
-    <link rel="stylesheet" href="../css/main.css">  
-    <link rel="stylesheet" href="../css/admin.css">
-        
-    <title>Doctor</title>
-    <style>
-        .popup{
-            animation: transitionIn-Y-bottom 0.5s;
-        }
-</style>
+    <!-- Tus encabezados HTML aquí -->
 </head>
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
-        }
-
-    }else{
-        header("location: ../login.php");
-    }
-    
-    
-
-    //import database
-    include("../connection.php");
-
-
-
-    if($_POST){
-        //print_r($_POST);
-        $result= $database->query("select * from webuser");
-        $name=$_POST['name'];
-        $nic=$_POST['nic'];
-        $spec=$_POST['spec'];
-        $email=$_POST['email'];
-        $tele=$_POST['Tele'];
-        $password=$_POST['password'];
-        $cpassword=$_POST['cpassword'];
-        
-        if ($password==$cpassword){
-            $error='3';
-            $result= $database->query("select * from webuser where email='$email';");
-            if($result->num_rows==1){
-                $error='1';
-            }else{
-
-                $sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-                $sql2="insert into webuser values('$email','d')";
-                $database->query($sql1);
-                $database->query($sql2);
-
-                //echo $sql1;
-                //echo $sql2;
-                $error= '4';
-                
-            }
-            
-        }else{
-            $error='2';
-        }
-    
-    
-        
-        
-    }else{
-        //header('location: signup.php');
-        $error='3';
-    }
-    
-
-    header("location: doctors.php?action=add&error=".$error);
-    ?>
-    
-   
-
+    <!-- El contenido HTML de tu página aquí -->
 </body>
 </html>

@@ -2,24 +2,27 @@
 
     session_start();
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
-        }
 
-    }else{
-        header("location: ../login.php");
+    if (isset($_SESSION["usr_rol"])) {
+        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '3') {
+            header("location: ../vistas/login/login.php");
+        } else {
+            $useremail = $_SESSION["email"];
+        }
+    } else {
+        header("location: ../vistas/login/login.php");
     }
-    
+
     
     if($_GET){
         //import database
-        include("../connection.php");
+        include("../conexion.php");
+        $database = Conexion::conectar();
         $id=$_GET["id"];
-        $result001= $database->query("select * from doctor where docid=$id;");
-        $email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->query("delete from webuser where email='$email';");
-        $sql= $database->query("delete from doctor where docemail='$email';");
+        $result001= $database->prepare("select * from medics where id_medic=$id;");
+        $email=($result001->fetch(PDO::FETCH_ASSOC))["email_medic"];
+        // $sql= $database->query("delete from webuser where email='$email';");
+        $sql= $database->prepare("delete from medics where email_medic='$email';");
         //print_r($email);
         header("location: doctors.php");
     }

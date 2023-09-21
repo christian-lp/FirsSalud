@@ -40,6 +40,22 @@ Bienvenidos al proyecto MEDIC
 
 6) Luego de clonar el repositorio;
 ➜ Deberan Crear el directorio "data" dentro de sitio dentro de "data" guardar los archivos;
-➜ .sql
 ➜ .txt
 ➜ .env
+
+7) Registro
+➜ Podra registrarse mediante usuario y contraseña
+➜ Le llegara un correo de confirmacion a su email
+
+8) Iniciar Sesion;
+➜ Admin
+➜ User: hola@mail.com
+➜ Pass: 123456
+
+➜ Paciente
+➜ User: asd@hola.com
+➜ Pass: asdasd
+
+➜ Doctor
+➜ User: hola@asd.com
+➜ Pass: 123456

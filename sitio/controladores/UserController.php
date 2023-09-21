@@ -4,6 +4,7 @@ require_once "/var/www/html/FirsSalud/sitio/modelos/conexion.php";
 require_once "/var/www/html/FirsSalud/sitio/modelos/ModelUser.php";
 
 
+
 // Controlador de usuarios
 class ControladorUsuarios
 {
@@ -292,11 +293,12 @@ class ControladorUsuarios
 					}, 3000);
 					</script>';
 				}
+				//admin
 				elseif($respuesta['rol'] == 3)
 				{
-					echo $_SESSION['usr_rol'] = $respuesta['rol'];
-					echo $_SESSION['email'] = $respuesta['email'];
-					echo $_SESSION['name'] = $respuesta['name'];
+					$_SESSION['usr_rol'] = $respuesta['rol'];
+					$_SESSION['email'] = $respuesta['email'];
+					$_SESSION['name'] = $respuesta['name'];
 					echo
 					'<script>
 					if (window.history.replaceState)
@@ -319,6 +321,7 @@ class ControladorUsuarios
 					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
 					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
 					gifImg.style.height = "457px";
+					// Agrega esta línea para imprimir la ruta completa del GIF
 
 					// Crea un elemento de texto para el mensaje del alerta
 					var messageText = document.createElement("div");
@@ -333,7 +336,7 @@ class ControladorUsuarios
 
 					// Redirige después de 3 segundos (3000 milisegundos)
 					setTimeout(function() {
-						window.location.href = "../../patient/index.php";
+						window.location.href = "../../admin/index.php";
 					}, 3000);
 					</script>';
 				}

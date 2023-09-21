@@ -153,7 +153,7 @@
                         <?php
                         date_default_timezone_set('America/Bogota');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
 
 

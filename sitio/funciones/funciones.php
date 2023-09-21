@@ -19,7 +19,6 @@ $mail = new PHPMailer();
 $body='<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel="STYLESHEET" type="text/css" href="http://isft177.servehttp.com/colegio/css/mail.css"> 
     <link rel="STYLESHEET" type="text/css" href="./css/style.css"> 
 </head></head> 
 
@@ -28,7 +27,7 @@ $body='<html>
             <table class="contenido_tabla" width="700" style="background-color:rgb( 113, 117, 109 ); color:white; font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif;border:6px solid #13353F; border-spacing: 0; padding: 0 25px; border-color: rgb( 12, 12, 12 ); ">
                 <thead>
                     <tr>
-                        <td><left><b><img src="/var/www/html/MedicV4/FirsSalud/img/Logo.png" width="650px"></td>
+                        <td><left><b><img src="/var/www/html/FirsSalud/img/Logo.png" width="650px"></td>
                     </tr>
                     <tr><br>
                         <td><center><h2><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmaci&oacute;n de Registro</b></h2></center></td>
@@ -42,7 +41,7 @@ $body='<html>
                             <br>
                             Haga clic en el siguiente enlace para iniciar sesion:
                             <br><br>
-                            <a href="http://localhost:8020/MedicV4/FirsSalud/sitio/vistas/login/login.php" style="color: #03e9f4;">Iniciar Sesion</a>
+                            <a href="http://localhost:8020/FirsSalud/sitio/vistas/login/login.php" style="color: #03e9f4;">Iniciar Sesion</a>
                             <br><br>
 
 

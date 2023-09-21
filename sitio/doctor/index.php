@@ -46,7 +46,7 @@ include("../modelos/conexion.php");
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../img/Logo.png">
 
     <title>Inicio</title>
     <style>
@@ -82,7 +82,7 @@ include("../modelos/conexion.php");
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px">
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                    <img src="../../img/Logo.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
                                     <p class="profile-title"><?php echo substr($username, 0, 13)  ?>..</p>
@@ -91,7 +91,7 @@ include("../modelos/conexion.php");
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                         </table>
@@ -164,31 +164,47 @@ include("../modelos/conexion.php");
                         <?php
                         date_default_timezone_set('America/Bogota');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
 
                         try {
-                            // Obtener la conexión utilizando la clase de conexión
-                            $conexion = Conexion::conectar();
-                        
-                            // Consulta para obtener todos los pacientes
-                            $patientStatement = $conexion->query("SELECT * FROM patients");
-                            $patientrow = $patientStatement->fetchAll(PDO::FETCH_ASSOC);
-                        
-                            // Consulta para obtener todos los médicos
-                            $doctorStatement = $conexion->query("SELECT * FROM medics");
-                            $doctorrow = $doctorStatement->fetchAll(PDO::FETCH_ASSOC);
-                        
-                            // // Consulta para obtener todas las citas programadas para hoy o en el futuro
-                            // $appointmentStatement = $conexion->query("SELECT * FROM appointment WHERE appodate >= '$today'");
-                            // $appointmentrow = $appointmentStatement->fetchAll(PDO::FETCH_ASSOC);
-                        
-                            // // Consulta para obtener todas las sesiones programadas para hoy
-                            // $scheduleStatement = $conexion->query("SELECT * FROM schedule WHERE scheduledate = '$today'");
-                            // $schedulerow = $scheduleStatement->fetchAll(PDO::FETCH_ASSOC);
+                            date_default_timezone_set('America/Argentina/Buenos_Aires');
+                            $today = date('d-M-Y');
+                            echo $today;
+
+                            // Consulta de pacientes
+                            $patientstmt = Conexion::conectar()->prepare("SELECT * FROM patients");
+                            $patientstmt->execute();
+                            $patientrow = $patientstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            // Consulta de doctores
+                            $doctorstmt = Conexion::conectar()->prepare("SELECT * FROM medics");
+                            $doctorstmt->execute();
+                            $doctorrow = $doctorstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            // Consulta de citas
+                            $appointmentstmt = Conexion::conectar()->prepare("SELECT * FROM appointment WHERE appodate >= :today");
+                            $appointmentstmt->bindParam(':today', $today, PDO::PARAM_STR);
+                            $appointmentstmt->execute();
+                            $appointmentrow = $appointmentstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            // Consulta de sesiones
+                            $schedulestmt = Conexion::conectar()->prepare("SELECT * FROM schedule WHERE scheduledate = :today");
+                            $schedulestmt->bindParam(':today', $today, PDO::PARAM_STR);
+                            $schedulestmt->execute();
+                            $schedulerow = $schedulestmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            // Obtener el número de filas en las matrices
+                            $doctor_count = count($doctorrow);
+                            $patient_count = count($patientrow);
+                            $appointment_count = count($appointmentrow);
+                            $schedule_count = count($schedulerow);
+
+                            // Puedes usar $patientrow, $doctorrow, $appointmentrow y $schedulerow en tu código aquí
                         } catch (PDOException $e) {
                             echo "Error en la conexión o consulta: " . $e->getMessage();
                         }
+
                         ?>
                     </p>
                 </td>
@@ -232,72 +248,69 @@ include("../modelos/conexion.php");
 
 
                         <center>
-                            <table class="filter-container" style="border: none;" border="0">
-                                <tr>
-                                    <td colspan="4">
-                                        <p style="font-size: 20px;font-weight:600;padding-left: 12px;">Dashboard</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%;">
-                                        <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex">
-                                            <div>
-                                                <div class="h1-dashboard">
-                                                    <?php echo $doctorrow->num_rows  ?>
-                                                </div><br>
-                                                <div class="h3-dashboard">
-                                                    Doctores &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                </div>
-                                            </div>
-                                            <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/doctors-hover.svg');"></div>
-                                        </div>
-                                    </td>
-                                    <td style="width: 25%;">
-                                        <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex;">
-                                            <div>
-                                                <div class="h1-dashboard">
-                                                    <?php echo $patientrow->num_rows  ?>
-                                                </div><br>
-                                                <div class="h3-dashboard">
-                                                    Todos los Pacientes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                </div>
-                                            </div>
-                                            <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/patients-hover.svg');"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%;">
-                                        <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex; ">
-                                            <div>
-                                                <div class="h1-dashboard">
-                                                    <?php echo $appointmentrow->num_rows  ?>
-                                                </div><br>
-                                                <div class="h3-dashboard">
-                                                    Nueva Reserva &nbsp;&nbsp;
-                                                </div>
-                                            </div>
-                                            <div class="btn-icon-back dashboard-icons" style="margin-left: 0px;background-image: url('../../img/icons/book-hover.svg');"></div>
-                                        </div>
-
-                                    </td>
-
-                                    <td style="width: 25%;">
-                                        <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex;padding-top:21px;padding-bottom:21px;">
-                                            <div>
-                                                <div class="h1-dashboard">
-                                                    <?php echo $schedulerow->num_rows  ?>
-                                                </div><br>
-                                                <div class="h3-dashboard" style="font-size: 15px">
-                                                    Sesiones Hoy
-                                                </div>
-                                            </div>
-                                            <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/session-iceblue.svg');"></div>
-                                        </div>
-                                    </td>
-
-                                </tr>
-                            </table>
+                        <table class="filter-container" style="border: none;" border="0">
+                    <tr>
+                        <td colspan="4">
+                            <p style="font-size: 20px;font-weight:600;padding-left: 12px;">Inicio</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%;">
+                            <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex">
+                                <div>
+                                    <div class="h1-dashboard">
+                                        <?php echo count($doctorrow)?>
+                                    </div><br>
+                                    <div class="h3-dashboard">
+                                        Doctores &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/doctors-hover.svg');"></div>
+                            </div>
+                        </td>
+                        <td style="width: 25%;">
+                            <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex;">
+                                <div>
+                                    <div class="h1-dashboard">
+                                        <?php echo count($patientrow)  ?>
+                                    </div><br>
+                                    <div class="h3-dashboard">
+                                        Pacientes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/patients-hover.svg');"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%;">
+                            <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex; ">
+                                <div>
+                                    <div class="h1-dashboard">
+                                        <?php echo count($appointmentrow)  ?>
+                                    </div><br>
+                                    <div class="h3-dashboard">
+                                        Nuevas Citas &nbsp;&nbsp;
+                                    </div>
+                                </div>
+                                <div class="btn-icon-back dashboard-icons" style="margin-left: 0px;background-image: url('../../img/icons/book-hover.svg');"></div>
+                            </div>
+                        </td>
+                        <td style="width: 25%;">
+                            <div class="dashboard-items" style="padding:20px;margin:auto;width:95%;display: flex;padding-top:21px;padding-bottom:21px;">
+                                <div>
+                                    <div class="h1-dashboard">
+                                        <?php echo count($schedulerow)  ?>
+                                    </div><br>
+                                    <div class="h3-dashboard" style="font-size: 15px">
+                                        Sesiones de Hoy
+                                    </div>
+                                </div>
+                                <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/session-iceblue.svg');"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                         </center>
 
 

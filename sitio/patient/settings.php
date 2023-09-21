@@ -170,7 +170,7 @@ if ($stmt->execute()) {
                     try {
                         date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-                        $today = date('Y-m-d');
+                        $today = date('d-M-Y');
                         echo $today;
 
                         $pdo = Conexion::conectar();

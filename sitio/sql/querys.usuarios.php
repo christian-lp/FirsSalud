@@ -1,4 +1,5 @@
 <?php
+
 define('SQL_LOGIN_PATIENT', '
 	SELECT
 		patients.id_patient AS "id",

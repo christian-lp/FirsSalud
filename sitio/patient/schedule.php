@@ -64,7 +64,7 @@ if ($stmt->execute()) {
     //echo $username;
 
     date_default_timezone_set('America/Argentina/Buenos_Aires');
-    $today = date('Y-m-d');
+    $today = date('d-M-Y');
     //echo $userid;
     ?>
     <div class="container">
@@ -199,18 +199,19 @@ if ($stmt->execute()) {
                     <?php
                     // Conexión a la base de datos utilizando tu clase de conexión
                     $database = Conexion::conectar();
-
-                    // Corrección de la consulta SQL
-                    $sqlMedics = "SELECT DISTINCT name_medic FROM medics";
-                    $stmtMedics = $pdo->prepare($sqlMedics);
+                    $sqlMedics = "SELECT name_medic FROM medics";
+                   
+                    $stmtMedics = $database->prepare($sqlMedics);
                     $stmtMedics->execute();
                     $medicResults = $stmtMedics->fetchAll(PDO::FETCH_ASSOC);
-
+                    // var_dump($medicResults);
+                    // exit;
                     // Corrección de la consulta SQL
-                    $sqlSchedule = "SELECT DISTINCT title FROM schedule GROUP BY title";
-                    $stmtSchedule = $pdo->prepare($sqlSchedule);
-                    $stmtSchedule->execute();
-                    $scheduleResults = $stmtSchedule->fetchAll(PDO::FETCH_ASSOC);
+
+                    // $sqlSchedule = "SELECT DISTINCT title FROM schedule GROUP BY title";
+                    // $stmtSchedule = $pdo->prepare($sqlSchedule);
+                    // $stmtSchedule->execute();
+                    // $scheduleResults = $stmtSchedule->fetchAll(PDO::FETCH_ASSOC);
 
                     echo '<datalist id="doctors">';
 
@@ -221,12 +222,12 @@ if ($stmt->execute()) {
                     }
 
                     // Iterar a través de los resultados de títulos de horarios
-                    foreach ($scheduleResults as $row00) {
-                        $d = $row00["title"];
-                        echo "<option value='$d'><br/>";
-                    }
+                    // foreach ($scheduleResults as $row00) {
+                    //     $d = $row00["title"];
+                    //     echo "<option value='$d'><br/>";
+                    // }
 
-                    echo ' </datalist>';
+                    // echo ' </datalist>';
 
                     // Cerrar la conexión a la base de datos
                     $database = null;
