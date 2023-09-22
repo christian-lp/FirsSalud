@@ -301,8 +301,8 @@ if ($stmt->execute()) {
                                                 echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
                                                 echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
                                                 echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
-                                                echo "<div class='h3-search'>" . substr($row["name_medic"], 0, 30) . "</div>";
-                                                echo "<div class='h4-search'>Fecha Reserva: " . $row["scheduledate"] . "<br>Inicio: <b>@" . substr($row["scheduletime"], 0, 5) . "</b> (24h)</div><br>";
+                                                echo "<div class='h3-search'>"."<strong>Doctor&nbsp" . substr($row["name_medic"], 0, 30) . "</strong></div>";
+                                                echo "<div class='h4-search'>Fecha Reserva: " . $row["scheduledate"] . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
                                                 echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&title=" . $row["title"] . "&doc=" . $row["name_medic"] . "'><button class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button></a>";
                                                 echo "</div>";
 
@@ -310,48 +310,7 @@ if ($stmt->execute()) {
                                                 echo "</td>"; // Cierra la celda
                                                 echo "</tr>"; // Cierra la fila
                                             }
-                                            echo "</table>"; // Cierra la tabla
-
-                                            // for ( $x=0; $x<$result->num_rows;$x++){
-                                            //     $row=$result->fetch_assoc();
-                                            //     $appoid=$row["appoid"];
-                                            //     $scheduleid=$row["scheduleid"];
-                                            //     $title=$row["title"];
-                                            //     $docname=$row["docname"];
-                                            //     $scheduledate=$row["scheduledate"];
-                                            //     $scheduletime=$row["scheduletime"];
-                                            //     $pname=$row["pname"];
-                                            //
-                                            //
-                                            //     echo '<tr >
-                                            //         <td style="font-weight:600;"> &nbsp;'.
-
-                                            //         substr($pname,0,25)
-                                            //         .'</td >
-                                            //         <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
-                                            //         '.$apponum.'
-
-                                            //         </td>
-                                            //         <td>
-                                            //         '.substr($title,0,15).'
-                                            //         </td>
-                                            //         <td style="text-align:center;;">
-                                            //             '.substr($scheduledate,0,10).' @'.substr($scheduletime,0,5).'
-                                            //         </td>
-
-                                            //         <td style="text-align:center;">
-                                            //             '.$appodate.'
-                                            //         </td>
-
-                                            //         <td>
-                                            //         <div style="display:flex;justify-content: center;">
-
-                                            //         <!--<a href="?action=view&id='.$appoid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                            //        &nbsp;&nbsp;&nbsp;-->
-                                            //        <a href="?action=drop&id='.$appoid.'&name='.$pname.'&session='.$title.'&apponum='.$apponum.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
-                                            //        &nbsp;&nbsp;&nbsp;</div>
-                                            //         </td>
-                                            //     </tr>';
+                                                echo "</table>"; // Cierra la tabla
 
                                         }
                                     

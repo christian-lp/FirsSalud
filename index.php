@@ -72,8 +72,9 @@ session_start();
             <li><a href="#service">Servicios</a></li>
             <li><a href="#doctor">Doctores</a></li>
             <li><a href="#facilities">Nuestras Instalaciones</a></li>
+            <li><a href="sitio/patient/schedule.php">Turnos</a></li>
             <!--<li><a href="#prices">Precios</a></li> -->
-            <li class="dropdown">
+            <!-- <li class="dropdown">
                 <a href="#Turn" class="dropdown-toggle" data-toggle="dropdown">
                     Turnos <b class="caret"></b>
                 </a>
@@ -81,7 +82,7 @@ session_start();
                     <li><a href="index-turns.php"  target="_blank">Turnos Disponibles</a></li>
                     <li><a href="cancel-turn.php">Cancelación Turnos</a></li>
                 </ul>
-            </li>
+            </li> -->
           </ul>
         </div>
         <!-- /.navbar-collapse -->

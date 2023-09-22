@@ -9,16 +9,7 @@ if (isset($_SESSION['usr_rol']) == "") {
     if ($_SESSION["usr_rol"] == 1) {
         $_SESSION["rol"] = 1;
         $conectado = "PACIENTE";
-        // echo "<html><body>";
-        // echo "<h1>My Dashboard Paciente</h1>";
-        // echo "Bienvenido al Área de pacientes! <br> <strong>";
-        // echo $conectado . " " . $_SESSION["name"];
-        // echo "</strong><br>Has ingresado con el nombre de usuario: <strong>" . $_SESSION["email"] . " </strong><strong> ";
-        // echo $_SESSION["login"];
-        // echo "<br>";
-        // echo "</strong>";
-        // echo "</strong>";
-        // echo "<br>";
+ 
     }
 
     if (isset($_SESSION['usr_rol'])) {
@@ -115,7 +106,7 @@ if (isset($_SESSION['usr_rol']) == "") {
             <li><a href="#service">Servicios</a></li>
             <li><a href="#doctor">Doctores</a></li>
             <li><a href="#facilities">Nuestras Instalaciones</a></li>
-            <li><a href="index.php"  target="_blank">Turnos</a></li>
+            <li><a href="schedule.php"  target="_blank">Turnos</a></li>
             <!--<li><a href="#prices">Precios</a></li> -->
             <!-- <li class="dropdown">
                 <a href="#Turn" class="dropdown-toggle" data-toggle="dropdown">

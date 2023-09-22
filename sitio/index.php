@@ -20,8 +20,5 @@ $conexion = Conexion::conectar();
 echo '<pre>'; print_r($conexion); echo '</pre>';
 */
 
-// LLAMO A LA PLANTILLA PRINCIPAL
-$plantilla = new ControladorPlantilla;
-$plantilla -> ctrTraerPlantilla();
 
 

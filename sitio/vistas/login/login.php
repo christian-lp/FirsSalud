@@ -5,10 +5,27 @@ if (session_status() == PHP_SESSION_NONE)
     error_reporting(E_ALL);
     if (isset($_SESSION['usr_rol']) != "") 
     {
-        echo '<script type="text/javascript"> ;
-        window.location.href="dashboard.php";</script>';
+        $rol = $_SESSION['usr_rol'];
+        
+        // Redirigir al index según el rol
+        if ($rol == '1') {
+            header("Location: ../../patient/index.php"); // Reemplaza 'index_admin.php' con la URL del index de administrador
+            exit();
+        } elseif ($rol == '2') {
+            header("Location: ../../medic/index.php"); // Reemplaza 'index_usuario.php' con la URL del index de usuario
+            exit();
+        } elseif ($rol == '3') {
+            header("Location: ../../admin/index.php"); // Reemplaza 'index_usuario.php' con la URL del index de usuario
+            exit();
+        }
+         else {
+            // Manejar otros roles o redirigir a una página predeterminada
+            header("Location: login.php");
+            exit();
+        }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
