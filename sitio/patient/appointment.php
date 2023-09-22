@@ -62,20 +62,30 @@ if ($stmt->execute()) {
 <body>
     <?php
 
-        $userid = $_SESSION['id_patient'];
+    $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where  patients.id_patient=$userid ";
 
-        $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where  patients.id_patient=$userid ";
+    $sqlmain .= " ORDER BY appointment.appodate ASC";
 
-    // $sqlmain .= " ORDER BY appointment.appodate ASC";
+    //Prepara la consulta
+    $stmt = $database->prepare($sqlmain);
+    $stmt->execute();
 
-    // Prepara la consulta
-    $result = Conexion::conectar()->prepare($sqlmain);
-    $result->execute();
-    $num_rows = $result->rowCount();
-    var_dump($num_rows);
-    exit();
-    
-    if ($_POST) 
+    //Obtiene los resultados
+    $result = $stmt->fetchAll();
+   
+
+    $stmt = $database->prepare("SELECT * FROM appointment");
+    // Ejecuta la consulta
+    $stmt->execute();
+    // Obtiene el número de filas en la consulta
+    $num_rows = $stmt->rowCount();
+    // var_dump($num_rows);
+    // exit();
+
+
+
+
+    if ($_POST)
     {
         if (!empty($_POST["sheduledate"])) {
         $sheduledate = $_POST["sheduledate"];
@@ -83,14 +93,12 @@ if ($stmt->execute()) {
         }
     }
 
-   
+
 
 
     // var_dump($num_rows);
     // exit();
 
-    // Obtiene los resultados
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
     ?>
     <div class="container">
         <div class="menu">
@@ -111,13 +119,13 @@ if ($stmt->execute()) {
                                 <td colspan="2">
                                     <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
-                                
+
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
-                                
+
                             </tr>
                         </table>
                     </td>
@@ -271,7 +279,7 @@ if ($stmt->execute()) {
                                     <br><br><br><br>
                                     <center>
                                     <img src="../../img/notfound.svg" width="25%">
-                                    
+
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con tus términos de búsqueda!</p>
                                     <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las citas &nbsp;</font></button>
@@ -282,54 +290,27 @@ if ($stmt->execute()) {
                                     </tr>';
                                     } else {
 
-                                        for ($x = 0; $x < ($num_rows); $x++) {
-                                            echo "<tr>";
-                                            for ($q = 0; $q < 3; $q++) {
-                                                $row = $result->fetch(PDO::FETCH_ASSOC);
-                                                $scheduleid = isset($row["scheduleid"]) ? $row["scheduleid"] : '';
-                                                $title = isset($row["title"]) ? $row["title"] : '';
-                                                $docname = isset($row["name_medic"]) ? $row["name_medic"] : '';
-                                                $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
-                                                $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
-                                                $apponum = isset($row["apponum"]) ? $row["apponum"] : '';
-                                                $appodate = isset($row["appodate"]) ? $row["appodate"] : '';
-                                                $appoid = isset($row["appointment_id"]) ? $row["appointment_id"] : '';
+                                        echo "<table>"; // Abre la tabla
+                                            foreach ($result as $row) {
+                                                echo "<tr>"; // Abre una fila
+                                                echo "<td style='width: 25%;'>"; // Abre una celda
 
-                                                if ($scheduleid == "") {
-                                                    break;
-                                                }
+                                                echo "<div class='dashboard-items search-items'>";
+                                                echo "<div style='width:100%;'>";
+                                                echo "<div class='h3-search'>Fecha de Reserva: " . substr($row["appodate"], 0, 30) . "<br>";
+                                                echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
+                                                echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
+                                                echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
+                                                echo "<div class='h3-search'>" . substr($row["name_medic"], 0, 30) . "</div>";
+                                                echo "<div class='h4-search'>Fecha Reserva: " . $row["scheduledate"] . "<br>Inicio: <b>@" . substr($row["scheduletime"], 0, 5) . "</b> (24h)</div><br>";
+                                                echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&title=" . $row["title"] . "&doc=" . $row["name_medic"] . "'><button class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button></a>";
+                                                echo "</div>";
 
-                                                echo '
-                                            <td style="width: 25%;">
-                                                    <div  class="dashboard-items search-items"  >
-                                                    
-                                                        <div style="width:100%;">
-                                                        <div class="h3-search">
-                                                                    Fecha de Reserva: ' . substr($appodate, 0, 30) . '<br>
-                                                                    Número de Reserva: OC-000-' . $appoid . '
-                                                                </div>
-                                                                <div class="h1-search">
-                                                                    ' . substr($title, 0, 21) . '<br>
-                                                                </div>
-                                                                <div class="h3-search">
-                                                                    Número de Reserva:<div class="h1-search">0' . $apponum . '</div>
-                                                                </div>
-                                                                <div class="h3-search">
-                                                                    ' . substr($docname, 0, 30) . '
-                                                                </div>
-                                                                
-                                                                
-                                                                <div class="h4-search">
-                                                                    Fecha Reserva: ' . $scheduledate . '<br>Inicio: <b>@' . substr($scheduletime, 0, 5) . '</b> (24h)
-                                                                </div>
-                                                                <br>
-                                                                <a href="?action=drop&id=' . $appoid . '&title=' . $title . '&doc=' . $docname . '" ><button  class="login-btn btn-primary-soft btn "  style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Cancelar Reserva</font></button></a>
-                                                        </div>
-                                                                
-                                                    </div>
-                                                </td>';
+                                                echo "</div>";
+                                                echo "</td>"; // Cierra la celda
+                                                echo "</tr>"; // Cierra la fila
                                             }
-                                            echo "</tr>";
+                                            echo "</table>"; // Cierra la tabla
 
                                             // for ( $x=0; $x<$result->num_rows;$x++){
                                             //     $row=$result->fetch_assoc();
@@ -340,8 +321,8 @@ if ($stmt->execute()) {
                                             //     $scheduledate=$row["scheduledate"];
                                             //     $scheduletime=$row["scheduletime"];
                                             //     $pname=$row["pname"];
-                                            //     
-                                            //     
+                                            //
+                                            //
                                             //     echo '<tr >
                                             //         <td style="font-weight:600;"> &nbsp;'.
 
@@ -373,7 +354,7 @@ if ($stmt->execute()) {
                                             //     </tr>';
 
                                         }
-                                    }
+                                    
 
                                     ?>
 
@@ -406,10 +387,10 @@ if ($stmt->execute()) {
                         <a class="close" href="appointment.php">&times;</a>
                         <div class="content">
                         Tu número de cita es ' . $id . '.<br><br>
-                            
+
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        
+
                         <a href="appointment.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
                         <br><br><br><br>
                         </div>
@@ -431,7 +412,7 @@ if ($stmt->execute()) {
                             Deseas cancelar esta cita?<br><br>
                             Nombre de Cita: &nbsp;<b>' . substr($title, 0, 40) . '</b><br>
                             Nombre Doctor&nbsp; : <b>' . substr($docname, 0, 40) . '</b><br><br>
-                            
+
                         </div>
                         <div style="display: flex;justify-content: center;">
                         <a href="delete-appointment.php?id=' . $id . '" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Si&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
@@ -463,19 +444,19 @@ if ($stmt->execute()) {
                         <a class="close" href="doctors.php">&times;</a>
                         <div class="content">
                             ConfiguroWeb<br>
-                            
+
                         </div>
                         <div style="display: flex;justify-content: center;">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
+
                             <tr>
                                 <td>
                                     <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
                                 </td>
                             </tr>
-                            
+
                             <tr>
-                                
+
                                 <td class="label-td" colspan="2">
                                     <label for="name" class="form-label">Nombre: </label>
                                 </td>
@@ -484,7 +465,7 @@ if ($stmt->execute()) {
                                 <td class="label-td" colspan="2">
                                     ' . $name . '<br><br>
                                 </td>
-                                
+
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
@@ -519,7 +500,7 @@ if ($stmt->execute()) {
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="spec" class="form-label">Especialidad: </label>
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -530,10 +511,10 @@ if ($stmt->execute()) {
                             <tr>
                                 <td colspan="2">
                                     <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
+
+
                                 </td>
-                
+
                             </tr>
 
                         </table>
