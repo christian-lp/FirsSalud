@@ -1,9 +1,32 @@
 <?php
-// Inicia la sesión (si no está iniciada ya)
-session_start();
+if (session_status() == PHP_SESSION_NONE) 
+{
+    session_start();
+    error_reporting(E_ALL);
+    if (isset($_SESSION['usr_rol']) != "") 
+    {
+        $rol = $_SESSION['usr_rol'];
+        
+        // Redirigir al index según el rol
+        if ($rol == '1') {
+            header("Location: sitio/patient/dashboard.php"); // Reemplaza 'index_admin.php' con la URL del index de administrador
+            exit();
+        } elseif ($rol == '2') {
+            header("Location: sitio/medic/dashboard.php"); // Reemplaza 'index_usuario.php' con la URL del index de usuario
+            exit();
+        } elseif ($rol == '3') {
+            header("Location: sitio/admin/dashboard.php"); // Reemplaza 'index_usuario.php' con la URL del index de usuario
+            exit();
+        }
+         else {
+            // Manejar otros roles o redirigir a una página predeterminada
+            header("Location: index.php");
+            exit();
+        }
+    }
+}
+
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
