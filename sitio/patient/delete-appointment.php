@@ -2,23 +2,30 @@
 
     session_start();
 
-    if(isset($_SESSION["user"])){
-        if(($_SESSION["user"])=="" or $_SESSION['usertype']!='a'){
-            header("location: ../login.php");
+    if (isset($_SESSION["usr_rol"])) {
+        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '1') {
+            header("location: ../vistas/login/login.php");
+        } else {
+            $useremail = $_SESSION["email"];
         }
-
-    }else{
-        header("location: ../login.php");
+    } else {
+        header("location: ../vistas/login/login.php");
     }
-    
+
+
+    //import link
+   
+
     
     if($_GET){
         //import database
-        include("../connection.php");
+        include("../modelos/conexion.php");
+        $database = Conexion::conectar();
         $id=$_GET["id"];
         //$result001= $database->query("select * from schedule where scheduleid=$id;");
         //$email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->query("delete from appointment where appoid='$id';");
+        $sql= $database->prepare("delete from appointment where appointment_id='$id';");
+        $sql->execute();
         //$sql= $database->query("delete from doctor where docemail='$email';");
         //print_r($email);
         header("location: appointment.php");
