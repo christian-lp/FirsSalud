@@ -3,29 +3,30 @@
 
 
 //import database
-include("../connection.php");
-
-
+include("../modelos/conexion.php");
+$database = Conexion::conectar();
 
 if ($_POST) {
     //print_r($_POST);
-    $result = $database->query("select * from webuser");
-    $name = $_POST['name'];
+    $result = $database->prepare("select * from medics");
+    $name = $_POST['name_medic'];
     $oldemail = $_POST["oldemail"];
-    $nic = $_POST['nic'];
-    $spec = $_POST['spec'];
-    $email = $_POST['email'];
-    $tele = $_POST['Tele'];
-    $password = $_POST['password'];
+    $dni = $_POST['dni_medic'];
+    $spec = $_POST['specialty_medic'];
+    $email = $_POST['email_medic'];
+    $tele = $_POST['phone_medic'];
+    $password = $_POST['password_medic'];
     $cpassword = $_POST['cpassword'];
     $id = $_POST['id00'];
 
     if ($password == $cpassword) {
         $error = '3';
-        $result = $database->query("Selecicona Doctor.docid from doctor inner join webuser on doctor.docemail=webuser.email where webuser.email='$email';");
+        $result = $database->prepare("Select from medics where medics.email_medic='$email';");
+        $result->execute();
+        $num_rows = $result->rowCount();
         //$resultqq= $database->query("select * from doctor where docid='$id';");
-        if ($result->num_rows == 1) {
-            $id2 = $result->fetch_assoc()["docid"];
+        if ($num_rows == 1) {
+            $id2 = $result->fetch(PDO::FETCH_ASSOC)["id_medic"];
         } else {
             $id2 = $id;
         }
@@ -40,11 +41,11 @@ if ($_POST) {
         } else {
 
             //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-            $sql1 = "update doctor set docemail='$email',docname='$name',docpassword='$password',docnic='$nic',doctel='$tele',specialties=$spec where docid=$id ;";
-            $database->query($sql1);
-
-            $sql1 = "update webuser set email='$email' where email='$oldemail' ;";
-            $database->query($sql1);
+            $sql1 = "update medics set email_medic='$email',name_medic='$name',password_medic='$password',dni_medid='$dni',phone_medic='$tele',specialty_medic=$spec where id_medic=$id ;";
+            $result = $database->prepare($sql1);
+            $result->execute();
+            // $sql1 = "update webuser set email='$email' where email='$oldemail' ;";
+            // $database->query($sql1);
 
             echo $sql1;
             //echo $sql2;
