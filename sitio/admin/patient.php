@@ -1,3 +1,24 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION["usr_rol"])) {
+    if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '3') {
+        header("location: ../vistas/login/login.php");
+    } else {
+        $useremail = $_SESSION["email"];
+    }
+} else {
+    header("location: ../vistas/login/login.php");
+}
+
+
+//import link
+include("../modelos/conexion.php");
+$database = Conexion::conectar();
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +29,7 @@
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="../img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../img/Logo.png">
 
     <title>Pacientes</title>
     <style>
@@ -23,27 +44,6 @@
 </head>
 
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if (isset($_SESSION["user"])) {
-        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'a') {
-            header("location: ../login.php");
-        }
-    } else {
-        header("location: ../login.php");
-    }
-
-
-
-    //import database
-    include("../connection.php");
-
-
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -52,16 +52,16 @@
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px">
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                    <img src="../../img/Logo.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
-                                    <p class="profile-title">ConfiguroWeb</p>
-                                    <p class="profile-subtitle">configuroweb.com</p>
+                                    <p class="profile-title"><?php echo $username  ?>..</p>
+                                    <p class="profile-subtitle"><?php echo substr($useremail, 0, 22)  ?></p>                      
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                         </table>
@@ -131,12 +131,14 @@
 
                         <?php
                         echo '<datalist id="patient">';
-                        $list11 = $database->query("select  pname,pemail from patient;");
+                        $list11 = $database->prepare("select  name,email from patients;");
+                        $list11->execute();
+                        $num_rows = $list11->rowCount();
 
-                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                            $row00 = $list11->fetch_assoc();
-                            $d = $row00["pname"];
-                            $c = $row00["pemail"];
+                        for ($y = 0; $y < $num_rows; $y++) {
+                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                            $d = $row00["name"];
+                            $c = $row00["email"];
                             echo "<option value='$d'><br/>";
                             echo "<option value='$c'><br/>";
                         };
@@ -148,6 +150,7 @@
                         <input type="Submit" value="Búsqueda" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
 
                     </form>
+                    
 
                 </td>
                 <td width="15%">
@@ -156,9 +159,9 @@
                     </p>
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
-                        date_default_timezone_set('America/Bogota');
+                        date_default_timezone_set('America/Argentina/Buenos_Aires');
 
-                        $date = date('Y-m-d');
+                        $date = date('d-M-Y');
                         echo $date;
                         ?>
                     </p>
@@ -173,7 +176,7 @@
 
             <tr>
                 <td colspan="4" style="padding-top:10px;">
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todos los Pacientes (<?php echo $list11->num_rows; ?>)</p>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todos los Pacientes (<?php echo $num_rows; ?>)</p>
                 </td>
 
             </tr>
@@ -181,9 +184,9 @@
             if ($_POST) {
                 $keyword = $_POST["search"];
 
-                $sqlmain = "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
+                $sqlmain = "select * from patients where email='$keyword' or name='$keyword' or name like '$keyword%' or name like '%$keyword' or name like '%$keyword%' ";
             } else {
-                $sqlmain = "select * from patient order by pid desc";
+                $sqlmain = "select * from patients order by id_patient desc";
             }
 
 
@@ -234,9 +237,13 @@
                                     <?php
 
 
-                                    $result = $database->query($sqlmain);
+                                    $result = $database->prepare($sqlmain);
+                                    $result->execute();
+                                    $num_rows = $result->rowCount();
+                                    // var_dump($num_rows);
+                                    // exit();
 
-                                    if ($result->num_rows == 0) {
+                                    if ($num_rows == 0) {
                                         echo '<tr>
                                     <td colspan="4">
                                     <br><br><br><br>
@@ -252,39 +259,39 @@
                                     </td>
                                     </tr>';
                                     } else {
-                                        for ($x = 0; $x < $result->num_rows; $x++) {
-                                            $row = $result->fetch_assoc();
-                                            $pid = $row["pid"];
-                                            $name = $row["pname"];
-                                            $email = $row["pemail"];
-                                            $nic = $row["pnic"];
-                                            $dob = $row["pdob"];
-                                            $tel = $row["ptel"];
+                                        for ($x = 0; $x < $num_rows; $x++) {
+                                            $row = $result->fetch(PDO::FETCH_ASSOC);
+                                            $pid = $row["id_patient"];
+                                            $name = $row["name"];
+                                            $email = $row["email"];
+                                            $dni = $row["dni"];
+                                            $surn = $row["surname"];
+                                            $tel = $row["phone"];
+                                            $birth = $row["day_of_birth"];
 
                                             echo '<tr>
-                                        <td> &nbsp;' .
-                                                substr($name, 0, 35)
-                                                . '</td>
-                                        <td>
-                                        ' . substr($nic, 0, 12) . '
-                                        </td>
-                                        <td>
-                                            ' . substr($tel, 0, 10) . '
-                                        </td>
-                                        <td>
-                                        ' . substr($email, 0, 20) . '
-                                         </td>
-                                        <td>
-                                        ' . substr($dob, 0, 10) . '
-                                        </td>
-                                        <td >
-                                        <div style="display:flex;justify-content: center;">
-                                        
-                                        <a href="?action=view&id=' . $pid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                       
-                                        </div>
-                                        </td>
-                                    </tr>';
+                                            <td> &nbsp;' .
+                                                    substr($name, 0, 35)
+                                                    . '</td>
+                                            <td>
+                                            ' . substr($dni, 0, 12) . '
+                                            </td>
+                                            <td>
+                                                ' . substr($tel, 0, 10) . '
+                                            </td>
+                                            <td>
+                                            ' . substr($email, 0, 20) . '
+                                            </td>
+                                            <td>
+                                            ' . substr($birth, 0, 10) . '
+                                            </td>
+                                            <td >
+                                            <div style="display:flex;justify-content: center;">
+                                            
+                                            <a href="?action=view&id=' . $pid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
+                                            </div>
+                                            </td>
+                                            </tr>';
                                         }
                                     }
 
@@ -308,15 +315,16 @@
 
         $id = $_GET["id"];
         $action = $_GET["action"];
-        $sqlmain = "select * from patient where pid='$id'";
-        $result = $database->query($sqlmain);
-        $row = $result->fetch_assoc();
-        $name = $row["pname"];
-        $email = $row["pemail"];
-        $nic = $row["pnic"];
-        $dob = $row["pdob"];
-        $tele = $row["ptel"];
-        $address = $row["paddress"];
+        $sqlmain = "select * from patients where id_patient='$id'";
+        $result = $database->prepare($sqlmain);
+        $result->execute();
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        $name = $row["name"];
+        $email = $row["email"];
+        $dni = $row["dni"];
+        $surn = $row["surname"];
+        $tele = $row["phone"];
+        //$address = $row["paddress"];
         echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -375,7 +383,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $nic . '<br><br>
+                                ' . $dni . '<br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -407,7 +415,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    ' . $dob . '<br><br>
+                                    ' . $surn . '<br><br>
                                 </td>
                                 
                             </tr>
@@ -419,7 +427,6 @@
                                 </td>
                 
                             </tr>
-                           
 
                         </table>
                         </div>
