@@ -16,16 +16,17 @@
     
     if($_GET){
         //import database
-        include("../conexion.php");
+        include("../modelos/conexion.php");
         $database = Conexion::conectar();
         $id=$_GET["id"];
-        $result001= $database->prepare("select * from medics where id_medic=$id;");
-        $email=($result001->fetch(PDO::FETCH_ASSOC))["email_medic"];
-        // $sql= $database->query("delete from webuser where email='$email';");
-        $sql= $database->prepare("delete from medics where email_medic='$email';");
+        //$result001= $database->query("select * from schedule where scheduleid=$id;");
+        //$email=($result001->fetch_assoc())["docemail"];
+        $sql = $database->prepare("UPDATE medics SET is_active = 0 WHERE id_medic = :id");
+        $sql->bindParam(':id', $id, PDO::PARAM_INT);
+        $sql->execute();
+        //$sql= $database->query("delete from doctor where docemail='$email';");
         //print_r($email);
         header("location: doctors.php");
     }
-
 
 ?>

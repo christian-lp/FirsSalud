@@ -7,6 +7,7 @@ if (isset($_SESSION["usr_rol"])) {
         header("location: ../vistas/login/login.php");
     } else {
         $useremail = $_SESSION["email"];
+        $username = $_SESSION["name"];
     }
 } else {
     header("location: ../vistas/login/login.php");
@@ -61,6 +62,12 @@ include("../modelos/conexion.php");
                                 <td colspan="2">
                                     <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                                
                             </tr>
                         </table>
                     </td>

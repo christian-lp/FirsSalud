@@ -8,6 +8,7 @@ if (isset($_SESSION['usr_rol']) == "") {
 } else {
     if ($_SESSION["usr_rol"] == 1) {
         $_SESSION["rol"] = 1;
+        $conectado = "PACIENTE";
  
     }
 

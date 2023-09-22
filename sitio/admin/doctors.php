@@ -46,6 +46,7 @@ if ($stmt->execute()) {
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="icon" type="image/png" sizes="16x16" href="../../img/logo.png">
 
+
     <title>Doctores</title>
     <style>
         .popup {
@@ -54,6 +55,10 @@ if ($stmt->execute()) {
 
         .sub-table {
             animation: transitionIn-Y-bottom 0.5s;
+        }
+        .btn-toggle {
+            padding: 12px 40px; /* Tamaño fijo del botón */
+            white-space: nowrap; /* Evita el ajuste de texto */
         }
     </style>
 </head>
@@ -79,6 +84,12 @@ if ($stmt->execute()) {
                                 <td colspan="2">
                                     <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                                
                             </tr>
                         </table>
                     </td>
@@ -275,9 +286,9 @@ if ($stmt->execute()) {
                                                 $docid = $row["id_medic"];
                                                 $name = $row["name_medic"];
                                                 $email = $row["email_medic"];
+                                                $is_active = $row["is_active"];
                                                 $spe = $row["specialty_medic"];
-                                                $spcil_res = $database->prepare("select specialty_name from specialties where id_specialty=:spe");
-                                                $spcil_res->bindParam(':spe', $spe, PDO::PARAM_INT);
+                                                $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id= '$spe'");
                                                 $spcil_res->execute();
                                                 $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
                                                 $spcil_name = $spcil_array["specialty_name"];
@@ -294,19 +305,91 @@ if ($stmt->execute()) {
                                                     </td>
                                                     <td>
                                                         <div style="display:flex;justify-content: center;">
-                                                            <a href="?action=edit&id=' . $docid . '&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Editar</font></button></a>
+                                                            <a href="?action=edit&id=' . $docid . '&error=0" class="non-style-link">
+                                                                <button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                                    <font class="tn-in-text">Editar</font>
+                                                                </button>
+                                                            </a>
                                                             &nbsp;&nbsp;&nbsp;
-                                                            <a href="?action=view&id=' . $docid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
+                                                            <a href="?action=view&id=' . $docid . '" class="non-style-link">
+                                                                <button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                                    <font class="tn-in-text">Ver</font>
+                                                                </button>
+                                                            </a>
                                                             &nbsp;&nbsp;&nbsp;
-                                                            <a href="?action=drop&id=' . $docid . '&name=' . $name . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Remove</font></button></a>
+                                                          
+                                                            <a href="?action=toggle&id=' . $docid . '&name=' . $name . '" class="non-style-link">
+                                                                <button class="btn-primary-soft btn button-icon btn-toggle" 
+                                                                style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"
+                                                                data-toggle="' . ($is_active == 1 ? 'activo' : 'inactivo') . '"
+                                                                data-target="' . ($is_active == 1 ? 'inactivo' : 'activo') . '">
+                                                                <font class="tn-in-text" style="color: ' . ($is_active == 1 ? 'green' : 'red') . ';">' . ($is_active == 1 ? 'Activo' : 'Inactivo') . '</font>
+                                                            </button>
+                                                            </a>
+                                                            
+
                                                         </div>
                                                     </td>
                                                 </tr>';
                                             }
                                             
                                     }
-
                                     ?>
+                                 <style>
+.button-icon {
+    width: 120px; /* Ancho fijo deseado para el botón */
+    padding: 12px; /* Ajusta el espaciado según sea necesario */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efecto de transición suave */
+}
+</style>
+
+<script>
+var buttons = document.querySelectorAll('.btn-toggle');
+
+buttons.forEach(function(button) {
+    button.addEventListener('mouseover', function() {
+        var toggle = this.getAttribute('data-toggle');
+        if (toggle === 'inactivo') {
+            this.querySelector('.tn-in-text').textContent = 'Activar';
+        } else {
+            this.querySelector('.tn-in-text').textContent = 'Desactivar';
+        }
+        this.style.backgroundColor = toggle === 'inactivo' ? 'var(--primarycolor)' : 'red'; // Cambio de color de fondo al pasar el cursor
+        this.style.color = 'white'; // Cambio de color de texto al pasar el cursor
+    });
+
+    button.addEventListener('mouseout', function() {
+        var toggle = this.getAttribute('data-toggle');
+        if (toggle === 'inactivo') {
+            this.querySelector('.tn-in-text').textContent = 'Inactivo';
+        } else {
+            this.querySelector('.tn-in-text').textContent = 'Activo';
+        }
+        this.style.backgroundColor = ''; // Restaurar el color de fondo al salir del cursor
+        this.style.color = toggle === 'inactivo' ? 'red' : 'green'; // Restaurar el color de texto al salir del cursor
+    });
+
+    button.addEventListener('click', function(e) {
+        e.preventDefault(); // Evitar que el enlace se abra
+        var toggle = this.getAttribute('data-toggle');
+        var target = this.getAttribute('data-target');
+
+        // Cambiar el texto del botón
+        var buttonText = target === 'activo' ? 'Inactivo' : 'Activo';
+        this.querySelector('.tn-in-text').textContent = buttonText;
+        this.setAttribute('data-toggle', target); // Cambiar el estado
+        this.setAttribute('data-target', toggle); // Cambiar el estado
+    });
+});
+</script>
+
+
+
+
+
 
                                 </tbody>
 
@@ -315,7 +398,11 @@ if ($stmt->execute()) {
                     </center>
                 </td>
             </tr>
-
+            <!-- <a href="?action=drop&id=' . $docid . '&name=' . $name . '" class="non-style-link">
+                                                                <button class="btn-primary-soft btn button-icon btn-delete" style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
+                                                                    <font class="tn-in-text" style="color: ' . ($is_active == 1 ? 'green' : 'red') . ';">' . ($is_active == 1 ? 'Activo' : 'Inactivo') . '  &nbsp;&nbsp;&nbsp;</font>
+                                                                </button>
+                                                            </a> -->
 
 
         </table>

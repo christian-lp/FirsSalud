@@ -65,6 +65,12 @@ $database = Conexion::conectar();
                                     <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                                
+                            </tr>
                         </table>
                     </td>
 
@@ -146,7 +152,7 @@ $database = Conexion::conectar();
                     </p>
                 </td>
                 <td width="10%">
-                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
+                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../../img/calendar.svg" width="100%"></button>
                 </td>
 
 
@@ -195,6 +201,7 @@ $database = Conexion::conectar();
                                         <?php
 
                                         $list11 = $database->prepare("select  * from  medics order by name_medic asc;");
+                                        $list11->execute();
                                         $num_rows = $list11->rowCount();
 
                                         for ($y = 0; $y < $num_rows; $y++) {

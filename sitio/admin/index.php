@@ -86,6 +86,12 @@ if ($stmt->execute()) {
                                     <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                                
+                            </tr>
                         </table>
                     </td>
                 </tr>
