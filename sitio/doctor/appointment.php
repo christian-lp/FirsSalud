@@ -77,6 +77,11 @@
                                     <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -149,15 +154,6 @@
 
                         $today = date('d-M-Y');
                         echo $today;
-
-                        //$list110 = $database->prepare("SELECT * FROM schedule INNER JOIN appointment ON schedule.scheduleid=appointment.schedule_id INNER JOIN patients ON patients.id_patient=appointment.patient_id INNER JOIN medics ON schedule.id_medic=medics.id_medic  WHERE  medics.id_medic= '$userid' ");
-                        // var_dump($userid);
-                        // exit();
-                        // $list110->execute();
-                        // var_dump($list110);
-                        // exit();
-         
-
 
                         $list111 = $database->prepare("SELECT * FROM appointment");
                         $list111->execute();
@@ -269,7 +265,9 @@
                     <tbody>
                     <?php
 
-                    $result = $database->prepare($sqlmain);
+                    $result2 = $database->prepare($sqlmain);
+                    $result2->execute();
+                    $stmt = $result2->fetchAll(PDO::FETCH_ASSOC);
                     
                     if ($num_rows == 0) {
                         echo '<tr>
@@ -291,9 +289,8 @@
                             echo 'ERROR';
                         }
                         else
-                        {// Iterar a través de las filas y mostrar los resultados
-                            for ($x = 0; $x < $num_rows; $x++) {
-                                $row = $result->fetch(PDO::FETCH_ASSOC);
+                        {
+                            foreach ($stmt as $row) {
                                 $appoid = $row["appointment_id"];
                                 $scheduleid = $row["scheduleid"];
                                 $title = $row["title"];
@@ -303,19 +300,21 @@
                                 $pname = $row["name"];
                                 $apponum = $row["apponum"];
                                 $appodate = $row["appodate"];
-                                echo
+                                // var_dump($title);
+                                // exit();
+                                echo 
                                 '<tr >
                                     <td style="font-weight:600;"> &nbsp;' .
                                     substr($pname, 0, 25). '
                                     </td >
-                                    <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">' .
+                                    <td style="text-align:center;font-size:20px;font-weight:300; color: var(--btnnicetext);">' .
                                     $apponum . '
                                     </td>
                                     <td>
                                     ' . substr($title, 0, 15) . '
                                     </td>
                                     <td style="text-align:center;;">
-                                        ' . substr($scheduledate, 0, 10) . ' @' . substr($scheduletime, 0, 5) . '
+                                        ' . substr($scheduledate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) . "hs." . '
                                     </td>
 
                                     <td style="text-align:center;">
@@ -350,145 +349,6 @@
     </div>
     <?php
 
-    // if ($_GET) {
-    //     $id = $_GET["id"];
-    //     $action = $_GET["action"];
-    //     if ($action == 'add-session') {
-
-    //         echo '
-    //         <div id="popup1" class="overlay">
-    //                 <div class="popup">
-    //                 <center>
-
-
-    //                     <a class="close" href="schedule.php">&times;</a>
-    //                     <div style="display: flex;justify-content: center;">
-    //                     <div class="abc">
-    //                     <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-    //                     <tr>
-    //                             <td class="label-td" colspan="2">' .
-    //             ""
-
-    //             . '</td>
-    //                         </tr>
-
-    //                         <tr>
-    //                             <td>
-    //                                 <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar Nueva Sesión.</p><br>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                             <form action="add-session.php" method="POST" class="add-new-form">
-    //                                 <label for="title" class="form-label">Nombre Sesión : </label>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <input type="text" name="title" class="input-text" placeholder="Nombre de esta Sesión" required><br>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-
-    //                             <td class="label-td" colspan="2">
-    //                                 <label for="docid" class="form-label">Selecciona Doctor: </label>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <select name="docid" id="" class="box" >
-    //                                 <option value="" disabled selected hidden>Escoger Doctor de la Lista</option><br/>';
-
-
-    //         $list11 = $database->prepare("select  * from  medics;");
-    //         $list11->execute();
-
-    //         for ($y = 0; $y < $num_rows; $y++) {
-    //             $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-    //             $sn = $row00["name_medic"];
-    //             $id00 = $row00["id_medic"];
-    //             echo "<option value=" . $id00 . ">$sn</option><br/>";
-    //         };
-
-
-
-
-    //         echo     '       </select><br><br>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <label for="nop" class="form-label">Número de Pacientes/Número de Citas: </label>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <input type="number" name="nop" class="input-text" min="0"  placeholder="The final appointment number for this session depends on this number" required><br>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <label for="date" class="form-label">Fecha de Sesión: </label>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <input type="date" name="date" class="input-text" min="' . date('d-M-Y') . '" required><br>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <label for="time" class="form-label">Calendario Time: </label>
-    //                             </td>
-    //                         </tr>
-    //                         <tr>
-    //                             <td class="label-td" colspan="2">
-    //                                 <input type="time" name="time" class="input-text" placeholder="Time" required><br>
-    //                             </td>
-    //                         </tr>
-
-    //                         <tr>
-    //                             <td colspan="2">
-    //                                 <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-    //                                 <input type="submit" value="Place this Sesión" class="login-btn btn-primary btn" name="shedulesubmit">
-    //                             </td>
-
-    //                         </tr>
-
-    //                         </form>
-    //                         </tr>
-    //                     </table>
-    //                     </div>
-    //                     </div>
-    //                 </center>
-    //                 <br><br>
-    //         </div>
-    //         </div>
-    //         ';
-    //     } elseif ($action == 'session-added') {
-    //         $titleget = $_GET["title"];
-    //         echo '
-    //         <div id="popup1" class="overlay">
-    //                 <div class="popup">
-    //                 <center>
-    //                 <br><br>
-    //                     <h2>Sesión Placed.</h2>
-    //                     <a class="close" href="schedule.php">&times;</a>
-    //                     <div class="content">
-    //                     ' . substr($titleget, 0, 40) . ' was scheduled.<br><br>
-
-    //                     </div>
-    //                     <div style="display: flex;justify-content: center;">
-
-    //                     <a href="schedule.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
-    //                     <br><br><br><br>
-    //                     </div>
-    //                 </center>
-    //         </div>
-    //         </div>
-    //         ';
-    //     }
     if ($_GET) {
         $id = $_GET["id"];
         if ($action == 'drop') {
@@ -516,109 +376,7 @@
             </div>
             </div>
             ';
-        } elseif ($action == 'view') {
-            $sqlmain = "select * from medics where id_medic='$id'";
-            $result = $database->prepare($sqlmain);
-            $result->execute();
-            $row = $result->fetch(PDO::FETCH_ASSOC);
-            $name = $row["name_medic"];
-            $email = $row["email_medic"];
-            $spe = $row["specialty_medic"];
-
-            $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
-            $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
-            $spcil_name = $spcil_array["specialty_name"];
-            $dni = $row['dni_medic'];
-            $tele = $row['phone_medic'];
-            echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <h2></h2>
-                        <a class="close" href="doctors.php">&times;</a>
-                        <div class="content">
-                            ConfiguroWeb<br>
-
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
-                                </td>
-                            </tr>
-
-                            <tr>
-
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Nombre: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    ' . $name . '<br><br>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Correo: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $email . '<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">DNI: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $nic . '<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $tele . '<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Especialidad: </label>
-
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            ' . $spcil_name . '<br><br>
-                            </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-
-
-                                </td>
-
-                            </tr>
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';
-        }
+        } 
     }
 
     ?>

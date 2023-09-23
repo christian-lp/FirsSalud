@@ -49,13 +49,13 @@ Bienvenidos al proyecto MEDIC
 
 8) Iniciar Sesion;
 ➜ Admin
-➜ User: hola@mail.com
+➜ User: admin@mail.com
 ➜ Pass: 123456
 
 ➜ Paciente
-➜ User: asd@hola.com
-➜ Pass: asdasd
+➜ User: paciente@mail.com
+➜ Pass: 123456
 
 ➜ Doctor
-➜ User: hola@asd.com
+➜ User: doctor@mail.com
 ➜ Pass: 123456

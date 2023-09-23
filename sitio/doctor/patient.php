@@ -1,3 +1,36 @@
+<?php
+
+    session_start();
+
+    if (isset($_SESSION["usr_rol"])) {
+        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '2') {
+            header("location: ../vistas/login/login.php");
+        } else {
+            $useremail = $_SESSION["email_medic"];
+        }
+    } else {
+        header("location: ../vistas/login/login.php");
+    }
+
+    //import link
+    include("../modelos/conexion.php");
+    $database = Conexion::conectar();
+
+    $sql = "select * from medics where email_medic ='$useremail'";
+    // Prepara la consulta SQL
+    $stmt = $database->prepare($sql);
+    $stmt->bindParam(1, $useremail, PDO::PARAM_STR);
+
+    // Si se está ejecutando la sentencia SQL
+    if ($stmt->execute())
+    {
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userid = $resultado["id_medic"];
+        $username = $resultado["name_medic"];
+        // var_dump($userid);
+        // exit();
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +41,7 @@
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="../img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../img/Logo.png">
 
     <title>Pacientes</title>
     <style>
@@ -23,34 +56,6 @@
 </head>
 
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if (isset($_SESSION["user"])) {
-        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'd') {
-            header("location: ../login.php");
-        } else {
-            $useremail = $_SESSION["user"];
-        }
-    } else {
-        header("location: ../login.php");
-    }
-
-
-    //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
-    $userfetch = $userrow->fetch_assoc();
-    $userid = $userfetch["docid"];
-    $username = $userfetch["docname"];
-
-
-    //echo $userid;
-    //echo $username;
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -59,7 +64,7 @@
                         <table border="0" class="profile-container">
                             <tr>
                                 <td width="30%" style="padding-left:20px">
-                                    <img src="../img/user.png" alt="" width="100%" style="border-radius:50%">
+                                    <img src="../../img/Logo.png" alt="" width="100%" style="border-radius:50%">
                                 </td>
                                 <td style="padding:0px;margin:0px;">
                                     <p class="profile-title"><?php echo substr($username, 0, 13)  ?>..</p>
@@ -68,7 +73,12 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                         </table>
@@ -79,47 +89,46 @@
                         <a href="index.php" class="non-style-link-menu ">
                             <div>
                                 <p class="menu-text">Inicio</p>
+                            </div>
                         </a>
-        </div></a>
-        </td>
-        </tr>
-        <tr class="menu-row">
-            <td class="menu-btn menu-icon-appoinment">
-                <a href="appointment.php" class="non-style-link-menu">
-                    <div>
-                        <p class="menu-text">Mis Citas</p>
-                </a>
-    </div>
-    </td>
-    </tr>
-
-    <tr class="menu-row">
-        <td class="menu-btn menu-icon-session">
-            <a href="schedule.php" class="non-style-link-menu">
-                <div>
-                    <p class="menu-text">Mis Sesiones</p>
-                </div>
-            </a>
-        </td>
-    </tr>
-    <tr class="menu-row">
-        <td class="menu-btn menu-icon-patient menu-active menu-icon-patient-active">
-            <a href="patient.php" class="non-style-link-menu  non-style-link-menu-active">
-                <div>
-                    <p class="menu-text">Mis Pacientes</p>
-            </a></div>
-        </td>
-    </tr>
-    <tr class="menu-row">
-        <td class="menu-btn menu-icon-settings   ">
-            <a href="settings.php" class="non-style-link-menu">
-                <div>
-                    <p class="menu-text">Configuración</p>
-            </a></div>
-        </td>
-    </tr>
-
-    </table>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-appoinment">
+                        <a href="appointment.php" class="non-style-link-menu">
+                            <div>
+                                <p class="menu-text">Mis Citas</p>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-session">
+                        <a href="schedule.php" class="non-style-link-menu">
+                            <div>
+                                <p class="menu-text">Mis Sesiones</p>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-patient menu-active menu-icon-patient-active">
+                        <a href="patient.php" class="non-style-link-menu  non-style-link-menu-active">
+                            <div>
+                                <p class="menu-text">Mis Pacientes</p>
+                        </a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-settings   ">
+                        <a href="settings.php" class="non-style-link-menu">
+                            <div>
+                                <p class="menu-text">Configuración</p>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+        </table>
     </div>
     <?php
 
@@ -130,23 +139,27 @@
         if (isset($_POST["search"])) {
             $keyword = $_POST["search12"];
 
-            $sqlmain = "select * from patient where pemail='$keyword' or pname='$keyword' or pname like '$keyword%' or pname like '%$keyword' or pname like '%$keyword%' ";
+            $sqlmain = "select * from patients where email='$keyword' or name='$keyword' or name like '$keyword%' or name like '%$keyword' or name like '%$keyword%' ";
             $selecttype = "my";
         }
 
         if (isset($_POST["filter"])) {
             if ($_POST["showonly"] == 'all') {
-                $sqlmain = "select * from patient";
+                $sqlmain = "select * from patients";
                 $selecttype = "All";
-                $current = "All patients";
+                $current = "Todos los pacientes";
             } else {
-                $sqlmain = "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
+                $sqlmain = "select * from appointment inner join patients on patients.id_patient=appointment.patient_id inner join schedule on schedule.scheduleid=appointment.schedule_id where schedule.id_medic=$userid;";
                 $selecttype = "Mis";
                 $current = "Solo mis Pacientes";
             }
         }
     } else {
-        $sqlmain = "select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=$userid;";
+        $sqlmain = "SELECT * FROM appointment
+        INNER JOIN patients ON patients.id_patient=appointment.patient_id
+        INNER JOIN schedule ON schedule.scheduleid=appointment.schedule_id
+        WHERE schedule.id_medic=$userid;";
+
         $selecttype = "Mis";
     }
 
@@ -170,14 +183,26 @@
                         <input type="search" name="search12" class="input-text header-searchbar" placeholder="Búsqueda Nombre de Paciente or Email" list="patient">&nbsp;&nbsp;
 
                         <?php
+        
                         echo '<datalist id="patient">';
-                        $list11 = $database->query($sqlmain);
-                        //$list12= $database->query("select * from appointment inner join patient on patient.pid=appointment.pid inner join schedule on schedule.scheduleid=appointment.scheduleid where schedule.docid=1;");
+                        $list11 = $database->prepare($sqlmain);
+                        $list11->execute();
+                        // Obtiene los resultados
+                        $stmt2 = $list11->fetchAll(PDO::FETCH_ASSOC);
+                        // Cuenta el número de filas
+                        $num_rows = count($stmt2);
 
-                        for ($y = 0; $y < $list11->num_rows; $y++) {
-                            $row00 = $list11->fetch_assoc();
-                            $d = $row00["pname"];
-                            $c = $row00["pemail"];
+                        // Verifica si la consulta está retornando datos
+                        if ($num_rows > 0) {
+                            
+                        } else {
+                            // La consulta no retornó resultados
+                            echo "No se encontraron resultados.";
+                        }
+                        for ($y = 0; $y < $num_rows; $y++) {
+                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                            $d = $row00["name"];
+                            $c = $row00["email"];
                             echo "<option value='$d'><br/>";
                             echo "<option value='$c'><br/>";
                         };
@@ -205,7 +230,7 @@
                     </p>
                 </td>
                 <td width="10%">
-                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../img/calendar.svg" width="100%"></button>
+                    <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../../img/calendar.svg" width="100%"></button>
                 </td>
 
 
@@ -214,7 +239,7 @@
 
             <tr>
                 <td colspan="4" style="padding-top:10px;">
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $selecttype . " Pacientes (" . $list11->num_rows . ")"; ?></p>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $selecttype . " Pacientes (" . $num_rows . ")"; ?></p>
                 </td>
 
             </tr>
@@ -293,15 +318,20 @@
 
                                 <?php
 
-
-                                $result = $database->query($sqlmain);
-                                //echo $sqlmain;
-                                if ($result->num_rows == 0) {
+                                $result = $database->prepare($sqlmain);
+                                $result->execute();
+                                $stmt = $result->fetchAll(PDO::FETCH_ASSOC);
+                                // var_dump($stmt);
+                                //         exit();
+                                $num_rows = count($stmt); // Obtener el número de filas
+                                // var_dump($num_rows);
+                                // exit();
+                                if ($num_rows == 0) {
                                     echo '<tr>
-                                    <td colspan="4">
+                                    <td colspan=s"4">
                                     <br><br><br><br>
                                     <center>
-                                    <img src="../img/notfound.svg" width="25%">
+                                    <img src="../../img/notfound.svg" width="25%">
                                     
                                     <br>
                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
@@ -312,36 +342,34 @@
                                     </td>
                                     </tr>';
                                 } else {
-                                    for ($x = 0; $x < $result->num_rows; $x++) {
-                                        $row = $result->fetch_assoc();
-                                        $pid = $row["pid"];
-                                        $name = $row["pname"];
-                                        $email = $row["pemail"];
-                                        $nic = $row["pnic"];
-                                        $dob = $row["pdob"];
-                                        $tel = $row["ptel"];
+                                    foreach ($stmt as $row) {
+                                        $pid = $row["id_patient"];
+                                        $name = $row["name"];
+                                        $email = $row["email"];
+                                        $dni = $row["dni"];
+                                        $birth = $row["day_of_birth"];
+                                        $tel = $row["phone"];
 
                                         echo '<tr>
                                         <td> &nbsp;' .
                                             substr($name, 0, 35)
                                             . '</td>
                                         <td>
-                                        ' . substr($nic, 0, 12) . '
+                                        ' . substr($dni, 0, 12) . '
                                         </td>
                                         <td>
                                             ' . substr($tel, 0, 10) . '
                                         </td>
                                         <td>
                                         ' . substr($email, 0, 20) . '
-                                         </td>
+                                        </td>
                                         <td>
-                                        ' . substr($dob, 0, 10) . '
+                                        ' . substr($birth, 0, 10) . '
                                         </td>
                                         <td >
                                         <div style="display:flex;justify-content: center;">
                                         
                                         <a href="?action=view&id=' . $pid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                       
                                         </div>
                                         </td>
                                     </tr>';
@@ -368,15 +396,15 @@
 
         $id = $_GET["id"];
         $action = $_GET["action"];
-        $sqlmain = "select * from patient where pid='$id'";
-        $result = $database->query($sqlmain);
-        $row = $result->fetch_assoc();
-        $name = $row["pname"];
-        $email = $row["pemail"];
-        $nic = $row["pnic"];
-        $dob = $row["pdob"];
-        $tele = $row["ptel"];
-        $address = $row["paddress"];
+        $sqlmain = "select * from patients where id_patient='$id'";
+        $result = $database->prepare($sqlmain);
+        // $result->execute();
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        $name = $row["name"];
+        $email = $row["email"];
+        $nic = $row["dni"];
+        $birth = $row["birth"];
+        $tele = $row["phone"];
         echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -435,7 +463,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $nic . '<br><br>
+                                ' . $dni . '<br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -454,12 +482,7 @@
                                     
                                 </td>
                             </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            ' . $address . '<br><br>
-                            </td>
-                            </tr>
-                            <tr>
+                          
                                 
                                 <td class="label-td" colspan="2">
                                     <label for="name" class="form-label">Fecha de Nacimiento: </label>
@@ -479,7 +502,6 @@
                                 </td>
                 
                             </tr>
-                           
 
                         </table>
                         </div>

@@ -94,6 +94,11 @@ include("../modelos/conexion.php");
                                     <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
+                                </td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -112,9 +117,9 @@ include("../modelos/conexion.php");
                     <div>
                         <p class="menu-text">Mis Citas</p>
                 </a>
-    </div>
-    </td>
-    </tr>
+                    </div>
+        </td>
+        </tr>
 
     <tr class="menu-row">
         <td class="menu-btn menu-icon-session">
@@ -162,15 +167,13 @@ include("../modelos/conexion.php");
                     </p>
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
-                        date_default_timezone_set('America/Bogota');
-
-                        $today = date('d-M-Y');
-                        echo $today;
 
                         try {
                             date_default_timezone_set('America/Argentina/Buenos_Aires');
-                            $today = date('d-M-Y');
-                            echo $today;
+                            $todayW = date('d-M-Y');
+                            echo $todayW;
+                            $today = date('Y-m-d');
+                            
 
                             // Consulta de pacientes
                             $patientstmt = Conexion::conectar()->prepare("SELECT * FROM patients");
@@ -224,7 +227,7 @@ include("../modelos/conexion.php");
                                     <h3>Hola de nuevo!</h3>
                                     <h1><?php echo $username  ?>.</h1>
                                     <p>Gracias por unirte a nosotros. Siempre estamos tratando de brindarle un servicio completo.<br>
-                                        ¡Puede ver su horario diario, llegar a la cita de los pacientes en casa!<br><br>
+                                        ¡Puede ver su horario diario, llegar a la cita de los pacientes!<br><br>
                                     </p>
                                     <a href="appointment.php" class="non-style-link"><button class="btn-primary btn" style="width:30%">Ver Mis Citas</button></a>
                                     <br>
@@ -313,13 +316,6 @@ include("../modelos/conexion.php");
                 </table>
                         </center>
 
-
-
-
-
-
-
-
                 </td>
                 <td>
 
@@ -354,14 +350,18 @@ include("../modelos/conexion.php");
                                         $nextweek = date("Y-m-d", strtotime("+1 week"));
                                         
                                         // Modifica tu consulta SQL aquí
-                                        $sqlmain = "SELECT schedule.scheduleid, schedule.title, medics.name_medic, schedule.scheduledate, schedule.scheduletime, schedule.nop
-                                                    FROM schedule
-                                                    INNER JOIN medics ON schedule.id_medic = medics.id_medic
-                                                    WHERE schedule.scheduledate >= '$today' AND schedule.scheduledate <= '$nextweek'
-                                                    ORDER BY schedule.scheduledate DESC";
+                                        $sqlmain = "SELECT
+                                        schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop
+                                        FROM schedule
+                                        INNER JOIN medics ON schedule.id_medic=medics.id_medic
+                                        WHERE schedule.scheduledate>='$today' AND schedule.scheduledate<='$nextweek' 
+                                        ORDER BY schedule.scheduledate DESC";
                                         
-                                        $statement = $conexion->query($sqlmain);
+                                        $statement = $conexion->prepare($sqlmain);
+                                        $statement->execute();
                                         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                        // var_dump($result);
+                                        // exit();
 
                                         if (empty($result)) {
                                             echo '<tr>

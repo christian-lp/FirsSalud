@@ -18,7 +18,7 @@ if (session_status() == PHP_SESSION_NONE)
             header("Location: sitio/admin/dashboard.php"); // Reemplaza 'index_usuario.php' con la URL del index de usuario
             exit();
         }
-         else {
+        else {
             // Manejar otros roles o redirigir a una página predeterminada
             header("Location: index.php");
             exit();
