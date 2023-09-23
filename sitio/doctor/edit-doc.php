@@ -1,7 +1,5 @@
 <?php
 
-
-
 //import database
 include("../modelos/conexion.php");
 $database = Conexion::conectar();
@@ -9,14 +7,15 @@ $database = Conexion::conectar();
 if ($_POST) {
     //print_r($_POST);
     $result = $database->prepare("select * from medics");
+    $result->execute();
     $name = $_POST['name_medic'];
     $oldemail = $_POST["oldemail"];
-    $dni = $_POST['dni_medic'];
+    $matri = $_POST['matricul_medic'];
     $spec = $_POST['specialty_medic'];
     $email = $_POST['email_medic'];
     $tele = $_POST['phone_medic'];
     $password = $_POST['password_medic'];
-    $cpassword = $_POST['cpassword'];
+    $cpassword = $_POST['cpassword_medic'];
     $id = $_POST['id00'];
 
     if ($password == $cpassword) {
@@ -31,7 +30,7 @@ if ($_POST) {
             $id2 = $id;
         }
 
-        echo $id2 . "jdfjdfdh";
+        // echo $id2 . "jdfjdfdh";
         if ($id2 != $id) {
             $error = '1';
             //$resultqq1= $database->query("select * from doctor where docemail='$email';");
@@ -41,13 +40,13 @@ if ($_POST) {
         } else {
 
             //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-            $sql1 = "update medics set email_medic='$email',name_medic='$name',password_medic='$password',dni_medid='$dni',phone_medic='$tele',specialty_medic=$spec where id_medic=$id ;";
+            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$password',matricul_medic='$matri',phone_medic='$tele',specialty_medic=$spec 
+            WHERE id_medic=$id ;";
             $result = $database->prepare($sql1);
             $result->execute();
             // $sql1 = "update webuser set email='$email' where email='$oldemail' ;";
             // $database->query($sql1);
-
-            echo $sql1;
+            //echo $sql1;
             //echo $sql2;
             $error = '4';
         }

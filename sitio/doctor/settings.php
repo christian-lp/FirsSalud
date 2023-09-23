@@ -1,3 +1,36 @@
+<?php
+
+    session_start();
+
+    if (isset($_SESSION["usr_rol"])) {
+        if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '2') {
+            header("location: ../vistas/login/login.php");
+        } else {
+            $useremail = $_SESSION["email_medic"];
+        }
+    } else {
+        header("location: ../vistas/login/login.php");
+    }
+
+    //import link
+    include("../modelos/conexion.php");
+    $database = Conexion::conectar();
+
+    $sql = "select * from medics where email_medic ='$useremail'";
+    // Prepara la consulta SQL
+    $stmt = $database->prepare($sql);
+    $stmt->bindParam(1, $useremail, PDO::PARAM_STR);
+
+    // Si se está ejecutando la sentencia SQL
+    if ($stmt->execute())
+    {
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userid = $resultado["id_medic"];
+        $username = $resultado["name_medic"];
+        // var_dump($userid);
+        // exit();
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,35 +64,6 @@
 </head>
 
 <body>
-    <?php
-
-    //learn from w3schools.com
-
-    session_start();
-
-    if (isset($_SESSION["user"])) {
-        if (($_SESSION["user"]) == "" or $_SESSION['usertype'] != 'd') {
-            header("location: ../login.php");
-        } else {
-            $useremail = $_SESSION["user"];
-        }
-    } else {
-        header("location: ../login.php");
-    }
-
-
-    //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from doctor where docemail='$useremail'");
-    $userfetch = $userrow->fetch_assoc();
-    $userid = $userfetch["docid"];
-    $username = $userfetch["docname"];
-
-
-    //echo $userid;
-    //echo $username;
-
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -156,16 +160,16 @@
                     </p>
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
-                        date_default_timezone_set('America/Bogota');
+                        date_default_timezone_set('America/Argentina/Buenos_Aires');
 
                         $today = date('d-M-Y');
                         echo $today;
 
 
-                        $patientrow = $database->query("select  * from  patient;");
-                        $doctorrow = $database->query("select  * from  doctor;");
-                        $appointmentrow = $database->query("select  * from  appointment where appodate>='$today';");
-                        $schedulerow = $database->query("select  * from  schedule where scheduledate='$today';");
+                        $patientrow = $database->prepare("select  * from  patients;");
+                        $doctorrow = $database->prepare("select  * from  medics;");
+                        $appointmentrow = $database->prepare("select  * from  appointment where appodate>='$today';");
+                        $schedulerow = $database->prepare("select  * from  schedule where scheduledate='$today';");
 
 
                         ?>
@@ -191,7 +195,7 @@
                                 <td style="width: 25%;">
                                     <a href="?action=edit&id=<?php echo $userid ?>&error=0" class="non-style-link">
                                         <div class="dashboard-items setting-tabs" style="padding:20px;margin:auto;width:95%;display: flex">
-                                            <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../img/icons/doctors-hover.svg');"></div>
+                                            <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../../img/icons/doctors-hover.svg');"></div>
                                             <div>
                                                 <div class="h1-dashboard">
                                                     Configuración de Cuenta &nbsp;
@@ -217,7 +221,7 @@
                                 <td style="width: 25%;">
                                     <a href="?action=view&id=<?php echo $userid ?>" class="non-style-link">
                                         <div class="dashboard-items setting-tabs" style="padding:20px;margin:auto;width:95%;display: flex;">
-                                            <div class="btn-icon-back dashboard-icons-setting " style="background-image: url('../img/icons/view-iceblue.svg');"></div>
+                                            <div class="btn-icon-back dashboard-icons-setting " style="background-image: url('../../img/icons/view-iceblue.svg');"></div>
                                             <div>
                                                 <div class="h1-dashboard">
                                                     Ver Información de Cuenta
@@ -242,7 +246,7 @@
                                 <td style="width: 25%;">
                                     <a href="?action=drop&id=<?php echo $userid . '&name=' . $username ?>" class="non-style-link">
                                         <div class="dashboard-items setting-tabs" style="padding:20px;margin:auto;width:95%;display: flex;">
-                                            <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../img/icons/patients-hover.svg');"></div>
+                                            <div class="btn-icon-back dashboard-icons-setting" style="background-image: url('../../img/icons/patients-hover.svg');"></div>
                                             <div>
                                                 <div class="h1-dashboard" style="color: #ff5050;">
                                                     Eliminar Cuenta
@@ -293,18 +297,20 @@
             </div>
             ';
         } elseif ($action == 'view') {
-            $sqlmain = "select * from doctor where docid='$id'";
-            $result = $database->query($sqlmain);
-            $row = $result->fetch_assoc();
-            $name = $row["docname"];
-            $email = $row["docemail"];
-            $spe = $row["specialties"];
+            $sqlmain = "select * from medics where id_medic='$id'";
+            $result = $database->prepare($sqlmain);
+            $result->execute();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name_medic"];
+            $email = $row["email_medic"];
+            $spe = $row["specialty_medic"];
 
-            $spcil_res = $database->query("select sname from specialties where id='$spe'");
-            $spcil_array = $spcil_res->fetch_assoc();
-            $spcil_name = $spcil_array["sname"];
-            $nic = $row['docnic'];
-            $tele = $row['doctel'];
+            $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
+            $spcil_res->execute();
+            $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
+            $spcil_name = $spcil_array["specialty_name"];
+            $matri = $row['matricul_medic'];
+            $tele = $row['phone_medic'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -312,7 +318,7 @@
                         <h2></h2>
                         <a class="close" href="settings.php">&times;</a>
                         <div class="content">
-                            ConfiguroWeb<br>
+                            MEDIC<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -353,7 +359,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $nic . '<br><br>
+                                ' . $matri . '<br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -385,7 +391,7 @@
                                 </td>
                 
                             </tr>
-                           
+                    
 
                         </table>
                         </div>
@@ -395,22 +401,23 @@
             </div>
             ';
         } elseif ($action == 'edit') {
-            $sqlmain = "select * from doctor where docid='$id'";
-            $result = $database->query($sqlmain);
-            $row = $result->fetch_assoc();
-            $name = $row["docname"];
-            $email = $row["docemail"];
-            $spe = $row["specialties"];
+            $sqlmain = "select * from medics where id_medic='$id'";
+            $result = $database->prepare($sqlmain);
+            $result->execute();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name_medic"];
+            $email = $row["email_medic"];
+            $spe = $row["specialty_medic"];
 
-            $spcil_res = $database->query("select sname from specialties where id='$spe'");
-            $spcil_array = $spcil_res->fetch_assoc();
-            $spcil_name = $spcil_array["sname"];
-            $nic = $row['docnic'];
-            $tele = $row['doctel'];
+            $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
+            $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
+            $spcil_name = $spcil_array["specialty_name"];
+            $matri = $row['matricul_medic'];
+            $tele = $row['phone_medic'];
 
             $error_1 = $_GET["error"];
             $errorlist = array(
-                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>',
+                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con esta direccion de E-mail.</label>',
                 '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
                 '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
                 '4' => "",
@@ -449,30 +456,30 @@
                                     <tr>
                                         <td class="label-td" colspan="2">
                                         <input type="hidden" name="oldemail" value="' . $email . '" >
-                                        <input type="email" name="email" class="input-text" placeholder="Email Address" value="' . $email . '" required><br>
+                                        <input type="email" name="email_medic" class="input-text" placeholder="Email Address" value="' . $email . '" required><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         
                                         <td class="label-td" colspan="2">
-                                            <label for="name" class="form-label">Nombre: </label>
+                                            <label for="name_medic" class="form-label">Nombre: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="name" class="input-text" placeholder="Nombre Doctor" value="' . $name . '" required><br>
+                                            <input type="text" name="name_medic" class="input-text" placeholder="Nombre Doctor" value="' . $name . '" required><br>
                                         </td>
                                         
                                     </tr>
                                     
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="nic" class="form-label">DNI: </label>
+                                            <label for="matricul_medic" class="form-label">Matricula: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="nic" class="input-text" placeholder="Número de Documento" value="' . $nic . '" required><br>
+                                            <input type="text" name="matricul_medic" class="input-text" placeholder="Número de Matricula" value="' . $matri . '" required><br>
                                         </td>
                                     </tr>
                                     <tr>
@@ -482,52 +489,49 @@
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="tel" name="Tele" class="input-text" placeholder="Teléfono Móvil" value="' . $tele . '" required><br>
+                                            <input type="tel" name="phone_medic" class="input-text" placeholder="Teléfono Móvil" value="' . $tele . '" required><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="spec" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
+                                            <label for="specialty_medic" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
                                             
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <select name="spec" id="" class="box">';
+                                            <select name="specialty_medic" id="" class="box">';
 
-
-                $list11 = $database->query("select  * from  specialties;");
-
-                for ($y = 0; $y < $list11->num_rows; $y++) {
-                    $row00 = $list11->fetch_assoc();
-                    $sn = $row00["sname"];
-                    $id00 = $row00["id"];
-                    echo "<option value=" . $id00 . ">$sn</option><br/>";
-                };
-
-
-
-
-                echo     '       </select><br><br>
+                                $list11 = $database->prepare("select * from specialties;");
+                                $list11->execute();
+                                $rows = $list11->fetchAll(PDO::FETCH_ASSOC); // Usamos fetchAll para obtener todas las filas
+                                
+                                foreach ($rows as $row) { // Iteramos a través de todas las filas
+                                    $sn = $row["specialty_name"];
+                                    $id00 = $row["specialty_id"];
+                                    echo "<option value='$id00'>$sn</option><br/>";
+                                }
+                
+                                echo ' </select><br><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="password" class="form-label">Contraseña: </label>
+                                            <label for="password_medic" class="form-label">Contraseña: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="password" name="password" class="input-text" placeholder="Definir una Contraseña" required><br>
+                                            <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
                                         </td>
                                     </tr><tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="cpassword" class="form-label">Confirmar Contraseña: </label>
+                                            <label for="cpassword_medic" class="form-label">Confirmar Contraseña: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="password" name="cpassword" class="input-text" placeholder="Confirmar Contraseña" required><br>
+                                            <input type="password" name="cpassword_medic" class="input-text" placeholder="Confirmar Contraseña" required><br>
                                         </td>
                                     </tr>
                                     
@@ -566,7 +570,7 @@
                             <div style="display: flex;justify-content: center;">
                             
                             <a href="settings.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
-                            <a href="../logout.php" class="non-style-link"><button  class="btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;Cerrar Sesión&nbsp;&nbsp;</font></button></a>
+                            <a href="../vistas/login/logout.php" class="non-style-link"><button  class="btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;Cerrar Sesión&nbsp;&nbsp;</font></button></a>
 
                             </div>
                             <br><br>
