@@ -354,7 +354,7 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">DNI: </label>
+                                    <label for="nic" class="form-label">N° de Matricula: </label>
                                 </td>
                             </tr>
                             <tr>
