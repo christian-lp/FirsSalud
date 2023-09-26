@@ -469,96 +469,96 @@ if (session_status() == PHP_SESSION_NONE)
                 <div class="item active">
                   <div class="col-md-4 col-sm-6">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Emergency Contraception</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Anticoncepción de Emergencia</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Una excelente ayuda en momentos urgentes. Altamente recomendada.</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
                       <img src="img/testimonials/1.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Anna</a>
-                      <span>Chicago, Illinois</span>
+                      <a title="" href="#">Ana Miranda</a>
+                      <span>Parque San Martín, Buenos Aires</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Orthopedic Surgery</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
+                      <a title="" href="#">Cirugía Ortopédica</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
                         <span
                           data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Como paciente de cirugía ortopédica, esta aplicación ha hecho que coordinar mis citas y procedimientos sea muy fácil. Una gran ayuda en mi camino hacia una recuperación exitosa</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
                       <img src="img/testimonials/2.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Matthew G</a>
-                      <span>San Antonio, Texas</span>
+                      <a title="" href="#">Juan Flores</a>
+                      <span>Libertad, Merlo</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Medical consultation</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Consulta Médica</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Gracias a esta aplicación, agendar consultas médicas es muy sencillo. Una herramienta imprescindible para cuidar mi salud.</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
                       <img src="img/testimonials/3.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Scarlet Smith</a>
-                      <span>Dallas, Texas</span>
+                      <a title="" href="#">María Fernández</a>
+                      <span>Padúa, Buenos Aires</span>
                     </div>
                   </div>
                 </div>
                 <div class="item">
                   <div class="col-md-4 col-sm-6">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Birth control pills</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Cardiología</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Esta aplicación ha simplificado enormemente la gestión de mis citas cardiológicas. ¡Muy útil para cuidar mi salud cardíaca!</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
                       <img src="img/testimonials/4.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Lucas Thompson</a>
-                      <span>Austin, Texas</span>
+                      <a title="" href="#">Pedro Rodríguez</a>
+                      <span>Merlo, Buenos Aires</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Radiology</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
+                      <a title="" href="#">Radiología</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
                         <span
                           data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Esta aplicación ha hecho que gestionar mis citas de radiología sea pan comido. Programar exámenes y obtener resultados nunca ha sido tan fácil. ¡Un gran aliado para quienes necesitamos radiología regularmente!</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
                       <img src="img/testimonials/5.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Ella Mentree</a>
-                      <span>Fort Worth, Texas</span>
+                      <a title="" href="#">Karina Solano</a>
+                      <span>Moreno, Buenos Aires</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Cervical Lesions</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Lesión Cervical</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Tuve una lesión cervical y esta aplicación me ha facilitado mucho la programación de citas con especialistas. Es una herramienta imprescindible para gestionar mi salud de manera rápida y sencilla</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
                       <img src="img/testimonials/6.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Suzanne Adam</a>
-                      <span>Detroit, Michigan</span>
+                      <a title="" href="#">Susana Pérez</a>
+                      <span>Castelar, Buenos Aires</span>
                     </div>
                   </div>
                 </div>
@@ -670,8 +670,8 @@ if (session_status() == PHP_SESSION_NONE)
           <div class="col-lg-8 col-lg-offset-2">
             <div class="wow lightSpeedIn" data-wow-delay="0.1s">
               <div class="section-heading text-center">
-                <h2 class="h-bold">Our partner</h2>
-                <p>Take charge of your health today with our specially designed health packages</p>
+                <h2 class="h-bold">Nuestros Socios</h2>
+                <p>Tomar el control de tu salud hoy con nuestros paquetes de salud especialmente diseñados.</p>
               </div>
             </div>
             <div class="divider-short"></div>
@@ -712,20 +712,20 @@ if (session_status() == PHP_SESSION_NONE)
           <div class="col-sm-6 col-md-4">
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>About SystemDNS</h5>
+                <h5>Sobre Medic</h5>
                 <p>
-                  Lorem ipsum dolor sit amet, ne nam purto nihil impetus, an facilisi accommodare sea
+                  Paquetes accesibles para todos. Los mejores especialistas del país y trabajamos con Obras Sociales
                 </p>
               </div>
             </div>
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>Information</h5>
+                <h5>Información</h5>
                 <ul>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Laboratory</a></li>
-                  <li><a href="#">Medical treatment</a></li>
-                  <li><a href="#">Terms & conditions</a></li>
+                  <li><a href="#">Inicio</a></li>
+                  <li><a href="#">Laboratorio</a></li>
+                  <li><a href="#">Tratamientos médicos</a></li>
+                  <li><a href="#">Términos y condiciones</a></li>
                 </ul>
               </div>
             </div>
@@ -733,28 +733,28 @@ if (session_status() == PHP_SESSION_NONE)
           <div class="col-sm-6 col-md-4">
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>SystemDNS center</h5>
+                <h5>MEDIC MEDICINA GROUP</h5>
                 <p>
-                  Nam leo lorem, tincidunt id risus ut, ornare tincidunt naqunc sit amet.
+                Brindamos atencion medica de la mejor calidad.
                 </p>
                 <ul>
                   <li>
                     <span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-calendar-o fa-stack-1x fa-inverse"></i>
-								</span> Monday - Saturday, 8am to 10pm
+								</span> Lunes - Sábado, 8am a 10pm
                   </li>
                   <li>
                     <span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-phone fa-stack-1x fa-inverse"></i>
-								</span> +62 0888 904 711
+								</span> +54 911 4180 0545
                   </li>
                   <li>
                     <span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-								</span> hello@SystemDNS.com
+								</span> info@medic.com
                   </li>
 
                 </ul>
@@ -764,14 +764,14 @@ if (session_status() == PHP_SESSION_NONE)
           <div class="col-sm-6 col-md-4">
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>Our location</h5>
-                <p>The Suithouse V303, Kuningan City, Jakarta Indonesia 12940</p>
+                <h5>Nuestra ubicación</h5>
+                <p>Libertad, Merlo, Buenos Aires, Argentina</p>
 
               </div>
             </div>
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>Follow us</h5>
+                <h5>Síguenos</h5>
                 <ul class="company-social">
                   <li class="social-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
                   <li class="social-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
