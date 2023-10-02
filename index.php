@@ -131,7 +131,7 @@ if (session_status() == PHP_SESSION_NONE)
                   <ul class="lead-list">
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Paquetes premium mensuales</strong><br />Paquetes accesibles para todos</span></li>
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Doctores</strong><br />Los Mejores Especialistas del pais</span></li>
-                    <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Citas</strong><br />Podrás reservar un turno desde la comodidad de tu hogar o desde donde te encuentres</span></li>
+                    <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Citas</strong><br />Reservas de turnos online</span></li>
                    <!-- <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Obras Sociales Prepagas</strong><br />Trabajamos con Obras Sociales como OSDE - OMINT - SANCOR SALUD - IOMA - PAMI</span></li> -->
                   </ul>
                   <p class="text-right wow bounceIn" data-wow-delay="0.4s">
