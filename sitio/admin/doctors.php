@@ -44,7 +44,7 @@ if ($stmt->execute()) {
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/admin.css">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../img/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../img/Logo.png">
 
 
     <title>Doctores</title>
@@ -82,14 +82,13 @@ if ($stmt->execute()) {
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <a href="../logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
+                                    <a href="../vistas/login/logout.php"><input type="button" value="Cerrar Sesión" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
-                                
                             </tr>
                         </table>
                     </td>
@@ -317,7 +316,7 @@ if ($stmt->execute()) {
                                                                 </button>
                                                             </a>
                                                             &nbsp;&nbsp;&nbsp;
-                                                          
+                                                        
                                                             <a href="?action=toggle&id=' . $docid . '&name=' . $name . '" class="non-style-link">
                                                                 <button class="btn-primary-soft btn button-icon btn-toggle" 
                                                                 style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"
@@ -335,7 +334,7 @@ if ($stmt->execute()) {
                                             
                                     }
                                     ?>
-                                 <style>
+<style>
 .button-icon {
     width: 120px; /* Ancho fijo deseado para el botón */
     padding: 12px; /* Ajusta el espaciado según sea necesario */
@@ -535,8 +534,7 @@ buttons.forEach(function(button) {
                                 </td>
                 
                             </tr>
-                           
-
+                        
                         </table>
                         </div>
                     </center>
@@ -673,7 +671,7 @@ buttons.forEach(function(button) {
                                 </td>
                 
                             </tr>
-                           
+                        
                             </form>
                             </tr>
                         </table>
@@ -709,174 +707,177 @@ buttons.forEach(function(button) {
             }
         } 
         elseif ($action == 'edit') {
+            $database = Conexion::conectar();
             $sqlmain = "select * from medics where id_medic='$id'";
             $result = $database->prepare($sqlmain);
-            $result->execute(); // Ejecutar la consulta
-        
-            if ($result->rowCount() > 0) 
-            {
-                $row = $result->fetch(PDO::FETCH_ASSOC);
-                $name = $row["name_medic"];
-                $email = $row["email_medic"];
-                $spe = $row["specialty_medic"];
-                $dni = $row['dni_medic'];
-                $tele = $row['phone_medic'];
-        
-                // Realizar una consulta para obtener la especialidad actual del médico
-                $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id=:spe");
-                $spcil_res->bindParam(':spe', $spe, PDO::PARAM_INT);
-                $spcil_res->execute();
-                $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
-                $spcil_name = $spcil_array["specialty_name"];
-        
-                $error_1 = $_GET["error"];
-                $errorlist = array(
-                    '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Already have an account for this Email address.</label>',
-                    '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
-                    '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
-                    '4' => "",
-                    '0' => '',
-                );
-        
-                if ($error_1 != '4') {
-                    echo '
-                        <div id="popup1" class="overlay">
+            $result->execute();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name_medic"];
+            $email = $row["email_medic"];
+            $spe = $row["specialty_medic"];
+
+            $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
+            $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
+            $spcil_name = $spcil_array["specialty_name"];
+            $matri = $row['matricul_medic'];
+            $tele = $row['phone_medic'];
+
+            $error_1 = $_GET["error"];
+            $errorlist = array(
+                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con esta direccion de E-mail.</label>',
+                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
+                '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
+                '4' => "",
+                '0' => '',
+
+            );
+
+            if ($error_1 != '4') {
+                echo '
+                    <div id="popup1" class="overlay">
                             <div class="popup">
-                                <center>
-                                    <a class="close" href="doctors.php">&times;</a> 
-                                    <div style="display: flex;justify-content: center;">
-                                        <div class="abc">
-                                            <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                                                <tr>
-                                                    <td class="label-td" colspan="2">' .
-                        $errorlist[$error_1]
-                        . '</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Editar Información de Doctor</p>
-                                                        Doctor ID : ' . $id . ' (Auto Generado)<br><br>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="label-td" colspan="2">
-                                                        <form action="edit-doc.php" method="POST" class="add-new-form">
-                                                            <label for="Email" class="form-label">Correo: </label>
-                                                            <input type="hidden" value="' . $id . '" name="id00">
-                                                            <input type="hidden" name="oldemail_medic" value="' . $email . '" >
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <input type="email" name="email_medic" class="input-text" placeholder="Email Address" value="' . $email . '" required><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <label for="name_medic" class="form-label">Nombre: </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <input type="text" name="name_medic" class="input-text" placeholder="Nombre Doctor" value="' . $name . '" required><br>
-                                                        </td>
-                                                    </tr>
-                                                    
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <label for="dni_medic" class="form-label">DNI: </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <input type="text" name="dni_medic" class="input-text" placeholder="Número de Documento" value="' . $dni . '" required><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <label for="phone_medic" class="form-label">Teléfono: </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <input type="tel" name="phone_medic" class="input-text" placeholder="Teléfono Móvil" value="' . $tele . '" required><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <label for="specialty_medic" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <select name="specialty_medic" id="" class="box">';
-        
-                    $list11 = $database->prepare("select  * from  specialties;");
-                    $list11->execute();
-                    $num_rows = $list11->rowCount();
-        
-                    while ($row00 = $list11->fetch(PDO::FETCH_ASSOC)) {
-                        $sn = $row00["specialty_name"];
-                        $id00 = $row00["id_specialty"];
-                        // Comprobar si esta es la especialidad del médico actual
-                        $selected = ($id00 == $spe) ? 'selected' : '';
-                        echo "<option value='$id00' $selected>$sn</option><br/>";
-                    }
-        
-                    echo '       </select><br><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <label for="password_medic" class="form-label">Contraseña: </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
-                                                        </td>
-                                                    </tr><tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <label for="cpassword_medic" class="form-label">Confirmar Contraseña: </label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label-td" colspan="2">
-                                                            <input type="password" name="cpassword_medic" class="input-text" placeholder="Confirmar Contraseña" required><br>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            <input type="submit" value="Guardar" class="login-btn btn-primary btn">
-                                                        </td>
-                                                    </tr>
-                                                </form>
-                                            </tr>
-                                        </table>
-                                    </div>
+                            <center>
+                            
+                                <a class="close" href="settings.php">&times;</a> 
+                                <div style="display: flex;justify-content: center;">
+                                <div class="abc">
+                                <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                <tr>
+                                        <td class="label-td" colspan="2">' .
+                    $errorlist[$error_1]
+                    . '</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Editar Información de Doctor</p>
+                                        Doctor ID : ' . $id . ' (Auto Generado)<br><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <form action="edit-doc.php" method="POST" class="add-new-form">
+                                            <label for="Email" class="form-label">Correo: </label>
+                                            <input type="hidden" value="' . $id . '" name="id00">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                        <input type="hidden" name="oldemail" value="' . $email . '" >
+                                        <input type="email" name="email_medic" class="input-text" placeholder="Email Address" value="' . $email . '" required><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        
+                                        <td class="label-td" colspan="2">
+                                            <label for="name_medic" class="form-label">Nombre: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="text" name="name_medic" class="input-text" placeholder="Nombre Doctor" value="' . $name . '" required><br>
+                                        </td>
+                                        
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="matricul_medic" class="form-label">Matricula: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="text" name="matricul_medic" class="input-text" placeholder="Número de Matricula" value="' . $matri . '" required><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="Tele" class="form-label">Teléfono: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="tel" name="phone_medic" class="input-text" placeholder="Teléfono Móvil" value="' . $tele . '" required><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="specialty_medic" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <select name="specialty_medic" id="" class="box">';
+
+                                $list11 = $database->prepare("select * from specialties;");
+                                $list11->execute();
+                                $rows = $list11->fetchAll(PDO::FETCH_ASSOC); // Usamos fetchAll para obtener todas las filas
+                                
+                                foreach ($rows as $row) { // Iteramos a través de todas las filas
+                                    $sn = $row["specialty_name"];
+                                    $id00 = $row["specialty_id"];
+                                    echo "<option value='$id00'>$sn</option><br/>";
+                                }
+                
+                                echo ' </select><br><br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="password_medic" class="form-label">Contraseña: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
+                                        </td>
+                                    </tr><tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="cpassword_medic" class="form-label">Confirmar Contraseña: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="password" name="cpassword_medic" class="input-text" placeholder="Confirmar Contraseña" required><br>
+                                        </td>
+                                    </tr>
+                                    
+                        
+                                    <tr>
+                                        <td colspan="2">
+                                            <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        
+                                            <input type="submit" value="Guardar" class="login-btn btn-primary btn">
+                                        </td>
+                        
+                                    </tr>
+                                
+                                    </form>
+                                    </tr>
+                                </table>
+                                </div>
                                 </div>
                             </center>
                             <br><br>
-                        </div>
                     </div>
-                ';
-            }
-        } else {
+                    </div>
+                    ';
+            } else {
                 echo '
                 <div id="popup1" class="overlay">
                         <div class="popup">
                         <center>
                         <br><br><br><br>
                             <h2>Edición Exitosa</h2>
-                            <a class="close" href="doctors.php">&times;</a>
+                            <a class="close" href="settings.php">&times;</a>
                             <div class="content">
-                                
+                            Si cambia su correo electrónico también, cierre la sesión y vuelva a iniciar sesión con su nuevo correo electrónico
                                 
                             </div>
                             <div style="display: flex;justify-content: center;">
                             
                             <a href="doctors.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
+                            <!-- <a href="../vistas/login/logout.php" class="non-style-link"><button  class="btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;Cerrar Sesión&nbsp;&nbsp;</font></button></a> -->
 
                             </div>
                             <br><br>
@@ -885,9 +886,8 @@ buttons.forEach(function(button) {
                 </div>
     ';
             };
-        };
-    };
-
+        }
+    }
     ?>
     </div>
 

@@ -144,7 +144,11 @@ if ($stmt->execute()) {
     </table>
     </div>
     <?php
-    $sqlmain = "SELECT * FROM schedule INNER JOIN medics ON schedule.id_medic = medics.id_medic WHERE schedule.scheduledate >= :today ORDER BY schedule.scheduledate ASC";
+    $sqlmain = "SELECT * FROM schedule 
+    INNER JOIN medics ON schedule.id_medic = medics.id_medic 
+    WHERE schedule.scheduledate >= :today 
+    ORDER BY schedule.scheduledate ASC";
+    
     $sqlpt1 = "";
     $insertkey = "";
     $q = '';
@@ -153,7 +157,9 @@ if ($stmt->execute()) {
     if ($_POST) {
         if (!empty($_POST["search"])) {
             $keyword = $_POST["search"];
-            $sqlmain = "SELECT * FROM schedule INNER JOIN medics ON schedule.id_medic = medics.id_medic WHERE schedule.scheduledate >= :today AND (medics.name_medic = :keyword OR medics.name_medic LIKE :keywordLike OR schedule.title = :keyword OR schedule.title LIKE :keywordLike OR schedule.scheduledate LIKE :keywordLike) ORDER BY schedule.scheduledate ASC";
+            $sqlmain = "SELECT * FROM schedule
+            INNER JOIN medics ON schedule.id_medic = medics.id_medic
+            WHERE schedule.scheduledate >= :today AND (medics.name_medic = :keyword OR medics.name_medic LIKE :keywordLike OR schedule.title = :keyword OR schedule.title LIKE :keywordLike OR schedule.scheduledate LIKE :keywordLike) ORDER BY schedule.scheduledate ASC";
             $insertkey = $keyword;
             $searchtype = "Resultados de búsqueda: ";
             $q = '"';
@@ -287,43 +293,41 @@ if ($stmt->execute()) {
                                 </tr>';
                                 } else {
                                     //echo $rowCount;
+                                    echo '<table style="width: 100%;">'; // Añade el estilo para que la tabla ocupe el 100% del ancho disponible
                                     for ($x = 0; $x < $rowCount; $x++) {
-                                        echo "<tr>";
-                                        for ($q = 0; $q < 3; $q++) {
-                                            $row = $result[$x];
-                                            $scheduleid = isset($row["scheduleid"]) ? $row["scheduleid"] : '';
-                                            $title = isset($row["title"]) ? $row["title"] : '';
-                                            $docname = isset($row["name_medic"]) ? $row["name_medic"] : '';
-                                            $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
-                                            $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
-
-                                            if ($scheduleid == "") {
-                                                break;
-                                            }
-
-                                            echo '
-                                            <td style="width: 25%;">
-                                                    <div class="dashboard-items search-items">
-
-                                                        <div style="width:100%">
-                                                                <div class="h1-search">
-                                                                    ' . substr($title, 0, 21) . '
-                                                                </div><br>
-                                                                <div class="h3-search">
-                                                                    ' . substr($docname, 0, 30) . '
-                                                                </div>
-                                                                <div class="h4-search">
-                                                                    ' . $scheduledate . '<br>Empieza: <b>@' . substr($scheduletime, 0, 5) . '</b> (24h)
-                                                                </div>
-                                                                <br>
-                                                                <a href="booking.php?id=' . $scheduleid . '" ><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Reservar Ahora</font></button></a>
-                                                        </div>
-
-                                                    </div>
-                                                </td>';
+                                        if ($x % 3 == 0) {
+                                            echo '<tr>'; // Comienza una nueva fila cada tres citas
                                         }
-                                        echo "</tr>";
+                                    
+                                        $row = $result[$x];
+                                        $scheduleid = isset($row["scheduleid"]) ? $row["scheduleid"] : '';
+                                        $title = isset($row["title"]) ? $row["title"] : '';
+                                        $docname = isset($row["name_medic"]) ? $row["name_medic"] : '';
+                                        $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
+                                        $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
+                                    
+                                        if ($scheduleid == "") {
+                                            break; // Si no hay más citas, sal del bucle
+                                        }
+                                    
+                                        echo '<td style="width: 33.33%; text-align: center;">'; // Establece el ancho y centra el contenido
+                                        echo '<div class="dashboard-items search-items">';
+                                        echo '<div style="width:100%">';
+                                        echo '<div class="h1-search">' . substr($title, 0, 21) . '</div><br>';
+                                        echo '<div class="h3-search"><b>' . substr($docname, 0, 30) . '</div>';
+                                        echo '<div class="h4-search">' . $scheduledate . '<br>Empieza: ' . substr($scheduletime, 0, 5) . 'hs.</b></div><br>';
+                                        echo '<a href="booking.php?id=' . $scheduleid . '" ><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Reservar Ahora</font></button></a>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</td>';
+                                    
+                                        if (($x + 1) % 3 == 0 || $x == $rowCount - 1) {
+                                            echo '</tr>'; // Cierra la fila después de mostrar tres citas o si es la última cita
+                                        }
                                     }
+                                    echo '</table>'; // Cierra la tabla
+                                    
+                                    
                                 }
 
                                 ?>

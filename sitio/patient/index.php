@@ -361,58 +361,44 @@ if ($stmt->execute()) {
                         <div class="abc scroll" style="height: 250px;padding: 0;margin: 0;">
                             <table width="85%" class="sub-table scrolldown" border="0">
                                 <thead>
-
                                     <tr>
                                         <th class="table-headin">
-
-
                                             Número de Citas
-
                                         </th>
                                         <th class="table-headin">
-
-
                                             Cita
-
                                         </th>
-
                                         <th class="table-headin">
                                             Doctor
                                         </th>
                                         <th class="table-headin">
-
                                             Fecha y Hora Programadas
-
                                         </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 <?php
                                 try {
                                     $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                    $sqlmain = "SELECT * FROM schedule
-                                                INNER JOIN appointment ON schedule.scheduleid = appointment.scheduleid
-                                                INNER JOIN patients ON patients.id_patient = appointment.patient_id
-                                                INNER JOIN medics ON schedule.id_medic = medics.id_medic
-                                                WHERE patients.id_patient = :userid AND schedule.scheduledate >= :today
-                                                ORDER BY schedule.scheduledate ASC";
+                                    //$sqlmain = $sqlmain = "select * from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where  patients.id_patient=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
+                                    $sqlmain = "SELECT * FROM schedule 
+                                    INNER JOIN appointment ON schedule.scheduleid=appointment.schedule_id
+                                    INNER JOIN patients ON patients.id_patient=appointment.patient_id 
+                                    INNER JOIN medics ON medics.id_medic=schedule.id_medic
+                                    WHERE patients.id_patient=$userid";
 
                                     $stmt = Conexion::conectar()->prepare($sqlmain);
-                                    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
-                                    $stmt->bindParam(':today', $today, PDO::PARAM_STR);
                                     $stmt->execute();
-
                                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+                                    // var_dump($result);
+                                    // exit();
+                                    
                                     if (empty($result)) {
                                         echo '<tr>
                                                 <td colspan="4">
                                                 <br><br><br><br>
                                                 <center>
                                                 <img src="../../img/notfound.svg" width="25%">
-
                                                 <br>
                                                 <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Sin información que mostrar!</p>
                                                 <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Doctor &nbsp;</font></button>

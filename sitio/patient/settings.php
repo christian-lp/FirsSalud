@@ -6,31 +6,14 @@ if (isset($_SESSION["usr_rol"])) {
         header("location: ../vistas/login/login.php");
     } else {
         $useremail = $_SESSION["email"];
+        $username = $_SESSION["name"];
     }
 } else {
     header("location: ../vistas/login/login.php");
 }
 
-
 //import link
 include("../modelos/conexion.php");
-
-$sql = "SELECT * FROM patients WHERE email = $useremail";
-// Prepara la consulta SQL
-$stmt = Conexion::conectar()->prepare($sql);
-$stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
-
-// Si se está ejecutando la sentencia SQL
-if ($stmt->execute()) {
-    $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
-    if ($resultado) {
-        $userid = $resultado["id_patient"];
-        $username = $resultado["name"];
-    } else {
-        // No se encontraron resultados
-        // Puedes manejar esto según tus necesidades
-    }
-}
 
 ?>
 

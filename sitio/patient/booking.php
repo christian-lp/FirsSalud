@@ -221,7 +221,12 @@
                                     if (($_GET)) {
 
                                         if (isset($_GET["id"])) {
-
+                                            $list12 = $database->prepare("select DISTINCT * from  schedule;");
+                                            $list12->execute();
+                                            $num_rows12 = $list12->rowCount();
+                                            // var_dump($num_rows12);
+                                            // exit();
+                        
 
                                             $id = $_GET["id"];
                                             // var_dump($id);

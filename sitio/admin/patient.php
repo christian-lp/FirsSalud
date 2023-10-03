@@ -331,6 +331,7 @@ $database = Conexion::conectar();
         $dni = $row["dni"];
         $surn = $row["surname"];
         $tele = $row["phone"];
+        $birth = $row["day_of_birth"];
         //$address = $row["paddress"];
         echo '
             <div id="popup1" class="overlay">
@@ -369,7 +370,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    ' . $name . '<br><br>
+                                    ' . $name . '<br>
                                 </td>
                                 
                             </tr>
@@ -380,7 +381,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $email . '<br><br>
+                                ' . $email . '<br>
                                 </td>
                             </tr>
                             <tr>
@@ -390,7 +391,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $dni . '<br><br>
+                                ' . $dni . '<br>
                                 </td>
                             </tr>
                             <tr>
@@ -400,7 +401,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $tele . '<br><br>
+                                ' . $tele . '<br>
                                 </td>
                             </tr>
                             <tr>
@@ -411,7 +412,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                             <td class="label-td" colspan="2">
-                            ' . $address . '<br><br>
+                            ' . $address . '<br>
                             </td>
                             </tr>
                             <tr>
@@ -422,7 +423,7 @@ $database = Conexion::conectar();
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    ' . $surn . '<br><br>
+                                    ' . $birth . '<br><br>
                                 </td>
                                 
                             </tr>

@@ -474,7 +474,7 @@ if (isset($_SESSION['usr_rol']) == "") {
 
 
     <!-- Section: testimonial -->
-    <section id="testimonial" class="home-section paddingbot-60 parallax" data-stellar-background-ratio="0.5">
+    <!-- <section id="testimonial" class="home-section paddingbot-60 parallax" data-stellar-background-ratio="0.5">
 
       <div class="carousel-reviews broun-block">
         <div class="container">
@@ -592,19 +592,18 @@ if (isset($_SESSION['usr_rol']) == "") {
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- /Section: testimonial -->
 
 
-   
     <section id="partner" class="home-section paddingbot-60">
       <div class="container marginbot-50">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
             <div class="wow lightSpeedIn" data-wow-delay="0.1s">
               <div class="section-heading text-center">
-                <h2 class="h-bold">Our partner</h2>
-                <p>Take charge of your health today with our specially designed health packages</p>
+                <h2 class="h-bold">Nuestros Socios</h2>
+                <p>Tomar el control de tu salud hoy con nuestros paquetes de salud especialmente diseñados.</p>
               </div>
             </div>
             <div class="divider-short"></div>
@@ -616,22 +615,22 @@ if (isset($_SESSION['usr_rol']) == "") {
         <div class="row">
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="../../img/dummy/partner-1.jpg" alt="" /></a>
+              <a href="#"><img src="img/dummy/partner-1.jpg" alt="" /></a>
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="../../img/dummy/partner-2.jpg" alt="" /></a>
+              <a href="#"><img src="img/dummy/partner-2.jpg" alt="" /></a>
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="../../img/dummy/partner-3.jpg" alt="" /></a>
+              <a href="#"><img src="img/dummy/partner-3.jpg" alt="" /></a>
             </div>
           </div>
           <div class="col-sm-6 col-md-3">
             <div class="partner">
-              <a href="#"><img src="../../img/dummy/partner-4.jpg" alt="" /></a>
+              <a href="#"><img src="img/dummy/partner-4.jpg" alt="" /></a>
             </div>
           </div>
         </div>
@@ -645,20 +644,20 @@ if (isset($_SESSION['usr_rol']) == "") {
           <div class="col-sm-6 col-md-4">
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>About SystemDNS</h5>
+                <h5>Sobre Medic</h5>
                 <p>
-                  Lorem ipsum dolor sit amet, ne nam purto nihil impetus, an facilisi accommodare sea
+                  Paquetes accesibles para todos. Los mejores especialistas del país y trabajamos con Obras Sociales
                 </p>
               </div>
             </div>
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>Information</h5>
+                <h5>Información</h5>
                 <ul>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="#">Laboratory</a></li>
-                  <li><a href="#">Medical treatment</a></li>
-                  <li><a href="#">Terms & conditions</a></li>
+                  <li><a href="#">Inicio</a></li>
+                  <li><a href="#">Laboratorio</a></li>
+                  <li><a href="#">Tratamientos médicos</a></li>
+                  <li><a href="#">Términos y condiciones</a></li>
                 </ul>
               </div>
             </div>
@@ -666,28 +665,28 @@ if (isset($_SESSION['usr_rol']) == "") {
           <div class="col-sm-6 col-md-4">
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>SystemDNS center</h5>
+                <h5>MEDIC MEDICINA GROUP</h5>
                 <p>
-                  Nam leo lorem, tincidunt id risus ut, ornare tincidunt naqunc sit amet.
+                Brindamos atencion medica de la mejor calidad.
                 </p>
                 <ul>
                   <li>
                     <span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-calendar-o fa-stack-1x fa-inverse"></i>
-								</span> Monday - Saturday, 8am to 10pm
+								</span> Lunes - Sábado, 8am a 10pm
                   </li>
                   <li>
                     <span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-phone fa-stack-1x fa-inverse"></i>
-								</span> +62 0888 904 711
+								</span> +54 911 4180 0545
                   </li>
                   <li>
                     <span class="fa-stack fa-lg">
 									<i class="fa fa-circle fa-stack-2x"></i>
 									<i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-								</span> hello@SystemDNS.com
+								</span> info@medic.com
                   </li>
 
                 </ul>
@@ -697,14 +696,14 @@ if (isset($_SESSION['usr_rol']) == "") {
           <div class="col-sm-6 col-md-4">
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>Our location</h5>
-                <p>The Suithouse V303, Kuningan City, Jakarta Indonesia 12940</p>
+                <h5>Nuestra ubicación</h5>
+                <p>Libertad, Merlo, Buenos Aires, Argentina</p>
 
               </div>
             </div>
             <div class="wow fadeInDown" data-wow-delay="0.1s">
               <div class="widget">
-                <h5>Follow us</h5>
+                <h5>Síguenos</h5>
                 <ul class="company-social">
                   <li class="social-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
                   <li class="social-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -742,21 +741,22 @@ if (isset($_SESSION['usr_rol']) == "") {
     </footer>
 
   </div>
-  <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
-  <!-- Core JavaScript Files -->
-  <script src="../../js/jquery.min.js"></script>
-  <script src="../../js/bootstrap.min.js"></script>
-  <script src="../../js/jquery.easing.min.js"></script>
-  <script src="../../js/wow.min.js"></script>
-  <script src="../../js/jquery.scrollTo.js"></script>
-  <script src="../../js/jquery.appear.js"></script>
-  <script src="../../js/stellar.js"></script>
-  <script src="../../plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
-  <script src="../../js/owl.carousel.min.js"></script>
-  <script src="../../js/nivo-lightbox.min.js"></script>
-  <script src="../../js/custom.js"></script>
+
+
+<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+
+<!-- Core JavaScript Files -->
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/jquery.easing.min.js"></script>
+<script src="../../js/wow.min.js"></script>
+<script src="../../js/jquery.scrollTo.js"></script>
+<script src="../../js/jquery.appear.js"></script>
+<script src="../../js/stellar.js"></script>
+<script src="../../plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+<script src="../../js/owl.carousel.min.js"></script>
+<script src="../../js/nivo-lightbox.min.js"></script>
+<script src="../../js/custom.js"></script>
 
 </body>
-
-</html>

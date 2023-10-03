@@ -300,7 +300,7 @@ if ($stmt->execute()) {
                                 </p>
                                 <p style="padding-bottom:19px;padding-left:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
                                     Aquí está el acceso rápido a las próximas citas hasta 7 días<br>
-                                    Más detalles disponibles en la sección de @Citas.
+                                    Más detalles disponibles en la sección de Citas.
                                 </p>
 
                             </td>
@@ -349,11 +349,24 @@ if ($stmt->execute()) {
 
                                                 <?php
                                                 $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                                $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patients on patient.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where schedule.scheduledate>='$today'  and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                                $today = date("Y-m-d");
+                                                $sqlmain = "SELECT * FROM appointment appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate
+                                                
+                                                INNER JOIN schedule
+                                                ON schedule.scheduleid=appointment.scheduleid
+                                                INNER JOIN patients
+                                                ON patient.id_patient=appointment.patient_id
+                                                INNER JOIN medics
+                                                ON schedule.id_medic=medics.id_medic
+                                                WHERE schedule.scheduledate >= '$today'
+                                                AND schedule.scheduledate<='$nextweek'
+                                                ORDER BY schedule.scheduledate DESC";
 
                                                 $result = Conexion::conectar()->prepare($sqlmain);
                                                 $result->execute();
                                                 $num_rows = $result->rowCount();
+                                                var_dump($num_rows);
+                                                exit();
 
                                                 if ($num_rows == 0) {
                                                     echo '<tr>
@@ -443,7 +456,10 @@ if ($stmt->execute()) {
 
                                                 <?php
                                                 $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                                $sqlmain = "select schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join medics on schedule.id_medic=medics.id_medic  where schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                                $today = date("Y-m-d");
+                                                $sqlmain = "SELECT schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop 
+                                                FROM schedule INNER JOIN medics ON schedule.id_medic=medics.id_medic
+                                                WHERE schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
                                                 $result = Conexion::conectar()->prepare($sqlmain);
                                                 $num_rows = $result->rowCount();
 
@@ -483,7 +499,7 @@ if ($stmt->execute()) {
                                                         </td>
 
                 
-                                                       
+                                                    
                                                     </tr>';
                                                     }
                                                 }
