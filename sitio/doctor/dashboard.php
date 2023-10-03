@@ -145,10 +145,10 @@ if (isset($_SESSION['usr_rol']) == "") {
                   <ul class="lead-list">
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Paquetes premium mensuales</strong><br />Paquetes accesibles para todos</span></li>
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Doctores</strong><br />Los Mejores Especialistas del pais</span></li>
-                    <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Obras Sociales Prepagas</strong><br />Trabajamos con Obras Sociales como OSDE - OMINT - SANCOR SALUD - IOMA - PAMI</span></li>
+                    <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Citas</strong><br />Reservas de turnos online</span></li>
                   </ul>
                   <p class="text-right wow bounceIn" data-wow-delay="0.4s">
-                    <a href="index-obrassociales.html" class="btn btn-skin btn-lg">LeerMas <i class="fa fa-angle-right"></i></a>
+                  <!-- <a href="index-obrassociales.html" class="btn btn-skin btn-lg">LeerMas <i class="fa fa-angle-right"></i></a> -->
                   </p>
                 </div>
               </div>
@@ -167,301 +167,77 @@ if (isset($_SESSION['usr_rol']) == "") {
 
     <!-- /Section: intro -->
 
-    <!-- Section: boxes -->
-    <section id="boxes" class="home-section paddingtop-80">
+   <!-- Section: boxes -->
+   <section id="boxes" class="home-section paddingtop-80">
 
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-3 col-md-3">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <div class="box text-center">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3 col-md-3">
+      <div class="wow fadeInUp" data-wow-delay="0.2s">
+        <div class="box text-center">
 
-                <i class="fa fa-check fa-3x circled bg-skin"></i>
-                <h4 class="h-bold">Saca tu turno desde la comodidad de tu casa</h4>
-                <p>
-                  Nuestro Web cuenta con la posibilidad de poder acceder a vuestra eleccion del dia y horario que se encuentra disponible 
-                  para tu atencion medica especializada.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3 col-md-3">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <div class="box text-center">
-
-                <i class="fa fa-list-alt fa-3x circled bg-skin"></i>
-                <h4 class="h-bold">Eleccion de Paquetes Premium accesibles</h4>
-                <p>
-                  Nuestros paquetes se encuentran diseñados para que todas las personas puedan disfrutar, del mejor servicio y atencion personalizada.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3 col-md-3">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <div class="box text-center">
-                <i class="fa fa-user-md fa-3x circled bg-skin"></i>
-                <h4 class="h-bold">Los especialistas Mas distinguidos y capacitados</h4>
-                <p>
-                  Doctores en las diversas ramas ofrecidas, te ayudaran y brindaran, la mejor atencion aplicada a las necesidades de los pacientes.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3 col-md-3">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <div class="box text-center">
-
-                <i class="fa fa-hospital-o fa-3x circled bg-skin"></i>
-                <h4 class="h-bold">Envio de Reportes por las diversas plataformas</h4>
-                <p>
-                  Contamos con las funciones de enviar resultados, por las distintas plataformas como E mail, whatsapp, o impresiones a travez de nuestra pagina con el codigo de verificacion.
-                </p>
-              </div>
-            </div>
-          </div>
+          <i class="fa fa-check fa-3x circled bg-skin"></i>
+          <h4 class="h-bold">Saca tu turno desde la comodidad de tu casa</h4>
+          <p>
+            Nuestro Web cuenta con la posibilidad de poder acceder a vuestra eleccion del dia y horario que se encuentra disponible 
+            para tu atencion medica especializada.
+          </p>
         </div>
       </div>
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="wow fadeInUp" data-wow-delay="0.2s">
+        <div class="box text-center">
 
-    </section>
-    <!-- /Section: boxes -->
-
-
-    <section id="callaction" class="home-section paddingtop-40">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="callaction bg-gray">
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="cta-text">
-                      <h3>Necesitas los resultados? Descarga desde nuestra Web</h3>
-                      <p>A traves de nuestra web podes acceder a los analisis realizados en nuestras clinicas </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="wow lightSpeedIn" data-wow-delay="0.1s">
-                    <!-- <div class="cta-btn">
-                      <a href="index-DescargarAnalisis.html" class="btn btn-skin btn-lg">Descargar de Analisis Clinicos</a>
-                    </div> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <i class="fa fa-list-alt fa-3x circled bg-skin"></i>
+          <h4 class="h-bold">Eleccion de Paquetes Premium accesibles</h4>
+          <p>
+            Nuestros paquetes se encuentran diseñados para que todas las personas puedan disfrutar, del mejor servicio y atencion personalizada.
+          </p>
         </div>
       </div>
-    </section>
-
-
-    <!-- Section: services -->
-    <section id="service" class="home-section nopadding paddingtop-60">
-
-      <div class="container">
-
-        <div class="row">
-          <div class="col-sm-6 col-md-6">
-            <div class="wow fadeInUp" data-wow-delay="0.2s">
-              <img src="../../img/dummy/img-1.jpg" class="img-responsive" alt="" />
-            </div>
-          </div>
-          <div class="col-sm-3 col-md-3">
-
-            <div class="wow fadeInRight" data-wow-delay="0.1s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="fa fa-stethoscope fa-3x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5 class="h-light">Revisiones Medicas</h5>
-                  <p>El médico te examinará tanto física como psíquica y socialmente para comprobar que no padeces ninguna enfermedad. Además, identificará los posibles factores de riesgo que presentas con el objetivo de prevenir futuras enfermedades.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="wow fadeInRight" data-wow-delay="0.2s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="fa fa-wheelchair fa-3x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5 class="h-light">Servicios de Enfermería</h5>
-                  <p>Los servicios de Enfermería, son brindados por profesionales de distintas categorías o perfiles y el personal de apoyo, a través de cuidados -autónomos y en colaboración- que se brindan a personas sanas o enfermas, a través de acciones de promoción de salud, prevención de enfermedades o complicaciones, curación y rehabilitacion </p>
-                </div>
-              </div>
-            </div>
-           
-          </div>
-          <div class="col-sm-3 col-md-3">
-            <div class="wow fadeInRight" data-wow-delay="0.2s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="fa fa-filter fa-3x"></span>
-                </div>
-                <div class="service-desc">
-                  <h5 class="h-light">Neumonologo</h5>
-                  <p>El Servicio de Neumonología tiene como objetivo la prevención, diagnóstico y tratamiento de las enfermedades del aparato respiratorio inferior en pacientes. Concibe como prioritario el trabajo de prevención, así como el diagnóstico y tratamiento adecuados de las enfermedades respiratorias.</p>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="wow fadeInRight" data-wow-delay="0.3s">
-              <div class="service-box">
-                <div class="service-icon">
-                  <span class="fa fa-user-md fa-3x"></span>
-                </div> -->
-                <!-- <div class="service-desc">
-                  <h5 class="h-light">Centros de Internacion</h5>
-                  <p>La Clínica tiene tres edificios en pleno centro, dos para internación general y uno para estudios diagnósticos, y el conjunto le posibilita brindar desde una simple consulta hasta prestaciones de alta complejidad. </p>
-                </div> -->
-              </div>
-            </div>
-
-          </div>
-
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="wow fadeInUp" data-wow-delay="0.2s">
+        <div class="box text-center">
+          <i class="fa fa-user-md fa-3x circled bg-skin"></i>
+          <h4 class="h-bold">Los especialistas Mas distinguidos y capacitados</h4>
+          <p>
+            Doctores en las diversas ramas ofrecidas, te ayudaran y brindaran, la mejor atencion aplicada a las necesidades de los pacientes.
+          </p>
         </div>
       </div>
-    </section>
-    <!-- /Section: services -->
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="wow fadeInUp" data-wow-delay="0.2s">
+        <div class="box text-center">
 
-
-    <!-- Section: team -->
-    <section id="doctor" class="home-section bg-gray paddingbot-60">
-      <div class="container marginbot-50">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2">
-            <div class="wow fadeInDown" data-wow-delay="0.1s">
-              <div class="section-heading text-center">
-                <h2 class="h-bold">Doctores</h2>
-                <p>Los mejores especialistas del pais a vuestra disposicion - calidad y servicio</p>
-              </div>
-            </div>
-            <div class="divider-short"></div>
-          </div>
+          <i class="fa fa-hospital-o fa-3x circled bg-skin"></i>
+          <h4 class="h-bold">Envio de Reportes por las diversas plataformas</h4>
+          <p>
+            Contamos con las funciones de enviar resultados, por las distintas plataformas como E mail, whatsapp, o impresiones a travez de nuestra pagina con el codigo de verificacion.
+          </p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <div class="container">
+</section>
+<!-- /Section: boxes -->
+
+
+<section id="callaction" class="home-section paddingtop-40">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="callaction bg-gray">
         <div class="row">
-          <div class="col-lg-12">
-
-            <div id="filters-container" class="cbp-l-filters-alignLeft">
-              <div data-filter="*" class="cbp-filter-item-active cbp-filter-item">Todos (
-                <div class="cbp-filter-counter"></div>)</div>
-              <div data-filter=".cardiologist" class="cbp-filter-item">Cardiologos (
-                <div class="cbp-filter-counter"></div>)</div>
-              <div data-filter=".psychiatrist" class="cbp-filter-item">Psiquiatras (
-                <div class="cbp-filter-counter"></div>)</div>
-              <div data-filter=".neurologist" class="cbp-filter-item">Neurologos (
-                <div class="cbp-filter-counter"></div>)</div>
-            </div>
-
-            <div id="grid-container" class="cbp-l-grid-team">
-              <ul>
-                <li class="cbp-item psychiatrist">
-                  <a href="../../doctors/member1.html" class="cbp-caption cbp-singlePage">
-                    <div class="cbp-caption-defaultWrap">
-                      <img src="../../img/team/1.jpg" alt="" width="100%">
-                    </div>
-                    <div class="cbp-caption-activeWrap">
-                      <div class="cbp-l-caption-alignCenter">
-                        <div class="cbp-l-caption-body">
-                          <div class="cbp-l-caption-text">VIEW PROFILE</div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="../../doctors/member1.html" class="cbp-singlePage cbp-l-grid-team-name">Daiana Insaurralde</a>
-                  <div class="cbp-l-grid-team-position">Psiquiatra</div>
-                </li>
-                <li class="cbp-item cardiologist">
-                  <a href="../../doctors/member2.html" class="cbp-caption cbp-singlePage">
-                    <div class="cbp-caption-defaultWrap">
-                      <img src="../../img/team/2.jpg" alt="" width="100%">
-                    </div>
-                    <div class="cbp-caption-activeWrap">
-                      <div class="cbp-l-caption-alignCenter">
-                        <div class="cbp-l-caption-body">
-                          <div class="cbp-l-caption-text">VIEW PROFILE</div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="../../doctors/member2.html" class="cbp-singlePage cbp-l-grid-team-name">Matias</a>
-                  <div class="cbp-l-grid-team-position">Cardiologo</div>
-                </li>
-                <li class="cbp-item cardiologist">
-                  <a href="../../doctors/member3.html" class="cbp-caption cbp-singlePage">
-                    <div class="cbp-caption-defaultWrap">
-                      <img src="../../img/team/3.jpg" alt="" width="100%">
-                    </div>
-                    <div class="cbp-caption-activeWrap">
-                      <div class="cbp-l-caption-alignCenter">
-                        <div class="cbp-l-caption-body">
-                          <div class="cbp-l-caption-text">VIEW PROFILE</div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="../../doctors/member3.html" class="cbp-singlePage cbp-l-grid-team-name">Malaga Luis</a>
-                  <div class="cbp-l-grid-team-position">Cardiologo</div>
-                </li>
-                <li class="cbp-item neurologist">
-                  <a href="../../doctors/member4.html" class="cbp-caption cbp-singlePage">
-                    <div class="cbp-caption-defaultWrap">
-                      <img src="../../img/team/4.jpg" alt="" width="100%">
-                    </div>
-                    <div class="cbp-caption-activeWrap">
-                      <div class="cbp-l-caption-alignCenter">
-                        <div class="cbp-l-caption-body">
-                          <div class="cbp-l-caption-text">VIEW PROFILE</div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="../../doctors/member4.html" class="cbp-singlePage cbp-l-grid-team-name">Sicerone Daniel</a>
-                  <div class="cbp-l-grid-team-position">Neurologo</div>
-                </li>
-
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-    <!-- /Section: team -->
-
-
-
-    <!-- Section: works -->
-    <section id="facilities" class="home-section paddingbot-60">
-      <div class="container marginbot-50">
-        <div class="row">
-          <div class="col-lg-8 col-lg-offset-2">
-            <div class="wow fadeInDown" data-wow-delay="0.1s">
-              <div class="section-heading text-center">
-                <h2 class="h-bold">Nuestras Instalaciones</h2>
-                <p>vanguardistas en lo ultimo en de equipamientos tecnologicos</p>
-              </div>
-            </div>
-            <div class="divider-short"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="wow bounceInUp" data-wow-delay="0.2s">
-              <div id="owl-works" class="owl-carousel">
-                <div class="item"><a href="../../img/photo/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/1@2x.jpg"><img src="../../img/photo/1.jpg" class="img-responsive" alt="img"></a></div>
-                <div class="item"><a href="../../img/photo/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/2@2x.jpg"><img src="../../img/photo/2.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="../../img/photo/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/3@2x.jpg"><img src="../../img/photo/3.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="../../img/photo/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/4@2x.jpg"><img src="../../img/photo/4.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="../../img/photo/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/5@2x.jpg"><img src="../../img/photo/5.jpg" class="img-responsive " alt="img"></a></div>
-                <div class="item"><a href="../../img/photo/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/6@2x.jpg"><img src="./../img/photo/6.jpg" class="img-responsive " alt="img"></a></div>
+          <div class="col-md-8">
+            <div class="wow fadeInUp" data-wow-delay="0.1s">
+              <div class="cta-text">
+                <h3>Necesitas los resultados? Descarga desde nuestra Web</h3>
+                <p>A traves de nuestra web podes acceder a los analisis realizados en nuestras clinicas </p>
               </div>
             </div>
           </div>
@@ -594,7 +370,6 @@ if (isset($_SESSION['usr_rol']) == "") {
     <!-- /Section: testimonial -->
 
 
-   
     <section id="partner" class="home-section paddingbot-60">
       <div class="container marginbot-50">
         <div class="row">
@@ -630,13 +405,21 @@ if (isset($_SESSION['usr_rol']) == "") {
           <div class="col-sm-6 col-md-3">
             <div class="partner">
               <a href="#"><img src="img/dummy/partner-4.jpg" alt="" /></a>
+
+          <div class="col-md-4">
+            <div class="wow lightSpeedIn" data-wow-delay="0.1s">
+              <!-- <div class="cta-btn">
+                <a href="index-DescargarAnalisis.html" class="btn btn-skin btn-lg">Descargar de Analisis Clinicos</a>
+              </div> -->
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</div>
+</section>
 
-    <footer>
 
       <div class="container">
         <div class="row">
@@ -711,36 +494,492 @@ if (isset($_SESSION['usr_rol']) == "") {
                   <li class="social-dribble"><a href="#"><i class="fa fa-dribbble"></i></a></li>
                 </ul>
               </div>
-            </div>
+
+<!-- Section: services -->
+<section id="service" class="home-section nopadding paddingtop-60">
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <div class="wow fadeInUp" data-wow-delay="0.2s">
+        <img src="../../img/dummy/img-1.jpg" class="img-responsive" alt="" />
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-3">
+
+      <div class="wow fadeInRight" data-wow-delay="0.1s">
+        <div class="service-box">
+          <div class="service-icon">
+            <span class="fa fa-stethoscope fa-3x"></span>
+          </div>
+          <div class="service-desc">
+            <h5 class="h-light">Revisiones Medicas</h5>
+            <p>El médico te examinará tanto física como psíquica y socialmente para comprobar que no padeces ninguna enfermedad. Además, identificará los posibles factores de riesgo que presentas con el objetivo de prevenir futuras enfermedades.</p>
           </div>
         </div>
       </div>
-      <div class="sub-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-6">
-              <div class="wow fadeInLeft" data-wow-delay="0.1s">
-                <div class="text-left">
-                  <p>&copy;Copyright - Medic MedicinaAGl rights reserved.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-6">
-              <div class="wow fadeInRight" data-wow-delay="0.1s">
-                <div class="text-right">
-                  <div class="credits">
-            
-                    <a href="http://www.servitecflhuaraz.com/">Medic MedicinaoG Templates</a> by Medic Medicina G         </div>
-                </div>
-              </div>
-            </div>
+
+      <div class="wow fadeInRight" data-wow-delay="0.2s">
+        <div class="service-box">
+          <div class="service-icon">
+            <span class="fa fa-wheelchair fa-3x"></span>
+          </div>
+          <div class="service-desc">
+            <h5 class="h-light">Servicios de Enfermería</h5>
+            <p>Los servicios de Enfermería, son brindados por profesionales de distintas categorías o perfiles y el personal de apoyo, a través de cuidados -autónomos y en colaboración- que se brindan a personas sanas o enfermas, a través de acciones de promoción de salud, prevención de enfermedades o complicaciones, curación y rehabilitacion </p>
           </div>
         </div>
       </div>
-    </footer>
+     
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="wow fadeInRight" data-wow-delay="0.2s">
+        <div class="service-box">
+          <div class="service-icon">
+            <span class="fa fa-filter fa-3x"></span>
+          </div>
+          <div class="service-desc">
+            <h5 class="h-light">Neumonologo</h5>
+            <p>El Servicio de Neumonología tiene como objetivo la prevención, diagnóstico y tratamiento de las enfermedades del aparato respiratorio inferior en pacientes. Concibe como prioritario el trabajo de prevención, así como el diagnóstico y tratamiento adecuados de las enfermedades respiratorias.</p>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="wow fadeInRight" data-wow-delay="0.3s">
+        <div class="service-box">
+          <div class="service-icon">
+            <span class="fa fa-user-md fa-3x"></span>
+          </div> -->
+          <!-- <div class="service-desc">
+            <h5 class="h-light">Centros de Internacion</h5>
+            <p>La Clínica tiene tres edificios en pleno centro, dos para internación general y uno para estudios diagnósticos, y el conjunto le posibilita brindar desde una simple consulta hasta prestaciones de alta complejidad. </p>
+          </div> -->
+        </div>
+      </div>
+
+    </div>
 
   </div>
-  <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+</div>
+</section>
+<!-- /Section: services -->
+
+<!-- Section: team -->
+<section id="doctor" class="home-section bg-gray paddingbot-60">
+<div class="container marginbot-50">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="section-heading text-center">
+          <h2 class="h-bold">Doctores</h2>
+          <p>Los mejores especialistas del pais a vuestra disposicion - calidad y servicio</p>
+        </div>
+      </div>
+      <div class="divider-short"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div id="filters-container" class="cbp-l-filters-alignLeft">
+        <div data-filter="*" class="cbp-filter-item-active cbp-filter-item">Todos (
+          <div class="cbp-filter-counter"></div>)</div>
+        <div data-filter=".cardiologist" class="cbp-filter-item">Cardiologos (
+          <div class="cbp-filter-counter"></div>)</div>
+        <div data-filter=".psychiatrist" class="cbp-filter-item">Psiquiatras (
+          <div class="cbp-filter-counter"></div>)</div>
+        <div data-filter=".neurologist" class="cbp-filter-item">Neurologos (
+          <div class="cbp-filter-counter"></div>)</div>
+      </div>
+
+      <div id="grid-container" class="cbp-l-grid-team">
+        <ul>
+          <li class="cbp-item psychiatrist">
+            <a href="../../doctors/member1.html" class="cbp-caption cbp-singlePage">
+              <div class="cbp-caption-defaultWrap">
+                <img src="../../img/team/1.jpg" alt="" width="100%">
+              </div>
+              <div class="cbp-caption-activeWrap">
+                <div class="cbp-l-caption-alignCenter">
+                  <div class="cbp-l-caption-body">
+                    <div class="cbp-l-caption-text">VIEW PROFILE</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="../../doctors/member1.html" class="cbp-singlePage cbp-l-grid-team-name">Daiana Insaurralde</a>
+            <div class="cbp-l-grid-team-position">Psiquiatra</div>
+          </li>
+          <li class="cbp-item cardiologist">
+            <a href="../../doctors/member2.html" class="cbp-caption cbp-singlePage">
+              <div class="cbp-caption-defaultWrap">
+                <img src="../../img/team/2.jpg" alt="" width="100%">
+              </div>
+              <div class="cbp-caption-activeWrap">
+                <div class="cbp-l-caption-alignCenter">
+                  <div class="cbp-l-caption-body">
+                    <div class="cbp-l-caption-text">VIEW PROFILE</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="../../doctors/member2.html" class="cbp-singlePage cbp-l-grid-team-name">Matias</a>
+            <div class="cbp-l-grid-team-position">Cardiologo</div>
+          </li>
+          <li class="cbp-item cardiologist">
+            <a href="../../doctors/member3.html" class="cbp-caption cbp-singlePage">
+              <div class="cbp-caption-defaultWrap">
+                <img src="../../img/team/3.jpg" alt="" width="100%">
+              </div>
+              <div class="cbp-caption-activeWrap">
+                <div class="cbp-l-caption-alignCenter">
+                  <div class="cbp-l-caption-body">
+                    <div class="cbp-l-caption-text">VIEW PROFILE</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="../../doctors/member3.html" class="cbp-singlePage cbp-l-grid-team-name">Malaga Luis</a>
+            <div class="cbp-l-grid-team-position">Cardiologo</div>
+          </li>
+          <li class="cbp-item neurologist">
+            <a href="../../doctors/member4.html" class="cbp-caption cbp-singlePage">
+              <div class="cbp-caption-defaultWrap">
+                <img src="../../img/team/4.jpg" alt="" width="100%">
+              </div>
+              <div class="cbp-caption-activeWrap">
+                <div class="cbp-l-caption-alignCenter">
+                  <div class="cbp-l-caption-body">
+                    <div class="cbp-l-caption-text">VIEW PROFILE</div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a href="../../doctors/member4.html" class="cbp-singlePage cbp-l-grid-team-name">Sicerone Daniel</a>
+            <div class="cbp-l-grid-team-position">Neurologo</div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
+<!-- /Section: team -->
+
+
+
+<!-- Section: works -->
+<section id="facilities" class="home-section paddingbot-60">
+<div class="container marginbot-50">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="section-heading text-center">
+          <h2 class="h-bold">Nuestras Instalaciones</h2>
+          <p>vanguardistas en lo ultimo en de equipamientos tecnologicos</p>
+        </div>
+      </div>
+      <div class="divider-short"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="wow bounceInUp" data-wow-delay="0.2s">
+        <div id="owl-works" class="owl-carousel">
+          <div class="item"><a href="../../img/photo/1.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/1@2x.jpg"><img src="../../img/photo/1.jpg" class="img-responsive" alt="img"></a></div>
+          <div class="item"><a href="../../img/photo/2.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/2@2x.jpg"><img src="../../img/photo/2.jpg" class="img-responsive " alt="img"></a></div>
+          <div class="item"><a href="../../img/photo/3.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/3@2x.jpg"><img src="../../img/photo/3.jpg" class="img-responsive " alt="img"></a></div>
+          <div class="item"><a href="../../img/photo/4.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/4@2x.jpg"><img src="../../img/photo/4.jpg" class="img-responsive " alt="img"></a></div>
+          <div class="item"><a href="../../img/photo/5.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/5@2x.jpg"><img src="../../img/photo/5.jpg" class="img-responsive " alt="img"></a></div>
+          <div class="item"><a href="../../img/photo/6.jpg" title="This is an image title" data-lightbox-gallery="gallery1" data-lightbox-hidpi="img/works/6@2x.jpg"><img src="./../img/photo/6.jpg" class="img-responsive " alt="img"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- /Section: works -->
+
+
+<!-- Section: testimonial -->
+<!-- Section: testimonial -->
+<section id="testimonial" class="home-section paddingbot-60 parallax" data-stellar-background-ratio="0.5">
+
+<div class="carousel-reviews broun-block">
+  <div class="container">
+    <div class="row">
+      <div id="carousel-reviews" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner">
+          <div class="item active">
+            <div class="col-md-4 col-sm-6">
+              <div class="block-text rel zmin">
+                <a title="" href="#">Anticoncepción de Emergencia</a>
+                <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                    class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
+                </div>
+                <p>Una excelente ayuda en momentos urgentes. Altamente recomendada.</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+              </div>
+              <div class="person-text rel text-light">
+                <img src="img/testimonials/1.jpg" alt="" class="person img-circle" />
+                <a title="" href="#">Ana Miranda</a>
+                <span>Parque San Martín, Buenos Aires</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 hidden-xs">
+              <div class="block-text rel zmin">
+                <a title="" href="#">Cirugía Ortopédica</a>
+                <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
+                  <span
+                    data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
+                </div>
+                <p>Como paciente de cirugía ortopédica, esta aplicación ha hecho que coordinar mis citas y procedimientos sea muy fácil. Una gran ayuda en mi camino hacia una recuperación exitosa</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+              </div>
+              <div class="person-text rel text-light">
+                <img src="img/testimonials/2.jpg" alt="" class="person img-circle" />
+                <a title="" href="#">Juan Flores</a>
+                <span>Libertad, Merlo</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
+              <div class="block-text rel zmin">
+                <a title="" href="#">Consulta Médica</a>
+                <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                    class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span> </span>
+                </div>
+                <p>Gracias a esta aplicación, agendar consultas médicas es muy sencillo. Una herramienta imprescindible para cuidar mi salud.</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+              </div>
+              <div class="person-text rel text-light">
+                <img src="img/testimonials/3.jpg" alt="" class="person img-circle" />
+                <a title="" href="#">María Fernández</a>
+                <span>Padúa, Buenos Aires</span>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="col-md-4 col-sm-6">
+              <div class="block-text rel zmin">
+                <a title="" href="#">Cardiología</a>
+                <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                    class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
+                </div>
+                <p>Esta aplicación ha simplificado enormemente la gestión de mis citas cardiológicas. ¡Muy útil para cuidar mi salud cardíaca!</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+              </div>
+              <div class="person-text rel text-light">
+                <img src="img/testimonials/4.jpg" alt="" class="person img-circle" />
+                <a title="" href="#">Pedro Rodríguez</a>
+                <span>Merlo, Buenos Aires</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 hidden-xs">
+              <div class="block-text rel zmin">
+                <a title="" href="#">Radiología</a>
+                <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
+                  <span
+                    data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
+                </div>
+                <p>Esta aplicación ha hecho que gestionar mis citas de radiología sea pan comido. Programar exámenes y obtener resultados nunca ha sido tan fácil. ¡Un gran aliado para quienes necesitamos radiología regularmente!</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+              </div>
+              <div class="person-text rel text-light">
+                <img src="img/testimonials/5.jpg" alt="" class="person img-circle" />
+                <a title="" href="#">Karina Solano</a>
+                <span>Moreno, Buenos Aires</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
+              <div class="block-text rel zmin">
+                <a title="" href="#">Lesión Cervical</a>
+                <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                    class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span> </span>
+                </div>
+                <p>Tuve una lesión cervical y esta aplicación me ha facilitado mucho la programación de citas con especialistas. Es una herramienta imprescindible para gestionar mi salud de manera rápida y sencilla</p>
+                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+              </div>
+              <div class="person-text rel text-light">
+                <img src="img/testimonials/6.jpg" alt="" class="person img-circle" />
+                <a title="" href="#">Susana Pérez</a>
+                <span>Castelar, Buenos Aires</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <a class="left carousel-control" href="#carousel-reviews" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+        <a class="right carousel-control" href="#carousel-reviews" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- /Section: testimonial -->
+
+
+
+<section id="partner" class="home-section paddingbot-60">
+<div class="container marginbot-50">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="wow lightSpeedIn" data-wow-delay="0.1s">
+        <div class="section-heading text-center">
+          <h2 class="h-bold">Nuestros Socios</h2>
+          <p>Tomar el control de tu salud hoy con nuestros paquetes de salud especialmente diseñados.</p>
+        </div>
+      </div>
+      <div class="divider-short"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-3">
+      <div class="partner">
+        <a href="#"><img src="img/dummy/partner-1.jpg" alt="" /></a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="partner">
+        <a href="#"><img src="img/dummy/partner-2.jpg" alt="" /></a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="partner">
+        <a href="#"><img src="img/dummy/partner-3.jpg" alt="" /></a>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="partner">
+        <a href="#"><img src="img/dummy/partner-4.jpg" alt="" /></a>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="widget">
+          <h5>Sobre Medic</h5>
+          <p>
+            Paquetes accesibles para todos. Los mejores especialistas del país y trabajamos con Obras Sociales
+          </p>
+        </div>
+      </div>
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="widget">
+          <h5>Información</h5>
+          <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Laboratorio</a></li>
+            <li><a href="#">Tratamientos médicos</a></li>
+            <li><a href="#">Términos y condiciones</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="widget">
+          <h5>MEDIC MEDICINA GROUP</h5>
+          <p>
+          Brindamos atencion medica de la mejor calidad.
+          </p>
+          <ul>
+            <li>
+              <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-calendar-o fa-stack-1x fa-inverse"></i>
+          </span> Lunes - Sábado, 8am a 10pm
+            </li>
+            <li>
+              <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-phone fa-stack-1x fa-inverse"></i>
+          </span> +54 911 4180 0545
+            </li>
+            <li>
+              <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+          </span> info@medic.com
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="widget">
+          <h5>Nuestra ubicación</h5>
+          <p>Libertad, Merlo, Buenos Aires, Argentina</p>
+
+        </div>
+      </div>
+      <div class="wow fadeInDown" data-wow-delay="0.1s">
+        <div class="widget">
+          <h5>Síguenos</h5>
+          <ul class="company-social">
+            <li class="social-facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+            <li class="social-twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+            <li class="social-google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+            <li class="social-vimeo"><a href="#"><i class="fa fa-vimeo-square"></i></a></li>
+            <li class="social-dribble"><a href="#"><i class="fa fa-dribbble"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="wow fadeInLeft" data-wow-delay="0.1s">
+          <div class="text-left">
+            <p>&copy;Copyright - Medic MedicinaAGl rights reserved.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="wow fadeInRight" data-wow-delay="0.1s">
+          <div class="text-right">
+            <div class="credits">
+      
+              <a href="http://www.servitecflhuaraz.com/">Medic MedicinaoG Templates</a> by Medic Medicina G         </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</footer>
+
+</div>
+<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
 <!-- Core JavaScript Files -->
 <script src="../../js/jquery.min.js"></script>

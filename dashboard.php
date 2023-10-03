@@ -150,7 +150,7 @@ if (isset($_SESSION['usr_rol']) == "") {
                     <li><span class="fa fa-check fa-2x icon-success"></span> <span class="list"><strong>Citas</strong><br />Reservas de turnos online</span></li>
                   </ul>
                   <p class="text-right wow bounceIn" data-wow-delay="0.4s">
-                  <!-- <a href="index-obrassociales.html" class="btn btn-skin btn-lg">LeerMas <i class="fa fa-angle-right"></i></a>-->
+                   <!-- <a href="index-obrassociales.html" class="btn btn-skin btn-lg">LeerMas <i class="fa fa-angle-right"></i></a>-->
                   </p>
                 </div>
               </div>
@@ -294,7 +294,7 @@ if (isset($_SESSION['usr_rol']) == "") {
                 </div>
               </div>
             </div>
-          
+           
           </div>
           <div class="col-sm-3 col-md-3">
             <div class="wow fadeInRight" data-wow-delay="0.2s">
@@ -437,7 +437,6 @@ if (isset($_SESSION['usr_rol']) == "") {
 
 
 
-
     <!-- Section: works -->
     <section id="facilities" class="home-section paddingbot-60">
       <div class="container marginbot-50">
@@ -475,7 +474,8 @@ if (isset($_SESSION['usr_rol']) == "") {
 
 
     <!-- Section: testimonial -->
-    <!-- <section id="testimonial" class="home-section paddingbot-60 parallax" data-stellar-background-ratio="0.5">
+    <!-- Section: testimonial -->
+    <section id="testimonial" class="home-section paddingbot-60 parallax" data-stellar-background-ratio="0.5">
 
       <div class="carousel-reviews broun-block">
         <div class="container">
@@ -486,96 +486,96 @@ if (isset($_SESSION['usr_rol']) == "") {
                 <div class="item active">
                   <div class="col-md-4 col-sm-6">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Emergency Contraception</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Anticoncepción de Emergencia</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Una excelente ayuda en momentos urgentes. Altamente recomendada.</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="../../img/testimonials/1.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Anna</a>
-                      <span>Chicago, Illinois</span>
+                      <img src="img/testimonials/1.jpg" alt="" class="person img-circle" />
+                      <a title="" href="#">Ana Miranda</a>
+                      <span>Parque San Martín, Buenos Aires</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Orthopedic Surgery</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
+                      <a title="" href="#">Cirugía Ortopédica</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
                         <span
                           data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Como paciente de cirugía ortopédica, esta aplicación ha hecho que coordinar mis citas y procedimientos sea muy fácil. Una gran ayuda en mi camino hacia una recuperación exitosa</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="../../img/testimonials/2.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Matthew G</a>
-                      <span>San Antonio, Texas</span>
+                      <img src="img/testimonials/2.jpg" alt="" class="person img-circle" />
+                      <a title="" href="#">Juan Flores</a>
+                      <span>Libertad, Merlo</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Medical consultation</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Consulta Médica</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Gracias a esta aplicación, agendar consultas médicas es muy sencillo. Una herramienta imprescindible para cuidar mi salud.</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="../../img/testimonials/3.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Scarlet Smith</a>
-                      <span>Dallas, Texas</span>
+                      <img src="img/testimonials/3.jpg" alt="" class="person img-circle" />
+                      <a title="" href="#">María Fernández</a>
+                      <span>Padúa, Buenos Aires</span>
                     </div>
                   </div>
                 </div>
                 <div class="item">
                   <div class="col-md-4 col-sm-6">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Birth control pills</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Cardiología</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Esta aplicación ha simplificado enormemente la gestión de mis citas cardiológicas. ¡Muy útil para cuidar mi salud cardíaca!</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="../../img/testimonials/4.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Lucas Thompson</a>
-                      <span>Austin, Texas</span>
+                      <img src="img/testimonials/4.jpg" alt="" class="person img-circle" />
+                      <a title="" href="#">Pedro Rodríguez</a>
+                      <span>Merlo, Buenos Aires</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Radiology</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
+                      <a title="" href="#">Radiología</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star-empty"></span>
                         <span
                           data-value="3" class="glyphicon glyphicon-star-empty"></span><span data-value="4" class="glyphicon glyphicon-star-empty"></span><span data-value="5" class="glyphicon glyphicon-star-empty"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Esta aplicación ha hecho que gestionar mis citas de radiología sea pan comido. Programar exámenes y obtener resultados nunca ha sido tan fácil. ¡Un gran aliado para quienes necesitamos radiología regularmente!</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="../../img/testimonials/5.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Ella Mentree</a>
-                      <span>Fort Worth, Texas</span>
+                      <img src="img/testimonials/5.jpg" alt="" class="person img-circle" />
+                      <a title="" href="#">Karina Solano</a>
+                      <span>Moreno, Buenos Aires</span>
                     </div>
                   </div>
                   <div class="col-md-4 col-sm-6 hidden-sm hidden-xs">
                     <div class="block-text rel zmin">
-                      <a title="" href="#">Cervical Lesions</a>
-                      <div class="mark">My rating: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
+                      <a title="" href="#">Lesión Cervical</a>
+                      <div class="mark">Puntuación: <span class="rating-input"><span data-value="0" class="glyphicon glyphicon-star"></span><span data-value="1" class="glyphicon glyphicon-star"></span><span data-value="2" class="glyphicon glyphicon-star"></span><span data-value="3"
                           class="glyphicon glyphicon-star"></span><span data-value="4" class="glyphicon glyphicon-star"></span><span data-value="5" class="glyphicon glyphicon-star"></span> </span>
                       </div>
-                      <p>Ne eam errem semper. Laudem detracto phaedrum cu vim, pri cu errem fierent fabellas. Quis magna in ius, pro vidit nonumy te, nostrud ...</p>
+                      <p>Tuve una lesión cervical y esta aplicación me ha facilitado mucho la programación de citas con especialistas. Es una herramienta imprescindible para gestionar mi salud de manera rápida y sencilla</p>
                       <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                     </div>
                     <div class="person-text rel text-light">
-                      <img src="../../img/testimonials/6.jpg" alt="" class="person img-circle" />
-                      <a title="" href="#">Suzanne Adam</a>
-                      <span>Detroit, Michigan</span>
+                      <img src="img/testimonials/6.jpg" alt="" class="person img-circle" />
+                      <a title="" href="#">Susana Pérez</a>
+                      <span>Castelar, Buenos Aires</span>
                     </div>
                   </div>
                 </div>
@@ -593,7 +593,7 @@ if (isset($_SESSION['usr_rol']) == "") {
           </div>
         </div>
       </div>
-    </section> -->
+    </section>
     <!-- /Section: testimonial -->
 
 
@@ -745,17 +745,20 @@ if (isset($_SESSION['usr_rol']) == "") {
   </div>
   <a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
 
-<!-- Core JavaScript Files -->
-<script src="../../js/jquery.min.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
-<script src="../../js/jquery.easing.min.js"></script>
-<script src="../../js/wow.min.js"></script>
-<script src="../../js/jquery.scrollTo.js"></script>
-<script src="../../js/jquery.appear.js"></script>
-<script src="../../js/stellar.js"></script>
-<script src="../../plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
-<script src="../../js/owl.carousel.min.js"></script>
-<script src="../../js/nivo-lightbox.min.js"></script>
-<script src="../../js/custom.js"></script>
+
+  <!-- Core JavaScript Files -->
+  <script src="../../js/jquery.min.js"></script>
+  <script src="../../js/bootstrap.min.js"></script>
+  <script src="../../js/jquery.easing.min.js"></script>
+  <script src="../../js/wow.min.js"></script>
+  <script src="../../js/jquery.scrollTo.js"></script>
+  <script src="../../js/jquery.appear.js"></script>
+  <script src="../../js/stellar.js"></script>
+  <script src="../../plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+  <script src="../../js/owl.carousel.min.js"></script>
+  <script src="../../js/nivo-lightbox.min.js"></script>
+  <script src="../../js/custom.js"></script>
 
 </body>
+
+</html>

@@ -246,10 +246,6 @@ include("../modelos/conexion.php");
                                 <td width=" 50%">
 
 
-
-
-
-
                         <center>
                         <table class="filter-container" style="border: none;" border="0">
                     <tr>
