@@ -72,7 +72,6 @@ if ($stmt->execute()) {
 
     //Obtiene los resultados
     $result = $stmt->fetchAll();
-   
 
     $stmt = $database->prepare("SELECT * FROM appointment");
     // Ejecuta la consulta
@@ -92,8 +91,6 @@ if ($stmt->execute()) {
         $sqlmain .= " AND schedule.scheduledate = :sheduledate";
         }
     }
-
-
 
 
     // var_dump($num_rows);
@@ -153,7 +150,7 @@ if ($stmt->execute()) {
         <td class="menu-btn menu-icon-session">
             <a href="schedule.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Citas</p>
+                    <p class="menu-text">Turnos</p>
                 </div>
             </a>
         </td>

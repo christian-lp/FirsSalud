@@ -294,7 +294,7 @@ if ($stmt->execute()) {
                         <tr>
                             <td>
                                 <p style="padding:10px;padding-left:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
-                                    Próximas citas hasta el próximo <?php
+                                    Turnos reservados hasta el próximo <?php
                                                                     echo date("l", strtotime("+1 week"));
                                                                     ?>
                                 </p>
@@ -305,14 +305,14 @@ if ($stmt->execute()) {
 
                             </td>
                             <td>
-                                <p style="text-align:right;padding:10px;padding-right:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
-                                    Próximas sesiones hasta el próximo <?php
+                                <p style="text-align:center;padding:10px;padding-right:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
+                                    Medicos disponibles hasta el próximo <?php
                                                                         echo date("l", strtotime("+1 week"));
                                                                         ?>
                                 </p>
-                                <p style="padding-bottom:19px;text-align:right;padding-right:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
+                                <p style="padding-bottom:19px;text-align:center;padding-right:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
                                     Aquí hay acceso rápido a las próximas sesiones programadas hasta 7 días<br>
-                                    Agregar, quitar y muchas funciones disponibles en la sección @Calendario.
+                                    Agregar, quitar y muchas funciones disponibles en la sección Calendario.
                                 </p>
                             </td>
                         </tr>
@@ -320,12 +320,12 @@ if ($stmt->execute()) {
                             <td width="50%">
                                 <center>
                                     <div class="abc scroll" style="height: 200px;">
-                                        <table width="85%" class="sub-table scrolldown" border="0">
+                                        <table width="90%" class="sub-table scrolldown" border="0">
                                             <thead>
                                                 <tr>
-                                                    <th class="table-headin" style="font-size: 12px;">
+                                                    <th class="table-headin">
 
-                                                        Número de cita
+                                                        N° de Turno
 
                                                     </th>
                                                     <th class="table-headin">
@@ -348,27 +348,27 @@ if ($stmt->execute()) {
                                             <tbody>
 
                                                 <?php
-                                                $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                                $today = date("Y-m-d");
-                                                $sqlmain = "SELECT * FROM appointment appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate
+                                                $today = date("Y-m-d"); // Obtiene la fecha actual
+                                                $nextweek = date("Y-m-d", strtotime("+1 week")); // Obtiene la fecha de una semana en el futuro
                                                 
-                                                INNER JOIN schedule
-                                                ON schedule.scheduleid=appointment.scheduleid
-                                                INNER JOIN patients
-                                                ON patient.id_patient=appointment.patient_id
-                                                INNER JOIN medics
-                                                ON schedule.id_medic=medics.id_medic
-                                                WHERE schedule.scheduledate >= '$today'
-                                                AND schedule.scheduledate<='$nextweek'
-                                                ORDER BY schedule.scheduledate DESC";
+                                                // Prepara la consulta SQL utilizando parámetros preparados
+                                                $sqlmain = "SELECT * FROM schedule 
+                                                            INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
+                                                            INNER JOIN patients ON patients.id_patient = appointment.patient_id 
+                                                            INNER JOIN medics ON medics.id_medic = schedule.id_medic
+                                                            WHERE schedule.scheduledate >= :today 
+                                                            AND schedule.scheduledate <= :nextweek";
+                                                
+                                                $stmt = Conexion::conectar()->prepare($sqlmain);
+                                                $stmt->bindParam(':today', $today, PDO::PARAM_STR);
+                                                $stmt->bindParam(':nextweek', $nextweek, PDO::PARAM_STR);
+                                                $stmt->execute();
+                                                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                // var_dump($userid);
+                                                // exit();
+                                            
 
-                                                $result = Conexion::conectar()->prepare($sqlmain);
-                                                $result->execute();
-                                                $num_rows = $result->rowCount();
-                                                var_dump($num_rows);
-                                                exit();
-
-                                                if ($num_rows == 0) {
+                                                if (empty($result)) {
                                                     echo '<tr>
                                                     <td colspan="3">
                                                     <br><br><br><br>
@@ -377,15 +377,14 @@ if ($stmt->execute()) {
                                                     
                                                     <br>
                                                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                                    <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Citas &nbsp;</font></button>
+                                                    <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todos los Turnos &nbsp;</font></button>
                                                     </a>
                                                     </center>
                                                     <br><br><br><br>
                                                     </td>
                                                     </tr>';
                                                 } else {
-                                                    for ($x = 0; $x < $num_rows; $x++) {
-                                                        $row = $result->fetchAll();
+                                                    foreach ($result as $row) {
                                                         $appoid = $row["appointment_id"];
                                                         $scheduleid = $row["scheduleid"];
                                                         $title = $row["title"];
@@ -452,61 +451,62 @@ if ($stmt->execute()) {
 
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                                <tbody>
 
-                                                <?php
-                                                $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                                $today = date("Y-m-d");
-                                                $sqlmain = "SELECT schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop 
-                                                FROM schedule INNER JOIN medics ON schedule.id_medic=medics.id_medic
-                                                WHERE schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
-                                                $result = Conexion::conectar()->prepare($sqlmain);
-                                                $num_rows = $result->rowCount();
+                                                    <?php
+                                                    $nextweek = date("Y-m-d", strtotime("+1 week"));
+                                                    $today = date("Y-m-d");
+                                                    $sqlmain = "SELECT schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop 
+                                                    FROM schedule INNER JOIN medics ON schedule.id_medic=medics.id_medic
+                                                    WHERE schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
+                                                    $result = Conexion::conectar()->prepare($sqlmain);
+                                                    $stmt->execute();
+                                                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                                    // var_dump($result);
+                                                    // exit();
 
-                                                if ($num_rows == 0) {
-                                                    echo '<tr>
-                                                    <td colspan="4">
-                                                    <br><br><br><br>
-                                                    <center>
-                                                    <img src="../../img/notfound.svg" width="25%">
-                                                    
-                                                    <br>
-                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Sesiones &nbsp;</font></button>
-                                                    </a>
-                                                    </center>
-                                                    <br><br><br><br>
-                                                    </td>
-                                                    </tr>';
-                                                } else {
-                                                    for ($x = 0; $x < $num_rows; $x++) {
-                                                        $row = $result->fetchAll();
-                                                        $scheduleid = $row["scheduleid"];
-                                                        $title = $row["title"];
-                                                        $docname = $row["name_medic"];
-                                                        $scheduledate = $row["scheduledate"];
-                                                        $scheduletime = $row["scheduletime"];
-                                                        $nop = $row["nop"];
+                                                    if (empty($result)) {
                                                         echo '<tr>
-                                                        <td style="padding:20px;"> &nbsp;' .
-                                                            substr($title, 0, 30)
-                                                            . '</td>
-                                                        <td>
-                                                        ' . substr($docname, 0, 20) . '
+                                                        <td colspan="4">
+                                                        <br><br><br><br>
+                                                        <center>
+                                                        <img src="../../img/notfound.svg" width="25%">
+                                                        
+                                                        <br>
+                                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
+                                                        <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar Turnos Disponibles &nbsp;</font></button>
+                                                        </a>
+                                                        </center>
+                                                        <br><br><br><br>
                                                         </td>
-                                                        <td style="text-align:center;">
-                                                            ' . substr($scheduledate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
-                                                        </td>
+                                                        </tr>';
+                                                    } else {
+                                                        foreach ($result as $row) {
+                                                            $scheduleid = $row["scheduleid"];
+                                                            $title = $row["title"];
+                                                            $docname = $row["name_medic"];
+                                                            $scheduledate = $row["scheduledate"];
+                                                            $scheduletime = $row["scheduletime"];
+                                                            echo '<tr>
+                                                            <td style="padding:20px;"> &nbsp;' .
+                                                                substr($title, 0, 30)
+                                                                . '</td>
+                                                            <td>
+                                                            ' . substr($docname, 0, 20) . '
+                                                            </td>
+                                                            <td style="text-align:center;">
+                                                                ' . substr($scheduledate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
+                                                            </td>
 
-                
-                                                    
-                                                    </tr>';
+                    
+                                                        
+                                                        </tr>';
+                                                        }
                                                     }
-                                                }
 
-                                                ?>
+                                                    ?>
 
-                                            </tbody>
+                                                </tbody>
 
                                         </table>
                                     </div>
@@ -516,12 +516,12 @@ if ($stmt->execute()) {
                         <tr>
                             <td>
                                 <center>
-                                    <a href="appointment.php" class="non-style-link"><button class="btn-primary btn" style="width:85%">Mostrar todas las Citas</button></a>
+                                    <a href="appointment.php" class="non-style-link"><button class="btn-primary btn" style="width:85%">Turnos Reservados</button></a>
                                 </center>
                             </td>
                             <td>
                                 <center>
-                                    <a href="schedule.php" class="non-style-link"><button class="btn-primary btn" style="width:85%">Mostrar todas las Sesiones</button></a>
+                                    <a href="schedule.php" class="non-style-link"><button class="btn-primary btn" style="width:85%">Turnos Disponibles</button></a>
                                 </center>
                             </td>
                         </tr>

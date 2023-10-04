@@ -119,7 +119,7 @@ if ($stmt->execute()) {
         <td class="menu-btn menu-icon-session menu-active menu-icon-session-active">
             <a href="schedule.php" class="non-style-link-menu non-style-link-menu-active">
                 <div>
-                    <p class="menu-text">Citas</p>
+                    <p class="menu-text">Turnos</p>
                 </div>
             </a>
         </td>

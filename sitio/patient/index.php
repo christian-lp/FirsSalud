@@ -126,7 +126,7 @@ if ($stmt->execute()) {
         <td class="menu-btn menu-icon-session">
             <a href="schedule.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Citas</p>
+                    <p class="menu-text">Turnos</p>
                 </div>
             </a>
         </td>
@@ -379,15 +379,22 @@ if ($stmt->execute()) {
                                 <tbody>
                                 <?php
                                 try {
-                                    $nextweek = date("Y-m-d", strtotime("+1 week"));
-                                    //$sqlmain = $sqlmain = "select * from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where  patients.id_patient=$userid  and schedule.scheduledate>='$today' order by schedule.scheduledate asc";
+                                    $today = date("Y-m-d"); // Obtiene la fecha actual
+                                    $nextweek = date("Y-m-d", strtotime("+1 week")); // Obtiene la fecha de una semana en el futuro
+                                    
+                                    // Prepara la consulta SQL utilizando parámetros preparados
                                     $sqlmain = "SELECT * FROM schedule 
-                                    INNER JOIN appointment ON schedule.scheduleid=appointment.schedule_id
-                                    INNER JOIN patients ON patients.id_patient=appointment.patient_id 
-                                    INNER JOIN medics ON medics.id_medic=schedule.id_medic
-                                    WHERE patients.id_patient=$userid";
-
+                                                INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
+                                                INNER JOIN patients ON patients.id_patient = appointment.patient_id 
+                                                INNER JOIN medics ON medics.id_medic = schedule.id_medic
+                                                WHERE patients.id_patient = :userid 
+                                                AND schedule.scheduledate >= :today 
+                                                AND schedule.scheduledate <= :nextweek";
+                                    
                                     $stmt = Conexion::conectar()->prepare($sqlmain);
+                                    $stmt->bindParam(':userid', $userid, PDO::PARAM_INT);
+                                    $stmt->bindParam(':today', $today, PDO::PARAM_STR);
+                                    $stmt->bindParam(':nextweek', $nextweek, PDO::PARAM_STR);
                                     $stmt->execute();
                                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     // var_dump($result);

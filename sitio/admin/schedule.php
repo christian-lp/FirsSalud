@@ -543,16 +543,8 @@ include("../modelos/conexion.php");
             $title = $row["title"];
             $scheduledate = $row["scheduledate"];
             $scheduletime = $row["scheduletime"];
-
-            var_dump($row);
-
-
             $nop = $row['nop'];
 
-
-            $sqlmain12 = "select * from appointment inner join patients on patient.id_patient=appointment.patient_id inner join schedule on schedule.scheduleid=appointment.schedule_id where schedule.scheduleid=$id;";
-            $result12 = $database->prepare($sqlmain12);
-            $result12->execute();
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup" style="width: 70%;">
@@ -645,13 +637,18 @@ include("../modelos/conexion.php");
 
 
 
+            $sqlmain = "SELECT * FROM appointment
+            INNER JOIN patients ON patients.id_patient=appointment.patient_id
+            INNER JOIN schedule
+            WHERE schedule.scheduleid=appointment.schedule_id";
+            $stmt = $database->prepare($sqlmain);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            // var_dump($row);
+            // exit();
 
-            $result = $database->prepare($sqlmain12);
-            $result->execute();
-            $num_rows = $result->rowCount();
 
-
-            if ($num_rows == 0) {
+            if (empty($result)) {
                 echo '<tr>
                     <td colspan="7">
                     <br><br><br><br>
@@ -667,8 +664,7 @@ include("../modelos/conexion.php");
                     </td>
                     </tr>';
             } else {
-                for ($x = 0; $x < $num_rows; $x++) {
-                    $row = $result->fetch(PDO::FETCH_ASSOC);
+                    $row = $result;
                     $apponum = $row["apponum"];
                     $pid = $row["id_patient"];
                     $pname = $row["name"];
@@ -692,7 +688,7 @@ include("../modelos/conexion.php");
                             </td>
 
                         </tr>';
-                }
+                
             }
 
 

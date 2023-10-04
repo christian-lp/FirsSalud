@@ -116,7 +116,7 @@ if ($stmt->execute()) {
         <td class="menu-btn menu-icon-session">
             <a href="schedule.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Citas</p>
+                    <p class="menu-text">Turnos</p>
                 </div>
             </a>
         </td>
@@ -294,10 +294,10 @@ if ($stmt->execute()) {
                                                         ' . substr($spcil_name, 0, 20) . '
                                                     </td>
                                             <td>
-                                                <div style="display:flex;justify-content: center;">
+                                                <div style="display:flex;justify-content: right;">
                                                     <a href="?action=view&id=' . $docid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
                                                     &nbsp;&nbsp;&nbsp;
-                                                    <a href="?action=session&id=' . $docid . '&name=' . $name . '"  class="non-style-link"><button  class="btn-primary-soft btn button-icon menu-icon-session-active"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Citas</font></button></a>
+                                                    <a href="?action=session&id=' . $docid . '&name=' . $name . '"  class="non-style-link"><button  class="btn-primary-soft btn button-icon menu-icon-session-active"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Reservar Turno</font></button></a>
                                                 </div>
                                             </td>
                                         </tr>';

@@ -105,7 +105,7 @@ include("../modelos/conexion.php");
         <td class="menu-btn menu-icon-session">
             <a href="schedule.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Citas</p>
+                    <p class="menu-text">Turnos</p>
                 </div>
             </a>
         </td>

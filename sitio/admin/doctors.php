@@ -443,8 +443,9 @@ buttons.forEach(function(button) {
             $result->execute();
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $name = $row["name_medic"];
+            $sur = $row['surname_medic'];
             $email = $row["email_medic"];
-            $dni= $row['dni_medic'];
+            $matri= $row['matricul_medic'];
             $tele = $row['phone_medic'];
             $spe = $row["specialty_medic"];
 
@@ -452,8 +453,9 @@ buttons.forEach(function(button) {
             $spcil_res->execute();
             $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
             $spcil_name = $spcil_array["specialty_name"];
-          
-           
+            
+
+
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -465,6 +467,7 @@ buttons.forEach(function(button) {
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
+                        <div class="abc">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
                         
                             <tr>
@@ -486,6 +489,12 @@ buttons.forEach(function(button) {
                                 
                             </tr>
                             <tr>
+                            <td class="label-td" colspan="2">
+                                ' . $sur . '<br><br>
+                            </td>
+                            
+                        </tr>
+                            <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="Email" class="form-label">Correo: </label>
                                 </td>
@@ -497,12 +506,12 @@ buttons.forEach(function(button) {
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">DNI: </label>
+                                    <label for="matri" class="form-label">N° de Matricula: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $dni . '<br><br>
+                                ' . $matri . '<br><br>
                                 </td>
                             </tr>
                             <tr>
@@ -529,8 +538,6 @@ buttons.forEach(function(button) {
                             <tr>
                                 <td colspan="2">
                                     <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
                                 </td>
                 
                             </tr>
@@ -791,7 +798,7 @@ buttons.forEach(function(button) {
                             <div class="popup">
                             <center>
                             
-                                <a class="close" href="settings.php">&times;</a> 
+                                <a class="close" href="doctors.php">&times;</a>
                                 <div style="display: flex;justify-content: center;">
                                 <div class="abc">
                                 <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -922,7 +929,7 @@ buttons.forEach(function(button) {
                         <center>
                         <br><br><br><br>
                             <h2>Edición Exitosa</h2>
-                            <a class="close" href="settings.php">&times;</a>
+                            <a class="close" href="doctors.php">&times;</a>
                             <div class="content">
                             Si cambia su correo electrónico también, cierre la sesión y vuelva a iniciar sesión con su nuevo correo electrónico
                                 
@@ -930,7 +937,7 @@ buttons.forEach(function(button) {
                             <div style="display: flex;justify-content: center;">
                             
                             <a href="doctors.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
-                            <!-- <a href="../vistas/login/logout.php" class="non-style-link"><button  class="btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;Cerrar Sesión&nbsp;&nbsp;</font></button></a> -->
+                            <a href="../vistas/login/logout.php" class="non-style-link"><button  class="btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;Cerrar Sesión&nbsp;&nbsp;</font></button></a>
 
                             </div>
                             <br><br>
