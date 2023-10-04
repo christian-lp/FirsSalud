@@ -196,7 +196,7 @@ include("../modelos/conexion.php");
                                         </td>
                                         <td width="30%">
                                             <select name="id_medic" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;">
-                                                <option value="" disabled selected hidden>Escoge Nombre Doctor from the list</option><br />
+                                                <option value="" disabled selected hidden>Escoge Nombre Doctor De La Lista</option><br />
 
                                                 <?php
 

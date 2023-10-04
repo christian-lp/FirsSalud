@@ -19,10 +19,13 @@ $database = Conexion::conectar();
 if ($_POST) {
     // Tu código de procesamiento de formulario aquí
     $result = $database->prepare("select * from medics");
-    $list11->execute();
+    $result->execute();
     $name = $_POST['name_medic'];
+    $surname = $_POST['surname_medic'];
     $spec = $_POST['specialty_medic'];
-    $dni = $_POST['dni_medic'];
+    $gen = $_POST['gender_medic'];
+    $birth = $_POST['day_of_birth_medic'];
+    $matri = $_POST['matricul_medic'];
     $email = $_POST['email_medic'];
     $tele = $_POST['phone_medic'];
     $password = $_POST['password_medic'];
@@ -37,7 +40,8 @@ if ($_POST) {
             // Ya existe una cuenta con esta dirección de correo electrónico.
             $error = '1';
         } else {
-            $sql1 = "insert into medics(email_medic, name_medic, password_medic, phone_medic, specialty_medic, dni_medic) values('$email','$name','$password','$tele',$spec,$dni);";
+            $sql1 = "INSERT INTO medics(matricul_medic,email_medic, name_medic,surname_medic,gender_medic, day_of_birth_medic, password_medic, phone_medic, specialty_medic) 
+            VALUES ('$matri','$email','$name','$password','$tele',$spec);";
             $hola = $database->prepare($sql1);
             $hola->execute();
             // Edición Exitosa

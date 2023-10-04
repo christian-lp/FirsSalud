@@ -154,10 +154,11 @@
                     $list11 = $database->prepare("select DISTINCT * from  medics;");
                     $list11->execute();
                     $num_rows11 = $list11->rowCount();
-
+                
                     $list12 = $database->prepare("select DISTINCT * from  schedule GROUP BY title;");
                     $list12->execute();
                     $num_rows12 = $list12->rowCount();
+                    
 
                     for ($y = 0; $y < $num_rows11; $y++) {
                         $row00 = $list11->fetch(PDO::FETCH_ASSOC);
@@ -248,16 +249,21 @@
                                             $docemail = $row["email_medic"];
                                             $scheduledate = $row["scheduledate"];
                                             $scheduletime = $row["scheduletime"];
-                                            $sql2 = "select * from appointment where scheduleid=$id";
-                                            //echo $sql2;
+                                            $nop = $row["nop"];
+                                            //cho $nop;
+
+                                            $sql2 = "select * from appointment where schedule_id=$id";
+                                            // echo $sql2;
                                             $result12 = $database->prepare($sql2);
-                                            $apponum = ($num_rows12) + 1;
+                                            $apponum = ($num_rows12);
+                                            
 
                                             echo '
                                             <form action="booking-complete.php" method="post">
                                                 <input type="hidden" name="scheduleid" value="' . $scheduleid . '" >
                                                 <input type="hidden" name="apponum" value="' . $apponum . '" >
                                                 <input type="hidden" name="date" value="' . $today . '" >
+                                                <input type="hidden" name="nop" value="' . $nop . '" >
 
                                                 ';
                                             echo '
@@ -310,7 +316,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <input type="Submit" class="login-btn btn-primary btn btn-book" style="margin-left:10px;padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;width:95%;text-align: center;" value="Reserva ya" name="booknow"></button>
+                                                <input type="Submit" class="login-btn btn-primary btn btn-book" style="margin-left:10px;padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;width:95%;text-align: center;" value="Reserva ya  " name="booknow"></button>
                                             </form>
                                             </td>
                                         </tr>

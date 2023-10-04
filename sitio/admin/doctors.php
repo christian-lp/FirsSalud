@@ -585,9 +585,33 @@ buttons.forEach(function(button) {
                                 </td>
                                 
                             </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Correo: </label>
+                                    <label for="surname" class="form-label">Apellido: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="text" surname="surname_medic" class="input-text" placeholder="Apellido Doctor" required><br>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label for="birth" class="form-label">Fecha de Nacimiento: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="date" birth="day_of_birth_medic" class="input-text" placeholder="Fecha de Nacimiento" required><br>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label for="email" class="form-label">Correo: </label>
                                 </td>
                             </tr>
                             <tr>
@@ -597,12 +621,12 @@ buttons.forEach(function(button) {
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="dni" class="form-label">DNI: </label>
+                                    <label for="matri" class="form-label">Matricula: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="dni_medic" class="input-text" placeholder="Número de Documento" required><br>
+                                    <input type="text" matri="matricul_medic" class="input-text" placeholder="N° de Matricula" required><br>
                                 </td>
                             </tr>
                             <tr>
@@ -612,36 +636,65 @@ buttons.forEach(function(button) {
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="tel" name="phone_medic" class="input-text" placeholder="Teléfono Móvil" required><br>
+                                    <input type="tel" Tele="phone_medic" class="input-text" placeholder="Teléfono Móvil" required><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Escoge Especialidad: </label>
+                                    <label for="spec" class="form-label">Especialidad: </label>
                                     
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="specialty_medic" id="" class="box" >';
+                                    <select spec="specialty_medic" id="" class="box" >';
 
 
-                $list11 = $database->prepare("select  * from  specialties order by specialty_name asc;");
-                $list11->execute();
-                $num_rows = $list11->rowCount();
+                                $list11 = $database->prepare("select  * from  specialties order by specialty_name asc;");
+                                $list11->execute();
+                                $num_rows = $list11->rowCount();
 
 
-                for ($y = 0; $y < $num_rows; $y++) {
-                    $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-                    $sn = $row00["specialty_name"];
-                    $id00 = $row00["id_specialty"];
-                    echo "<option value=" . $id00 . ">$sn</option><br/>";
-                };
+                                for ($y = 0; $y < $num_rows; $y++) {
+                                    $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                    $sn = $row00["specialty_name"];
+                                    $id00 = $row00["id_specialty"];
+                                    echo "<option value=" . $id00 . ">$sn</option><br/>";
+                                };
 
 
                 echo     '       </select><br>
                                 </td>
                             </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="gen" class="form-label">Genero: </label>
+                                
+                            </td>
+                        </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <select gen="gender_medic" id="" class="box" >';
+
+
+                            $list11 = $database->prepare("select  * from  genders order by gender_name asc;");
+                            $list11->execute();
+                            $num_rows = $list11->rowCount();
+
+
+                            for ($y = 0; $y < $num_rows; $y++) {
+                                $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                $sn = $row00["gender_name"];
+                                $id00 = $row00["id_gender"];
+                                echo "<option value=" . $id00 . ">$sn</option><br/>";
+                            };
+
+
+            echo     '       </select><br>
+                            </td>
+                        </tr>
+                        
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="password" class="form-label">Contraseña: </label>
