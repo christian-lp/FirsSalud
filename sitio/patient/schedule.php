@@ -180,6 +180,7 @@ if ($stmt->execute()) {
 
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
         $rowCount = count($result); // Obtener el número de filas
 
         // Resto de tu código ...
@@ -262,8 +263,23 @@ if ($stmt->execute()) {
 
         <tr>
             <td colspan="4" style="padding-top:10px;width: 100%;">
-                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)"><?php echo $searchtype . " Citas" . "(" . $rowCount . ")"; ?> </p>
-                <p class="heading-main12" style="margin-left: 45px;font-size:22px;color:rgb(49, 49, 49)"><?php echo $q . $insertkey . $q; ?> </p>
+                <?php
+                $conexion = Conexion::conectar();
+                $sql = "SELECT * FROM schedule";
+
+                $stmt = $conexion->prepare($sql);
+                $stmt->execute();
+                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $availableRowCount = count(array_filter($rows, function($row) {
+                    return $row["nop"] != 0;
+                }));
+                ?>
+                <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">
+                    <?php echo $searchtype . " Citas" . " (" . $availableRowCount . " disponibles)"; ?>
+                </p>
+                <p class="heading-main12" style="margin-left: 45px;font-size:22px;color:rgb(49, 49, 49)">
+                    <?php echo $q . $insertkey . $q; ?>
+                </p>
             </td>
         </tr>
         <tr>
@@ -274,42 +290,35 @@ if ($stmt->execute()) {
 
                             <tbody>
 
-                                <?php
+                            <?php
+                           
 
-                                if ($rowCount == 0) {
-                                    echo '<tr>
-                                <td colspan="4">
-                                <br><br><br><br>
-                                <center>
-                                <img src="../../img/notfound.svg" width="25%">
-
-                                <br>
-                                <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No pudimos encontrar nada relacionado con tus palabras clave.</p>
-                                <a class="non-style-link" href="schedule.php"><button class="login-btn btn-primary-soft btn" style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las sesiones &nbsp;</font></button>
-                                </a>
-                                </center>
-                                <br><br><br><br>
-                                </td>
+                            if (empty($rows)) {
+                                echo '<tr>
+                                    <td colspan="4">
+                                    <br><br><br><br>
+                                    <center>
+                                    <img src="../../img/notfound.svg" width="25%">
+                                    <br>
+                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">No pudimos encontrar nada relacionado con tus palabras clave.</p>
+                                    <a class="non-style-link" href="schedule.php"><button class="login-btn btn-primary-soft btn" style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las sesiones &nbsp;</font></button>
+                                    </a>
+                                    </center>
+                                    <br><br><br><br>
+                                    </td>
                                 </tr>';
-                                } else {
-                                    //echo $rowCount;
-                                    echo '<table style="width: 100%;">'; // Añade el estilo para que la tabla ocupe el 100% del ancho disponible
-                                    for ($x = 0; $x < $rowCount; $x++) {
-                                        if ($x % 3 == 0) {
-                                            echo '<tr>'; // Comienza una nueva fila cada tres citas
-                                        }
-                                    
-                                        $row = $result[$x];
-                                        $scheduleid = isset($row["scheduleid"]) ? $row["scheduleid"] : '';
-                                        $title = isset($row["title"]) ? $row["title"] : '';
-                                        $docname = isset($row["name_medic"]) ? $row["name_medic"] : '';
-                                        $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
-                                        $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
-                                    
-                                        if ($scheduleid == "") {
-                                            break; // Si no hay más citas, sal del bucle
-                                        }
-                                    
+                            } else {
+                                echo '<table style="width: 100%;">'; // Añade el estilo para que la tabla ocupe el 100% del ancho disponible
+
+                                foreach ($rows as $row) {
+                                    $scheduleid = isset($row["scheduleid"]) ? $row["scheduleid"] : '';
+                                    $title = isset($row["title"]) ? $row["title"] : '';
+                                    $docname = isset($row["name_medic"]) ? $row["name_medic"] : '';
+                                    $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
+                                    $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
+                                    $nop = isset($row["nop"]) ? $row["nop"] : 0;
+
+                                    if ($nop != 0) {
                                         echo '<td style="width: 33.33%; text-align: center;">'; // Establece el ancho y centra el contenido
                                         echo '<div class="dashboard-items search-items">';
                                         echo '<div style="width:100%">';
@@ -320,17 +329,13 @@ if ($stmt->execute()) {
                                         echo '</div>';
                                         echo '</div>';
                                         echo '</td>';
-                                    
-                                        if (($x + 1) % 3 == 0 || $x == $rowCount - 1) {
-                                            echo '</tr>'; // Cierra la fila después de mostrar tres citas o si es la última cita
-                                        }
                                     }
-                                    echo '</table>'; // Cierra la tabla
-                                    
-                                    
                                 }
 
-                                ?>
+                                echo '</table>'; // Cierra la tabla
+                            }
+                            ?>
+
                             </tbody>
                         </table>
                     </div>
