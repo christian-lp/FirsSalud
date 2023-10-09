@@ -106,7 +106,7 @@ $database = Conexion::conectar();
         <td class="menu-btn menu-icon-appoinment menu-active menu-icon-appoinment-active">
             <a href="appointment.php" class="non-style-link-menu non-style-link-menu-active">
                 <div>
-                    <p class="menu-text">Cita</p>
+                    <p class="menu-text">Turnos</p>
             </a></div>
         </td>
     </tr>
@@ -130,7 +130,7 @@ $database = Conexion::conectar();
                         </button></a>
                 </td>
                 <td>
-                    <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Administrador de Citas</p>
+                    <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Administrador de Turnos Reservados</p>
 
                 </td>
                 <td width="15%">
@@ -196,7 +196,7 @@ $database = Conexion::conectar();
                                 </td>
                                 <td width="30%">
                                     <select name="docid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;">
-                                        <option value="" disabled selected hidden>Escoge Nombre Doctor from the list</option><br />
+                                        <option value="" disabled selected hidden>Elegir Nombre Doctor de la Lista</option><br />
 
                                         <?php
 
@@ -275,7 +275,7 @@ $database = Conexion::conectar();
                                         </th>
                                         <th class="table-headin">
 
-                                            Número de cita
+                                            Número de Turno
 
                                         </th>
 
@@ -290,15 +290,9 @@ $database = Conexion::conectar();
 
                                         </th>
 
-                                        <th class="table-headin" style="font-size:10px">
-
-                                            Fecha y hora de la sesión
-
-                                        </th>
-
                                         <th class="table-headin">
 
-                                            Fecha de la Cita
+                                            Fecha y hora del Turno
 
                                         </th>
 

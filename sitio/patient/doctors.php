@@ -279,7 +279,8 @@ if ($stmt->execute()) {
                                                 $name = $row["name_medic"];
                                                 $email = $row["email_medic"];
                                                 $spe = $row["specialty_medic"];
-                                                $spcil_res = $database->prepare("select specialty_name from specialties where id_specialty=:spe");
+                                                $spcil_res = $database->prepare("SELECT specialty_name FROM specialties WHERE specialty_id= $spe");
+                                                $spcil_res->execute();
                                                 $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
                                                 $spcil_name = $spcil_array["specialty_name"];
                                                 
@@ -350,7 +351,7 @@ if ($stmt->execute()) {
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $name = $row["name_medic"];
             $email = $row["email_medic"];
-            $dni= $row['dni_medic'];
+            $matri= $row['matricul_medic'];
             $tele = $row['phone_medic'];
             $spe = $row["specialty_medic"];
 
@@ -358,6 +359,8 @@ if ($stmt->execute()) {
             $spcil_res->execute();
             $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
             $spcil_name = $spcil_array["specialty_name"];
+               // Obtener la disponibilidad del médico
+            $availability = "Lunes a Viernes de 8:00 a.m. a 4:00 p.m.";
 
             echo '
             <div id="popup1" class="overlay">
@@ -366,7 +369,7 @@ if ($stmt->execute()) {
                         <h2></h2>
                         <a class="close" href="doctors.php">&times;</a>
                         <div class="content">
-                            MEDIC<br>
+                        <strong>MEDIC</strong><br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -381,56 +384,67 @@ if ($stmt->execute()) {
                             <tr>
                                 
                                 <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Nombre: </label>
+                                    <label for="name" class="form-label"><strong>Nombre:</strong></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    ' . $name . '<br><br>
+                                    ' . $name . '<br>
                                 </td>
                                 
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Correo: </label>
+                                    <label for="Email" class="form-label"><strong>Correo:</strong></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $email . '<br><br>
+                                ' . $email . '<br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">DNI: </label>
+                                    <label for="nic" class="form-label"><strong>N° de Matricula:</strong></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $dni . '<br><br>
+                                ' . $matri. '<br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono: </label>
+                                    <label for="Tele" class="form-label"><strong>Teléfono:</strong></label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $tele . '<br><br>
+                                ' . $tele . '<br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Especialidad: </label>
+                                    <label for="spec" class="form-label"><strong>Especialidad:</strong></label>
                                     
                                 </td>
                             </tr>
                             <tr>
                             <td class="label-td" colspan="2">
-                            ' . $spcil_name . '<br><br>
+                            ' . $spcil_name . '<br>
                             </td>
                             </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="availability" class="form-label"><strong>Disponibilidad:</strong></label>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    ' . $availability . '<br><br>
+                                </td>
+                            </tr>
+                    
                             <tr>
                                 <td colspan="2">
                                     <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
@@ -439,6 +453,7 @@ if ($stmt->execute()) {
                                 </td>
                 
                             </tr>
+                    
                         </table>
                         </div>
                     </center>

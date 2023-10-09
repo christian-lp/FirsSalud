@@ -306,13 +306,12 @@ if ($stmt->execute()) {
                             </td>
                             <td>
                                 <p style="text-align:center;padding:10px;padding-right:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
-                                    Medicos disponibles hasta el próximo <?php
+                                    Turnos disponibles hasta el próximo <?php
                                                                         echo date("l", strtotime("+1 week"));
                                                                         ?>
                                 </p>
-                                <p style="padding-bottom:19px;text-align:center;padding-right:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
+                                <p style="padding-bottom:19px;text-align:left;padding-right:40px;padding-left:40px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
                                     Aquí hay acceso rápido a las próximas sesiones programadas hasta 7 días<br>
-                                    Agregar, quitar y muchas funciones disponibles en la sección Calendario.
                                 </p>
                             </td>
                         </tr>

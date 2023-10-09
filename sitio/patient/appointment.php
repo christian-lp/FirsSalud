@@ -340,7 +340,7 @@ if ($stmt->execute()) {
                     <center>
                     <br><br>
                         <h2>Reserva realizada con éxito.</h2>
-                        <a class="close" href="appointment.php">&times;</a>
+                        <a class="close" href="index.php">&times;</a>
                         <div class="content">
                         Tu número de cita es ' . $id . '.<br><br>
 

@@ -128,7 +128,7 @@ include("../modelos/conexion.php");
                         </button></a>
                 </td>
                 <td>
-                    <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Administrador de Horarios</p>
+                    <p style="font-size: 23px;padding-left:12px;font-weight: 600;">Administrador de Turnos</p>
 
                 </td>
                 <td width="15%">
@@ -146,8 +146,9 @@ include("../modelos/conexion.php");
                         $database = Conexion::conectar();
                         $list110 = $database->prepare("select  * from  schedule;");
                         $list110->execute();
-                        $num_rows = $list110->rowCount();
+                        $row = $list110->fetch(PDO::FETCH_ASSOC);
 
+                    
                         ?>
                     </p>
                 </td>
@@ -161,8 +162,8 @@ include("../modelos/conexion.php");
             <tr>
                 <td colspan="4">
                     <div style="display: flex;margin-top: 40px;">
-                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Calendario de Sesión</div>
-                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button class="login-btn btn-primary btn button-icon" style="margin-left:25px;background-image: url('../../img/icons/add.svg');">Agregar una Sesión</font></button>
+                        <div class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49);margin-top: 5px;">Calendario de Turnos</div>
+                        <a href="?action=add-session&id=none&error=0" class="non-style-link"><button class="login-btn btn-primary btn button-icon" style="margin-left:25px;background-image: url('../../img/icons/add.svg');">Agregar Turno</font></button>
                         </a>
                     </div>
                 </td>
@@ -170,7 +171,7 @@ include("../modelos/conexion.php");
             <tr>
                 <td colspan="4" style="padding-top:10px;width: 100%;">
 
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Todas las Sesiones (<?php echo $num_rows; ?>)</p>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Turnos Disponibles (<?php echo $nop; ?>)</p>
                 </td>
 
             </tr>
@@ -261,7 +262,11 @@ include("../modelos/conexion.php");
 
                 //
             } else {
-                $sqlmain = "select schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join medics on schedule.id_medic=medics.id_medic  order by schedule.scheduledate desc";
+                $sqlmain = "SELECT schedule.scheduleid, schedule.title, medics.name_medic, schedule.scheduledate, schedule.scheduletime, schedule.nop 
+                FROM schedule 
+                INNER JOIN medics ON schedule.id_medic = medics.id_medic  
+                ORDER BY schedule.scheduledate ASC, schedule.scheduletime ASC";
+     
             }
 
 
@@ -304,41 +309,30 @@ include("../modelos/conexion.php");
                                 </thead>
                                 <tbody>
 
-                                    <?php
+                                <?php
+                                $result = $database->prepare($sqlmain);
+                                $result->execute();
+                                $rows = $result->fetchAll(PDO::FETCH_ASSOC); // Obtener todas las filas de resultados
 
+                        
+                                $cont = 0;
 
-                                    $result = $database->prepare($sqlmain);
-                                    $result->execute();
-                                    $num_rows = $result->rowCount();
+                                foreach ($rows as $row) {
+                                    $scheduleid = $row["scheduleid"];
+                                    $title = $row["title"];
+                                    $docname = $row["name_medic"];
+                                    $scheduledate = $row["scheduledate"];
+                                    $scheduletime = $row["scheduletime"];
+                                    $nop = $row["nop"];
 
-                                    if ($num_rows == 0) {
+                                    if ($nop > 0 ) {
+                                        $cont ++;
+
+                                
                                         echo '<tr>
-                                    <td colspan="4">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../../img/notfound.svg" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
-                                    <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Sesiones &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    } else {
-                                        for ($x = 0; $x < $num_rows; $x++) {
-                                            $row = $result->fetch(PDO::FETCH_ASSOC);
-                                            $scheduleid = $row["scheduleid"];
-                                            $title = $row["title"];
-                                            $docname = $row["name_medic"];
-                                            $scheduledate = $row["scheduledate"];
-                                            $scheduletime = $row["scheduletime"];
-                                            $nop = $row["nop"];
-                                            echo '<tr>
                                             <td> &nbsp;' .
-                                                    substr($title, 0, 30)
-                                                    . '</td>
+                                                substr($title, 0, 30)
+                                                . '</td>
                                             <td>
                                             ' . substr($docname, 0, 20) . '
                                             </td>
@@ -358,10 +352,27 @@ include("../modelos/conexion.php");
                                             </div>
                                             </td>
                                             </tr>';
-                                        }
                                     }
+                                } 
+                                if($cont == 0)
+                                    {
+                                        echo '<tr>
+                                            <td colspan="4">
+                                            <br><br><br><br>
+                                            <center>
+                                            <img src="../../img/notfound.svg" width="25%">
+                                            
+                                            <br>
+                                            <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldn\'t find anything related to your keywords !</p>
+                                            <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Sesiones &nbsp;</font></button></a>
+                                            </center>
+                                            <br><br><br><br>
+                                            </td>
+                                        </tr>';
+                                    }
+                                ?>
 
-                                    ?>
+
 
                                 </tbody>
 
@@ -442,34 +453,58 @@ include("../modelos/conexion.php");
             echo     '              </select><br><br>
                                 </td>
                             </tr>
+                            
+                       
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nop" class="form-label">Número de Pacientes/Números de Citas: </label>
+                                    <label for="date" class="form-label">Fecha de Sesión (desde): </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="number" name="nop" class="input-text" min="0"  placeholder="El número de cita final para esta sesión depende de este número" required><br>
+                                    <input type="date" name="start_date" class="input-text" min="' . date('Y-m-d') . '" required><br>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="date" class="form-label">Fecha de Sesión (hasta): </label>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="date" name="end_date" class="input-text" min="' . date('Y-m-d') . '" required><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="date" class="form-label">Fecha de Sesión: </label>
+                                    <label for="time" class="form-label">Hora Calendario (desde): </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="date" name="date" class="input-text" min="' . date('Y-m-d') . '" required><br>
+                                    <input type="time" name="start_time" class="input-text" placeholder="Hora" required><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="time" class="form-label">Hora Calendario: </label>
+                                    <label for="time" class="form-label">Hora Calendario (hasta): </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="time" name="time" class="input-text" placeholder="Hora" required><br>
+                                    <input type="time" name="end_time" class="input-text" placeholder="Hora" required><br>
+                                </td>
+                            </tr>
+                            <tr>
+
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="number" class="form-label">Duracion del Turno: </label>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <input type="number" name="duration" class="input-text" placeholder="Minutos" required><br>
                                 </td>
                             </tr>
                             <tr>
@@ -534,7 +569,10 @@ include("../modelos/conexion.php");
             </div>
             ';
         } elseif ($action == 'view') {
-            $sqlmain = "SELECT schedule.scheduleid, schedule.title, medics.name_medic, schedule.scheduledate, schedule.scheduletime, schedule.nop FROM schedule INNER JOIN medics ON schedule.id_medic = medics.id_medic WHERE schedule.scheduleid = '$id'";
+            $sqlmain = "SELECT schedule.scheduleid, schedule.title, medics.name_medic, schedule.scheduledate, schedule.scheduletime, schedule.nop
+            FROM schedule
+            INNER JOIN medics ON schedule.id_medic = medics.id_medic 
+            WHERE schedule.scheduleid = '$id'";
             $result = $database->prepare($sqlmain);
             $result->execute();
             $row = $result->fetch(PDO::FETCH_ASSOC);
@@ -634,6 +672,7 @@ include("../modelos/conexion.php");
                                             </th>
                                     </thead>
                                     <tbody>';
+          
 
 
 
@@ -669,6 +708,7 @@ include("../modelos/conexion.php");
                     $pid = $row["id_patient"];
                     $pname = $row["name"];
                     $ptel = $row["phone"];
+                    $nop = $row["nop"];
 
                     echo '<tr style="text-align:center;">
                             <td>
