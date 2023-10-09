@@ -146,7 +146,8 @@ include("../modelos/conexion.php");
                         $database = Conexion::conectar();
                         $list110 = $database->prepare("select  * from  schedule;");
                         $list110->execute();
-                        $row = $list110->fetch(PDO::FETCH_ASSOC);
+                        $num_rows = $list110->rowCount();
+                        // $row = $list110->fetch(PDO::FETCH_ASSOC);
 
                     
                         ?>
@@ -171,7 +172,7 @@ include("../modelos/conexion.php");
             <tr>
                 <td colspan="4" style="padding-top:10px;width: 100%;">
 
-                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Turnos Disponibles (<?php echo $nop; ?>)</p>
+                    <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Turnos Disponibles (<?php echo $num_rows; ?>)</p>
                 </td>
 
             </tr>
@@ -266,7 +267,6 @@ include("../modelos/conexion.php");
                 FROM schedule 
                 INNER JOIN medics ON schedule.id_medic = medics.id_medic  
                 ORDER BY schedule.scheduledate ASC, schedule.scheduletime ASC";
-     
             }
 
 

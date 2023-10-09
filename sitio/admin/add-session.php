@@ -55,10 +55,11 @@ if ($_POST) {
     
             if ($result != TRUE) {
                 echo "Error al agregar el turno: ";
-            } else {    
-                $nop++;
-            
             }
+            //else {    
+            //     $nop++;
+            
+            // }
     
             $horaActual += ($duracion * 60); // Añadir la duración en minutos al horario actual
         }
