@@ -187,7 +187,7 @@ if ($stmt->execute()) {
 
                         $today = date('d-M-Y');
                         echo $today;
-                        
+                        $today = date('Y-m-d');
                         $patientstmt = Conexion::conectar()->prepare("select  * from  patients;");
                         $patientstmt->execute();
                         $patientCount = $patientstmt->rowCount();
@@ -270,7 +270,7 @@ if ($stmt->execute()) {
                                                 <?php echo $scheduleCount  ?>
                                             </div><br>
                                             <div class="h3-dashboard" style="font-size: 15px">
-                                                Sesiones Hoy
+                                                Turnos Disponibles de Hoy
                                             </div>
                                         </div>
                                         <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/session-iceblue.svg');"></div>
@@ -294,9 +294,25 @@ if ($stmt->execute()) {
                         <tr>
                             <td>
                                 <p style="padding:10px;padding-left:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
-                                    Turnos reservados hasta el próximo <?php
-                                                                    echo date("l", strtotime("+1 week"));
-                                                                    ?>
+                                    Turnos reservados hasta el próximo
+                                    <?php
+                                    $nextWeek = strtotime('+1 week');
+                                    $dayOfWeek = date('N', $nextWeek); // Obtén el número del día de la semana (1 = lunes, 7 = domingo)
+
+                                    $daysOfWeekSpanish = [
+                                        1 => 'Lunes',
+                                        2 => 'Martes',
+                                        3 => 'Miércoles',
+                                        4 => 'Jueves',
+                                        5 => 'Viernes',
+                                        6 => 'Sábado',
+                                        7 => 'Domingo'
+                                    ];
+
+                                    $dayInSpanish = $daysOfWeekSpanish[$dayOfWeek];
+
+                                    echo $dayInSpanish;
+                                ?>
                                 </p>
                                 <p style="padding-bottom:19px;padding-left:50px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
                                     Aquí está el acceso rápido a las próximas citas hasta 7 días<br>
@@ -305,11 +321,29 @@ if ($stmt->execute()) {
 
                             </td>
                             <td>
-                                <p style="text-align:center;padding:10px;padding-right:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
-                                    Turnos disponibles hasta el próximo <?php
-                                                                        echo date("l", strtotime("+1 week"));
-                                                                        ?>
-                                </p>
+                            <p style="text-align:left;padding-left:40px;padding-right:48px;padding-bottom:0;font-size:23px;font-weight:700;color:var(--primarycolor);">
+                                Turnos disponibles hasta el próximo 
+                                <?php
+                                    $nextWeek = strtotime('+1 week');
+                                    $dayOfWeek = date('N', $nextWeek); // Obtén el número del día de la semana (1 = lunes, 7 = domingo)
+
+                                    $daysOfWeekSpanish = [
+                                        1 => 'Lunes',
+                                        2 => 'Martes',
+                                        3 => 'Miércoles',
+                                        4 => 'Jueves',
+                                        5 => 'Viernes',
+                                        6 => 'Sábado',
+                                        7 => 'Domingo'
+                                    ];
+
+                                    $dayInSpanish = $daysOfWeekSpanish[$dayOfWeek];
+
+                                    echo $dayInSpanish;
+                                ?>
+                            </p>
+                
+
                                 <p style="padding-bottom:19px;text-align:left;padding-right:40px;padding-left:40px;font-size:15px;font-weight:500;color:#212529e3;line-height: 20px;">
                                     Aquí hay acceso rápido a las próximas sesiones programadas hasta 7 días<br>
                                 </p>
@@ -375,7 +409,7 @@ if ($stmt->execute()) {
                                                     <img src="../../img/notfound.svg" width="25%">
                                                     
                                                     <br>
-                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
+                                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
                                                     <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todos los Turnos &nbsp;</font></button>
                                                     </a>
                                                     </center>
@@ -457,9 +491,10 @@ if ($stmt->execute()) {
                                                     $today = date("Y-m-d");
                                                     $sqlmain = "SELECT schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop 
                                                     FROM schedule INNER JOIN medics ON schedule.id_medic=medics.id_medic
-                                                    WHERE schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek' order by schedule.scheduledate desc";
-                                                    $result = Conexion::conectar()->prepare($sqlmain);
-                                                    $stmt->execute();
+                                                    WHERE schedule.scheduledate>='$today' and schedule.scheduledate<='$nextweek'
+                                                    ORDER BY schedule.scheduledate, schedule.scheduletime";
+                                                    $stmt = Conexion::conectar()->prepare($sqlmain);
+                                                    $stmt ->execute();
                                                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                     // var_dump($result);
                                                     // exit();
@@ -472,7 +507,7 @@ if ($stmt->execute()) {
                                                         <img src="../../img/notfound.svg" width="25%">
                                                         
                                                         <br>
-                                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
+                                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
                                                         <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar Turnos Disponibles &nbsp;</font></button>
                                                         </a>
                                                         </center>
