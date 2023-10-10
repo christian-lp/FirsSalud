@@ -195,45 +195,27 @@ if ($stmt->execute()) {
                     <td>
                         <!-- formulario de búsqueda -->
                         <form action="" method="post" class="header-search">
-                            <input type="search" name="search" class="input-text header-searchbar" placeholder="Búsqueda por Nombre, Doctor o Correo or Date (YYYY-MM-DD)" list="doctors" value="<?php echo $insertkey ?>">&nbsp;&nbsp;
-
-                            <?php
-                            // Conexión a la base de datos utilizando tu clase de conexión
-                            $database = Conexion::conectar();
-                            $sqlMedics = "SELECT name_medic FROM medics";
-
-                            $stmtMedics = $database->prepare($sqlMedics);
-                            $stmtMedics->execute();
-                            $medicResults = $stmtMedics->fetchAll(PDO::FETCH_ASSOC);
-
-                            $sqlSchedule = "SELECT DISTINCT title FROM schedule GROUP BY title";
-                            $stmtSchedule = $pdo->prepare($sqlSchedule);
-                            $stmtSchedule->execute();
-                            $scheduleResults = $stmtSchedule->fetchAll(PDO::FETCH_ASSOC);
-
-                            echo '<datalist id="doctors">';
-
-                            // Iterar a través de los resultados de médicos
-                            foreach ($medicResults as $row00) {
-                                $d = $row00["name_medic"];
-                                echo "<option value='$d'><br/>";
-                            }
-
-                            // Iterar a través de los resultados de títulos de horarios
-                            foreach ($scheduleResults as $row00) {
-                                $d = $row00["title"];
-                                echo "<option value='$d'><br/>";
-                            }
-
-                            echo ' </datalist>';
-
-                            // Cerrar la conexión a la base de datos
-                            $database = null;
-                            ?>
-
+                            <input type="date" name="scheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
                             <input type="Submit" value="Búsqueda" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
                         </form>
                     </td>
+                    <?php
+            if ($_POST) {
+                //print_r($_POST);
+                if (!empty($_POST["scheduledate"])) {
+                    $database = Conexion::conectar();
+                    $scheduledate = $_POST["scheduledate"];
+                    $sqlpt1 = "SELECT *FROM schedule WHERE scheduledate='$scheduledate' ";
+                    $stmt = $database->prepare($sqlpt1);
+                    $stmt->execute();
+                }
+
+            }
+
+
+            ?>
+
+
                     <td width="15%">
                         <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
                             Fecha
@@ -255,7 +237,6 @@ if ($stmt->execute()) {
                         <?php
                         $conexion = Conexion::conectar();
                         $sql = "SELECT * FROM schedule WHERE scheduledate >= '$today' AND CONCAT(scheduledate, ' ', scheduletime) >= NOW()";
-
                         $stmt = $conexion->prepare($sql);
                         $stmt->execute();
                         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);

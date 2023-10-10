@@ -142,9 +142,10 @@ include("../modelos/conexion.php");
 
                         $today = date('d-M-Y');
                         echo $today;
+                        $today = date('Y-m-d');
 
                         $database = Conexion::conectar();
-                        $list110 = $database->prepare("select  * from  schedule;");
+                        $list110 = $database->prepare("SELECT  * FROM  schedule WHERE scheduledate >='$today';");
                         $list110->execute();
                         $num_rows = $list110->rowCount();
                         // $row = $list110->fetch(PDO::FETCH_ASSOC);
