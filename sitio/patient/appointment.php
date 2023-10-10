@@ -72,6 +72,8 @@ if ($stmt->execute()) {
 
     //Obtiene los resultados
     $result = $stmt->fetchAll();
+    // var_dump($result);
+    // exit();
 
     $stmt = $database->prepare("SELECT * FROM appointment");
     // Ejecuta la consulta
@@ -287,6 +289,30 @@ if ($stmt->execute()) {
                                     </tr>';
                                     } else {
 
+                                        // echo "<table>"; // Abre la tabla
+                                        //     foreach ($result as $row) {
+                                                
+                                        //         echo "<tr>"; // Abre una fila
+                                        //         echo "<td style='width: 25%;'>"; // Abre una celda
+
+                                        //         echo "<div class='dashboard-items search-items'>";
+                                        //         echo "<div style='width:100%;'>";
+                                        //         echo "<div class='h3-search'>Fecha de Reserva: " . substr($row["appodate"], 0, 30) . "<br>";
+                                        //         echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
+                                        //         echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
+                                        //         echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
+                                        //         echo "<div class='h3-search'>"."<strong>Doctor&nbsp" . substr($row["name_medic"], 0, 30) . "</strong></div>";
+                                        //         echo "<div class='h4-search'>Fecha Reserva: " . $row["scheduledate"] . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
+                                        //         echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&scheduleid=" . $row["scheduleid"] . "&title=" . $row["title"] . "&doc=" . $row["name_medic"] . "'><button class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button></a>";
+
+                                        //         echo "</div>";
+
+                                        //         echo "</div>";
+                                        //         echo "</td>"; // Cierra la celda
+                                        //         echo "</tr>"; // Cierra la fila
+                                        //     }
+                                        //         echo "</table>"; // Cierra la tabla
+
                                         echo "<table>"; // Abre la tabla
                                             foreach ($result as $row) {
                                                 echo "<tr>"; // Abre una fila
@@ -298,16 +324,25 @@ if ($stmt->execute()) {
                                                 echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
                                                 echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
                                                 echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
-                                                echo "<div class='h3-search'>"."<strong>Doctor&nbsp" . substr($row["name_medic"], 0, 30) . "</strong></div>";
+                                                echo "<div class='h3-search'>" . "<strong>Doctor&nbsp" . substr($row["name_medic"], 0, 30) . "</strong></div>";
                                                 echo "<div class='h4-search'>Fecha Reserva: " . $row["scheduledate"] . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
-                                                echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&title=" . $row["title"] . "&doc=" . $row["name_medic"] . "'><button class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button></a>";
+
+                                                echo "<form method='post' action='delete-appointment.php'>";
+                                                echo "<input type='hidden' name='action' value='drop'>";
+                                                echo "<input type='hidden' name='id' value='" . $row["appointment_id"] . "'>";
+                                                echo "<input type='hidden' name='scheduleid' value='" . $row["scheduleid"] . "'>";
+                                                echo "<input type='hidden' name='title' value='" . $row["title"] . "'>";
+                                                echo "<input type='hidden' name='doc' value='" . $row["name_medic"] . "'>";
+                                                echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button>";
+                                                echo "</form>";
+
                                                 echo "</div>";
 
                                                 echo "</div>";
                                                 echo "</td>"; // Cierra la celda
                                                 echo "</tr>"; // Cierra la fila
                                             }
-                                                echo "</table>"; // Cierra la tabla
+                                            echo "</table>"; // Cierra la tabla
 
                                         }
                                     
@@ -359,6 +394,7 @@ if ($stmt->execute()) {
             $docname = $_GET["doc"];
 
             echo '
+            
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>

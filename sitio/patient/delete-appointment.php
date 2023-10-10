@@ -12,21 +12,23 @@
         header("location: ../vistas/login/login.php");
     }
 
-
-    //import link
-   
-
     
-    if($_GET){
+    if($_POST){
+    
         //import database
         include("../modelos/conexion.php");
         $database = Conexion::conectar();
-        $id=$_GET["id"];
-        //$result001= $database->query("select * from schedule where scheduleid=$id;");
-        //$email=($result001->fetch_assoc())["docemail"];
-        $sql= $database->prepare("delete from appointment where appointment_id='$id';");
+        //$id=$_GET["id"];
+        $id = $_POST["id"];
+        $id2 = $_POST["scheduleid"];
+        // var_dump($id2);
+        // exit();
+        
+        $sql2 = $database->prepare("UPDATE schedule SET nop = nop + 1 WHERE scheduleid = $id2");
+        $sql2->execute();
+        $sql= $database->prepare("DELETE FROM appointment WHERE appointment_id='$id';");
         $sql->execute();
-        //$sql= $database->query("delete from doctor where docemail='$email';");
+        //$sql= $database->prepare("delete from doctor where docemail='$email';");
         //print_r($email);
         header("location: appointment.php");
     }
