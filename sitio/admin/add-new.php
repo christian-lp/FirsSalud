@@ -24,7 +24,11 @@ if ($_POST) {
     $surname = $_POST['surname_medic'];
     $spec = $_POST['specialty_medic'];
     $gen = $_POST['gender_medic'];
-    $birth = $_POST['day_of_birth_medic'];
+    $raw_birth = $_POST['day_of_birth_medic'];
+    $timestamp = strtotime($raw_birth);
+    $birth = date('Y-m-d', $timestamp);
+    // var_dump($birth);
+    // exit;
     $matri = $_POST['matricul_medic'];
     $email = $_POST['email_medic'];
     $tele = $_POST['phone_medic'];
@@ -33,17 +37,17 @@ if ($_POST) {
 
     if ($password == $cpassword) {
         $error = '3';
-        $result = $database->prepare("select * from medics where email_medic='$email';");
+        $result = $database->prepare("select * from medics where email_medic='$email'");
         $result->execute();
         $num_rows = $result->rowCount();
         if ($num_rows == 1) {
             // Ya existe una cuenta con esta dirección de correo electrónico.
             $error = '1';
         } else {
-            $sql1 = "INSERT INTO medics(matricul_medic,email_medic, name_medic,surname_medic,gender_medic, day_of_birth_medic, password_medic, phone_medic, specialty_medic) 
-            VALUES ('$matri','$email','$name','$password','$tele',$spec);";
-            $hola = $database->prepare($sql1);
-            $hola->execute();
+            $sql1 = "INSERT INTO medics(matricul_medic,name_medic,surname_medic,gender_medic, day_of_birth_medic,email_medic,phone_medic,specialty_medic,password_medic) 
+            VALUES ('$matri','$name','$surname','$gen','$birth','$email','$tele','$spec','$password');";
+            $stmt = $database->prepare($sql1);
+            $stmt->execute();
             // Edición Exitosa
             $error = '4';
         }
