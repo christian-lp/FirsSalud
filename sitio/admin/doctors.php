@@ -272,7 +272,7 @@ if ($stmt->execute()) {
                                         <img src="../../img/notfound.svg" width="25%">
                                         
                                         <br>
-                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">We  couldnt find anything related to your keywords !</p>
+                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
                                         <a class="non-style-link" href="doctors.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todos los doctores &nbsp;</font></button>
                                         </a>
                                         </center>
@@ -553,9 +553,10 @@ buttons.forEach(function(button) {
             $error_1 = $_GET["error"];
             $errorlist = array(
                 '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">La cuenta ya existe.</label>',
-                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
+                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Reconfirmar contraseña</label>',
                 '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
                 '4' => "",
+                '5' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de fecha! Debe ser mayor de 24 años</label>',
                 '0' => '',
 
             );
@@ -709,7 +710,7 @@ buttons.forEach(function(button) {
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="password" name="password" class="input-text" placeholder="Definir una Contraseña" required><br>
+                                    <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
                                 </td>
                             </tr><tr>
                                 <td class="label-td" colspan="2">
@@ -718,7 +719,7 @@ buttons.forEach(function(button) {
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="password" name="cpassword" class="input-text" placeholder="Confirmar Contraseña" required><br>
+                                    <input type="password" name="cpassword_medic" class="input-text" placeholder="Confirmar Contraseña" required><br>
                                 </td>
                             </tr>
                             

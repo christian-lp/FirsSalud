@@ -1,41 +1,12 @@
 <?php
-session_start(); // Inicia la sesión al principio
+session_start(); // Mueve esta línea al principio
 
 if (session_status() == PHP_SESSION_NONE) 
 {
     error_reporting(E_ALL);
     if (isset($_SESSION['usr_rol']) != "") 
     {
-        echo '<script type="text/javascript">window.location.href="index.php";</script>';
-    }
-}
-
-if (isset($_POST['sing_up'])) 
-{
-    // Recoge los datos del formulario
-    $email = $_POST['emailUsr'];
-    $password = $_POST['passUsr'];
-    $confirmPassword = $_POST['CpassUsr'];
-
-    // Verifica que las contraseñas coincidan
-    if ($password === $confirmPassword) 
-    {
-        // Genera un salt aleatorio
-        $salt = random_bytes(16);
-
-        // Combina la contraseña con el salt
-        $saltedPassword = $password . $salt;
-
-        // Hashea la contraseña
-        $hashedPassword = password_hash($saltedPassword, PASSWORD_DEFAULT);
-
-        // Aquí debes guardar $email, $hashedPassword y $salt en tu base de datos
-
-        // Luego, puedes redirigir al usuario o mostrar un mensaje de registro exitoso
-    } 
-    else 
-    {
-        echo "Las contraseñas no coinciden.";
+		echo '<script type="text/javascript">window.location.href="index.php";</script>';
     }
 }
 ?>
@@ -52,7 +23,13 @@ if (isset($_POST['sing_up']))
 <div class="login-box">
   <h2>Registrarse</h2>
   <form method="post" id="registration-form">
-    <div id="error-message" style="color: red;"></div>
+	<?php
+		// if (isset($_SESSION['registration_error'])) {
+		// 	echo '<p style="color: red;">' . $_SESSION['registration_error'] . '</p>';
+		// 	unset($_SESSION['registration_error']); // Limpia la variable de sesión después de mostrar el mensaje
+		// }
+		?>
+		<div id="error-message" style="color: red;"></div>
 
     <?php      
         include("/var/www/html/FirsSalud/sitio/modelos/conexion.php");
@@ -80,10 +57,18 @@ if (isset($_POST['sing_up']))
             <span></span>
             <span></span>
             <label for="sing_up"></label>
+            <input type="text" name="sing_up" style="display: none;"> <!-- Agrega un input oculto con el mismo nombre que el botón -->
             <input type="submit" name="sing_up" value="Registrarse"><!-- Usa un input de tipo submit -->
         </a>
     </div>
 
+    <?php
+        if (isset($_POST['sing_up'])) 
+        {
+            (new ControladorUsuarios())->ctrRegister();
+        }
+    ?>
+    
     <div>
         <a href="login.php">Iniciar Sesión</a>
     </div>
