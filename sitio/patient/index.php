@@ -35,8 +35,6 @@ if ($stmt->execute()) {
     }
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -71,8 +69,6 @@ if ($stmt->execute()) {
 </head>
 
 <body>
-
-
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -172,6 +168,7 @@ if ($stmt->execute()) {
                         date_default_timezone_set('America/Argentina/Buenos_Aires');
                         $today = date('d-M-Y');
                         echo $today;
+                        $today = date('Y-m-d');
 
                         // Consulta de pacientes
                         $patientstmt = Conexion::conectar()->prepare("SELECT * FROM patients");
@@ -201,6 +198,9 @@ if ($stmt->execute()) {
                         $appointment_count = count($appointmentrow);
                         $schedule_count = count($schedulerow);
 
+                        // var_dump($schedule_count);
+                        // exit();
+
                         // Puedes usar $patientrow, $doctorrow, $appointmentrow y $schedulerow en tu código aquí
                     } catch (PDOException $e) {
                         echo "Error en la conexión o consulta: " . $e->getMessage();
@@ -227,7 +227,7 @@ if ($stmt->execute()) {
                     <td>
                         <h3>Bienvenido!</h3>
                         <h1><?php echo $username  ?>!</h1>
-                        <p>¿No sabes como hacer el proceso? Puedes saltar directamente a la sección de
+                        <p><br>¿No sabes como hacer el proceso? Puedes saltar directamente a la sección de
                             <a href="doctors.php" class="non-style-link"><b>"Todos los Doctores"</b></a> o verificar la sección de tus
                             <a href="schedule.php" class="non-style-link"><b>"Citas"</b> </a><br>
                             Puedes hacer un seguimiento de tu historial de citas pasadas y futuras. Infórmate también de la hora prevista de llegada de tu médico.<br><br>
@@ -322,7 +322,7 @@ if ($stmt->execute()) {
                                         <?php echo count($appointmentrow)  ?>
                                     </div><br>
                                     <div class="h3-dashboard">
-                                        Nuevas Citas &nbsp;&nbsp;
+                                        Mis Turnos&nbsp;&nbsp;
                                     </div>
                                 </div>
                                 <div class="btn-icon-back dashboard-icons" style="margin-left: 0px;background-image: url('../../img/icons/book-hover.svg');"></div>
@@ -335,7 +335,7 @@ if ($stmt->execute()) {
                                         <?php echo count($schedulerow)  ?>
                                     </div><br>
                                     <div class="h3-dashboard" style="font-size: 15px">
-                                        Sesiones de Hoy
+                                        Turnos Disponibles Hoy
                                     </div>
                                 </div>
                                 <div class="btn-icon-back dashboard-icons" style="background-image: url('../../img/icons/session-iceblue.svg');"></div>
