@@ -35,6 +35,19 @@ if ($_POST) {
     $password = $_POST['password_medic'];
     $cpassword = $_POST['cpassword_medic'];
 
+    // Obtener la fecha actual
+    $currentDate = new DateTime();
+    $currentDate->modify('-24 years'); // Restar 24 años a la fecha actual
+
+    if (new DateTime($birth) <= $currentDate) {
+        // La fecha de nacimiento es mayor o igual a 24 años
+        // Puedes continuar con el procesamiento
+    } else {
+        // La fecha de nacimiento es menor de 24 años
+        // Muestra un mensaje de error o realiza la acción correspondiente
+        echo "La fecha de nacimiento debe ser mayor o igual a 24 años.";
+    }
+
     if ($password == $cpassword) {
         $error = '3';
         $result = $database->prepare("select * from medics where email_medic='$email'");

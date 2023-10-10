@@ -6,17 +6,36 @@ if (isset($_SESSION["usr_rol"])) {
     if (($_SESSION["usr_rol"]) == "" or $_SESSION['usr_rol'] != '3') {
         header("location: ../vistas/login/login.php");
     } else {
-        $useremail = $_SESSION["email"];
-        $username = $_SESSION["name"];
+            $useremail = $_SESSION["email"];
+            $username = $_SESSION["name"];
+            // var_dump($useremail);
+            // exit();
+        }
+    } else {
+        header("location: ../vistas/login/login.php");
     }
-} else {
-    header("location: ../vistas/login/login.php");
-}
 
+    //import link
+    include("../modelos/conexion.php");
+    $database = Conexion::conectar();
 
-//import link
-include("../modelos/conexion.php");
-$database = Conexion::conectar();
+    $sql = "select * from medics";
+    // Prepara la consulta SQL
+    $stmt = $database->prepare($sql);
+    $stmt->execute();
+    // var_dump($stmt);
+    // exit();
+    
+
+    // Si se está ejecutando la sentencia SQL
+    if ($stmt->execute())
+    {
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userid = $resultado["id_medic"];
+        $username = $resultado["name_medic"];
+        // var_dump($userid);
+        // exit();
+	}
 ?>
 
 <!DOCTYPE html>
@@ -144,8 +163,11 @@ $database = Conexion::conectar();
 
                         $today = date('d-M-Y');
                         echo $today;
+                        $today = date('Y-m-d');
 
-                        $list110 = $database->prepare("select  * from  appointment;");
+
+                        $list110 = $database->prepare("SELECT  * FROM  appointment");
+                        $list110->execute();
                         $num_rows = $list110->rowCount();
 
                         ?>
@@ -180,47 +202,18 @@ $database = Conexion::conectar();
                         <table class="filter-container" border="0">
                             <tr>
                                 <td width="10%">
-
                                 </td>
                                 <td width="5%" style="text-align: center;">
                                     Fecha:
                                 </td>
                                 <td width="30%">
                                     <form action="" method="post">
-
                                         <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
-
-                                </td>
-                                <td width="5%" style="text-align: center;">
-                                    Doctor:
-                                </td>
-                                <td width="30%">
-                                    <select name="docid" id="" class="box filter-container-items" style="width:90% ;height: 37px;margin: 0;">
-                                        <option value="" disabled selected hidden>Elegir Nombre Doctor de la Lista</option><br />
-
-                                        <?php
-
-                                        $list11 = $database->prepare("select  * from  medics order by name_medic asc;");
-                                        $list11->execute();
-                                        $num_rows = $list11->rowCount();
-
-                                        for ($y = 0; $y < $num_rows; $y++) {
-                                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-                                            $sn = $row00["name_medic"];
-                                            $id00 = $row00["id_medic"];
-                                            echo "<option value=" . $id00 . ">$sn</option><br/>";
-                                        };
-
-
-                                        ?>
-
-                                    </select>
                                 </td>
                                 <td width="12%">
-                                    <input type="submit" name="filter" value=" Filtro" class=" btn-primary-soft btn button-icon btn-filter" style="padding: 15px; margin :0;width:100%">
+                                        <input type="submit" name="filter" value=" Filtro" class=" btn-primary-soft btn button-icon btn-filter" style="padding: 15px; margin :0;width:100%">
                                     </form>
                                 </td>
-
                             </tr>
                         </table>
 
@@ -230,36 +223,63 @@ $database = Conexion::conectar();
             </tr>
 
             <?php
+
+            $sqlmain = "SELECT appointment.appointment_id,
+            schedule.scheduleid,
+            schedule.title,
+            medics.name_medic,
+            patients.name,
+            schedule.scheduledate,
+            schedule.scheduletime,
+            appointment.apponum,
+            appointment.appodate
+            FROM schedule
+            INNER JOIN appointment
+            ON schedule.scheduleid=appointment.schedule_id
+            INNER JOIN patients 
+            ON patients.id_patient=appointment.patient_id 
+            INNER JOIN medics 
+            ON schedule.id_medic=medics.id_medic
+            WHERE  medics.id_medic= '$userid' ";
+            // var_dump($userid);
+            // exit();
             if ($_POST) {
                 //print_r($_POST);
-                $sqlpt1 = "";
+
                 if (!empty($_POST["sheduledate"])) {
                     $sheduledate = $_POST["sheduledate"];
-                    $sqlpt1 = " schedule.scheduledate='$sheduledate' ";
-                }
-
-
-                $sqlpt2 = "";
-                if (!empty($_POST["id_medic"])) {
-                    $docid = $_POST["id_medic"];
-                    $sqlpt2 = " medics.id_medic=$docid ";
-                }
-                //echo $sqlpt2;
-                //echo $sqlpt1;
-                $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.scheduleid inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic";
-                $sqllist = array($sqlpt1, $sqlpt2);
-                $sqlkeywords = array(" where ", " and ");
-                $key2 = 0;
-                foreach ($sqllist as $key) {
-
-                    if (!empty($key)) {
-                        $sqlmain .= $sqlkeywords[$key2] . $key;
-                        $key2++;
-                    };
+                    $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
                 };
-                //echo $sqlmain;
-            } else {
-                $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patient.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  order by schedule.scheduledate desc";
+                    //echo $sqlmain;
+                    $pdo = $database->prepare($sqlmain);
+                    $pdo->execute();
+                    // var_dump($result);
+                    // exit();
+            }
+
+
+            else {
+                $sqlmain = "SELECT 
+                    appointment.appointment_id,
+                    schedule.scheduleid,
+                    schedule.title,
+                    medics.name_medic,
+                    patients.name,
+                    schedule.scheduledate,
+                    schedule.scheduletime,
+                    appointment.apponum,
+                    appointment.appodate 
+                    FROM 
+                        schedule
+                    INNER JOIN 
+                        appointment ON schedule.scheduleid = appointment.schedule_id
+                    INNER JOIN 
+                        patients ON patients.id_patient = appointment.patient_id
+                    INNER JOIN 
+                        medics ON schedule.id_medic = medics.id_medic
+                    ORDER BY 
+                        schedule.scheduledate DESC;
+                    ";
             }
             ?>
 
@@ -305,43 +325,29 @@ $database = Conexion::conectar();
                                 <tbody>
 
                                     <?php
-
-
                                     $result = $database->prepare($sqlmain);
-                                    $num_rows = $result->rowCount();
-                                    if ($num_rows == 0) {
-                                        echo '<tr>
-                                    <td colspan="7">
-                                    <br><br><br><br>
-                                    <center>
-                                    <img src="../../img/notfound.svg" width="25%">
-                                    
-                                    <br>
-                                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
-                                    <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Citas &nbsp;</font></button>
-                                    </a>
-                                    </center>
-                                    <br><br><br><br>
-                                    </td>
-                                    </tr>';
-                                    } else {
-                                        for ($x = 0; $x < $num_rows; $x++) {
-                                            $row = $result->fetch(PDO::FETCH_ASSOC);
-                                            $appoid = $row["appointment_id"];
-                                            $scheduleid = $row["scheduleid"];
-                                            $title = $row["title"];
-                                            $docname = $row["name_medic"];
-                                            $scheduledate = $row["scheduledate"];
-                                            $scheduletime = $row["scheduletime"];
-                                            $pname = $row["name"];
-                                            $apponum = $row["apponum"];
-                                            $appodate = $row["appodate"];
+                                    $result->execute();
+                                    $rows = $result->fetchAll(PDO::FETCH_ASSOC); // Obtener todas las filas de resultados
+                                
+                                    foreach ($rows as $row) { 
+                                        $appoid = $row["appointment_id"];
+                                        $scheduleid = $row["scheduleid"];
+                                        $title = $row["title"];
+                                        $docname = $row["name_medic"];
+                                        $scheduledate = $row["scheduledate"];
+                                        $scheduletime = $row["scheduletime"];
+                                        $pname = $row["name"];
+                                        $apponum = $row["apponum"];
+                                        $appodate = $row["appodate"];
+
+                                        if ($num_rows > 0 ) {
+                                            
                                             echo '<tr >
                                             <td style="font-weight:600;"> &nbsp;' .
 
                                                     substr($pname, 0, 25)
                                                     . '</td >
-                                            <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
+                                            <td style="text-align:center;font-size:18px;font-weight:500; color: var(--btnnicetext);">
                                             ' . $apponum . '
                                             
                                             </td>
@@ -351,24 +357,37 @@ $database = Conexion::conectar();
                                             <td>
                                             ' . substr($title, 0, 15) . '
                                             </td>
-                                            <td style="text-align:center;font-size:12px;">
-                                                ' . substr($scheduledate, 0, 10) . ' <br>' . substr($scheduletime, 0, 5) . '
+                                            <td style="text-align:center;font-size:18px;">
+                                                ' . substr($scheduledate, 0, 10) . '       ' . substr($scheduletime, 0, 5) . 'hs.'.'
                                             </td>
                                             
-                                            <td style="text-align:center;">
-                                                ' . $appodate . '
-                                            </td>
 
                                             <td>
                                             <div style="display:flex;justify-content: center;">
                                             
                                             <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                        &nbsp;&nbsp;&nbsp;-->
-                                        <a href="?action=drop&id=' . $appoid . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
-                                        &nbsp;&nbsp;&nbsp;</div>
-                                            </td>
-                                        </tr>';
+                                            &nbsp;&nbsp;&nbsp;-->
+                                            <a href="?action=drop&id=' . $appoid . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
+                                            &nbsp;&nbsp;&nbsp;</div>
+                                                </td>
+                                            </tr>';
                                         }
+                                    }
+                                    if ($num_rows == 0) {
+                                        echo '<tr>
+                                        <td colspan="7">
+                                        <br><br><br><br>
+                                        <center>
+                                        <img src="../../img/notfound.svg" width="25%">
+                                        
+                                        <br>
+                                        <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
+                                        <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Citas &nbsp;</font></button>
+                                        </a>
+                                        </center>
+                                        <br><br><br><br>
+                                        </td>
+                                        </tr>';
                                     }
 
                                     ?>
@@ -397,7 +416,6 @@ $database = Conexion::conectar();
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
-                    
                     
                         <a class="close" href="schedule.php">&times;</a> 
                         <div style="display: flex;justify-content: center;">

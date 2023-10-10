@@ -252,10 +252,6 @@
                                 </th>
 
                                 <th class="table-headin">
-                                    Fecha de la Cita
-                                </th>
-
-                                <th class="table-headin">
                                     Eventos
                                 </th>
                             </tr>
@@ -317,9 +313,7 @@
                                         ' . substr($scheduledate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) . "hs." . '
                                     </td>
 
-                                    <td style="text-align:center;">
-                                        ' . $appodate . '
-                                    </td>
+
 
                                     <td>
                                     <div style="display:flex;justify-content: center;">

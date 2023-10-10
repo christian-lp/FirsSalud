@@ -191,7 +191,7 @@ include("../modelos/conexion.php");
                                 <td width="30%">
 
                                     <form action="" method="post">
-                                        <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
+                                        <input type="date" name="scheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
 
                                         </td>
                                         <td width="5%" style="text-align: center;">
@@ -234,9 +234,9 @@ include("../modelos/conexion.php");
             if ($_POST) {
                 //print_r($_POST);
                 $sqlpt1 = "";
-                if (!empty($_POST["sheduledate"])) {
-                    $sheduledate = $_POST["sheduledate"];
-                    $sqlpt1 = " schedule.scheduledate='$sheduledate' ";
+                if (!empty($_POST["scheduledate"])) {
+                    $scheduledate = $_POST["scheduledate"];
+                    $sqlpt1 = " schedule.scheduledate='$scheduledate' ";
                 }
 
 
@@ -247,7 +247,16 @@ include("../modelos/conexion.php");
                 }
                 //echo $sqlpt2;
                 //echo $sqlpt1;
-                $sqlmain = "select schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop from schedule inner join medics on schedule.id_medic=medics.id_medic ";
+                $sqlmain = "SELECT
+                    schedule.scheduleid,
+                    schedule.title,
+                    medics.name_medic,
+                    schedule.scheduledate,
+                    schedule.scheduletime,
+                    schedule.nop
+                    FROM schedule INNER JOIN medics
+                    ON schedule.id_medic=medics.id_medic ";
+
                 $sqllist = array($sqlpt1, $sqlpt2);
                 $sqlkeywords = array(" where ", " and ");
                 $key2 = 0;
@@ -260,9 +269,6 @@ include("../modelos/conexion.php");
                 };
                 //echo $sqlmain;
 
-
-
-                //
             } else {
                 $sqlmain = "SELECT schedule.scheduleid, schedule.title, medics.name_medic, schedule.scheduledate, schedule.scheduletime, schedule.nop 
                 FROM schedule 
