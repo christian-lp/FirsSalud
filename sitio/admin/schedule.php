@@ -148,6 +148,10 @@ include("../modelos/conexion.php");
                         $list110 = $database->prepare("SELECT  * FROM  schedule WHERE scheduledate >='$today';");
                         $list110->execute();
                         $num_rows = $list110->rowCount();
+
+                        // if($result["datetime"])
+                        // var_dump($num_rows);
+                        // exit();
                         // $row = $list110->fetch(PDO::FETCH_ASSOC);
 
                     
@@ -320,7 +324,10 @@ include("../modelos/conexion.php");
                                 $result = $database->prepare($sqlmain);
                                 $result->execute();
                                 $rows = $result->fetchAll(PDO::FETCH_ASSOC); // Obtener todas las filas de resultados
+                                
 
+                                    // var_dump($num_rows);
+                                    // exit();
                                 foreach ($rows as $row) {
                                     $scheduleid = $row["scheduleid"];
                                     $title = $row["title"];
@@ -329,10 +336,19 @@ include("../modelos/conexion.php");
                                     $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                     $scheduletime = $row["scheduletime"];
                                     $nop = $row["nop"];
-
+                                    
+                                
+                                    while($update==0 && $nop > 0)
+                                    {
+                                        if($scheduledate < $today)
+                                            {
+                                                $sql = $database->prepare("UPDATE schedule SET nop = nop - 1 WHERE scheduleid = '$scheduleid'");
+                                                $sql->execute();
+                                            }
+                                        $update=1;
+                                    }
                                     // if ($nop > 0 ) {
 
-                                
                                         echo '<tr>
                                             <td> &nbsp;' .
                                                 substr($title, 0, 30)
