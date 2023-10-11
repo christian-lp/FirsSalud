@@ -317,7 +317,7 @@ include("../modelos/conexion.php");
 
 
 
-                    <p id="anim" style="font-size: 20px;font-weight:600;padding-left: 40px;">Sus próximas sesiones hasta la próxima semana</p>
+                    <p id="anim" style="font-size: 20px;font-weight:600;padding-left: 40px;">Turnos reservados hasta la próxima semana</p>
                     <center>
                         <div class="abc scroll" style="height: 250px;padding: 0;margin: 0;">
                             <table width="85%" class="sub-table scrolldown" border="0">
@@ -329,7 +329,7 @@ include("../modelos/conexion.php");
                                         </th>
 
                                         <th class="table-headin">
-                                            Fecha y Hora Cita
+                                            Fecha
                                         </th>
                                         <th class="table-headin">
                                             Hora
@@ -345,17 +345,20 @@ include("../modelos/conexion.php");
 
                                         $nextweek = date("Y-m-d", strtotime("+1 week"));
                                         
-                                        // Modifica tu consulta SQL aquí
-                                        $sqlmain = "SELECT
-                                        schedule.scheduleid,schedule.title,medics.name_medic,schedule.scheduledate,schedule.scheduletime,schedule.nop
+                                        $sqlmain =  "SELECT schedule.scheduleid, schedule.title, schedule.scheduledate, schedule.scheduletime, appointment.schedule_id
                                         FROM schedule
-                                        INNER JOIN medics ON schedule.id_medic=medics.id_medic
-                                        WHERE schedule.scheduledate>='$today' AND schedule.scheduledate<='$nextweek' 
+                                        INNER JOIN medics ON schedule.id_medic = medics.id_medic
+                                        INNER JOIN appointment ON appointment.schedule_id = schedule.scheduleid
+                                        WHERE schedule.scheduledate >= '$today' AND schedule.scheduledate <= '$nextweek'
                                         ORDER BY schedule.scheduledate DESC";
+                                    
+                                        // var_dump($sqlmain);
+                                        // exit();
                                         
-                                        $statement = $conexion->prepare($sqlmain);
-                                        $statement->execute();
-                                        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+                                        
+                                        $stmt = $conexion->prepare($sqlmain);
+                                        $stmt->execute();
+                                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         // var_dump($result);
                                         // exit();
 
@@ -382,8 +385,8 @@ include("../modelos/conexion.php");
                                                 $nop = $row["nop"];
                                                 echo '<tr>
                                                         <td style="padding:20px;"> &nbsp;' . substr($title, 0, 30) . '</td>
-                                                        <td style="padding:20px;font-size:13px;">' . substr($scheduledate, 0, 10) . '</td>
-                                                        <td style="text-align:center;">' . substr($scheduletime, 0, 5) . '</td>
+                                                        <td style="padding:20px;font-size:18px;">' . substr($scheduledate, 0, 10) . '</td>
+                                                        <td style="text-align:center;font-size:18px;">' . substr($scheduletime, 0, 5) . 'hs.'.'</td>
                                                     </tr>';
                                             }
                                         }

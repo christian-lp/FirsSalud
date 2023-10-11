@@ -286,7 +286,7 @@ if ($_POST) {
                     $stmt->execute(); 
                     $num_rows = $stmt->rowCount();
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                   
+                
 
                     if ($num_rows == 0) {
                         echo '<tr>
@@ -309,56 +309,52 @@ if ($_POST) {
                         }
                         else
                         {
-                            // foreach ($stmt as $row) {
-                            //     $appoid = $row["appointment_id"];
-                            //     $scheduleid = $row["scheduleid"];
-                            //     $title = $row["title"];
-                            //     $docname = $row["name_medic"];
-                            //     $scheduledate = $row["scheduledate"]; // Esta es la fecha en formato "Y-m-d"
-                            //     // Convierte la fecha al formato "d-m-Y"
-                            //     $formattedDate = date("d-m-Y", strtotime($scheduledate));
-                            //     // var_dump($formattedDate);
-                            //     // exit();
-                            //     // $formattedDate ahora contiene la fecha en el formato "d-m-Y"
-                            //     $scheduletime = $row["scheduletime"];
-                            //     $pname = $row["name"];
-                            //     $apponum = $row["apponum"];
-                            //     $appodate = $row["appodate"];
-                            //     // var_dump($title);
-                            //     // exit();
-
                             // var_dump($num_rows);
                             // exit();
+                            $fecha_actual = date("d-m-Y"); // Obtener la fecha actual en el formato Y-m-d
+
                             echo "<table>"; // Abre la tabla
                             foreach ($result as $row) {
+                                $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
+                                $formattedDate = date("d-m-Y", strtotime($scheduledate));
+                            
                                 echo "<tr>"; // Abre una fila
                                 echo "<td style='width: 25%;'>"; // Abre una celda
-
+                            
                                 echo "<div class='dashboard-items search-items'>";
                                 echo "<div style='width:100%;'>";
                                 echo "<div class='h3-search'>Nombre del Paciente: " . substr($row["name"], 0, 30) . "<br>";
                                 echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
                                 echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
                                 echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
-                                echo "<div class='h4-search'>Fecha y Hora del Turno: " . $row["scheduledate"] . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
-
-                                echo "<form method='post' action='delete-appointment.php'>";
+                                echo "<div class='h4-search'>Fecha y Hora del Turno: " . $formattedDate . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
+                            
                                 echo "<input type='hidden' name='action' value='drop'>";
                                 echo "<input type='hidden' name='id' value='" . $row["appointment_id"] . "'>";
                                 echo "<input type='hidden' name='scheduleid' value='" . $row["scheduleid"] . "'>";
                                 echo "<input type='hidden' name='title' value='" . $row["title"] . "'>";
                                 echo "<input type='hidden' name='doc' value='" . $row["name_medic"] . "'>";
-                                echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button>";
-                                echo "</form>";
-
+                            
+                                if ($formattedDate < $fecha_actual) {
+                                    // Si la fecha de la reserva es menor que la fecha actual, muestra "Cita Finalizada" sin enlace
+                                    echo "<button type='button' class='login-btn btn-disabled' style='padding-top:11px;padding-bottom:11px;width:100%'>";
+                                    echo "<font class='tn-in-text'>Cita Finalizada</font>";
+                                    echo "</button>";
+                                } else {
+                                    // Si la fecha de la reserva es mayor o igual a la fecha actual, muestra el botón "Cancelar Turno" con el enlace para eliminar
+                                    echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&scheduleid=" . $row["scheduleid"] . "&name=" . $row["name"] . "&session=" . $row["title"] . "&apponum=" . $row["apponum"] . "'>";
+                                    echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'>";
+                                    echo "<font class='tn-in-text'>Cancelar Turno</font>";
+                                    echo "</button>";
+                                    echo "</a>";
+                                }
                                 echo "</div>";
-
                                 echo "</div>";
-                                echo "</td>"; // Cierra la celda
-                                echo "</tr>"; // Cierra la fila
+                                echo "</td>";
+                                echo "</tr>";
                             }
                             echo "</table>"; // Cierra la tabla
-
+                            
                             }
                         
                     ?>
@@ -379,11 +375,15 @@ if ($_POST) {
     <?php
 
     if ($_GET) {
+        $action = $_GET["action"];
         $id = $_GET["id"];
         if ($action == 'drop') {
+            $id = $_GET["id"];
             $nameget = $_GET["name"];
             $session = $_GET["session"];
             $apponum = $_GET["apponum"];
+            $scheduleid = $_GET["scheduleid"];
+//            exit();
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -394,10 +394,10 @@ if ($_POST) {
                             Deseas borrar este registro<br><br>
                             Nombre Paciente &nbsp;<b>' . substr($nameget, 0, 40) . '</b><br>
                             Número de cita &nbsp; : <b>' . substr($apponum, 0, 40) . '</b><br><br>
-
+                            
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <a href="delete-appointment.php?id=' . $id . '" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Si&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
+                        <a href="delete-appointment.php?id=' . $id . '&scheduleid=' . $scheduleid . '" class="non-style-link"><button class="btn-primary btn" style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;Si&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
                         <a href="appointment.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>

@@ -12,14 +12,14 @@
         header("location: ../vistas/login/login.php");
     }
 
-    if($_POST){
+    if($_GET){
     
         //import database
         include("../modelos/conexion.php");
         $database = Conexion::conectar();
         //$id=$_GET["id"];
-        $id = $_POST["id"];
-        $id2 = $_POST["scheduleid"];
+        $id = $_GET["id"];
+        $id2 = $_GET["scheduleid"];
         // var_dump($id2);
         // exit();
         
