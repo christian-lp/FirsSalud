@@ -421,6 +421,7 @@ if ($stmt->execute()) {
                                             $apponum = $row["apponum"];
                                             $docname = $row["name_medic"];
                                             $scheduledate = $row["scheduledate"];
+                                            $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                             $scheduletime = $row["scheduletime"];
 
                                             echo '<tr>
@@ -434,7 +435,7 @@ if ($stmt->execute()) {
                                                     ' . substr($docname, 0, 20) . '
                                                     </td>
                                                     <td style="text-align:center;">
-                                                        ' . substr($scheduledate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
+                                                        ' . substr($formattedDate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
                                                     </td>
                                                 </tr>';
                                         }

@@ -104,7 +104,7 @@ include("../modelos/conexion.php");
         <td class="menu-btn menu-icon-appoinment">
             <a href="appointment.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Cita</p>
+                    <p class="menu-text">Turnos</p>
             </a></div>
         </td>
     </tr>
@@ -321,19 +321,16 @@ include("../modelos/conexion.php");
                                 $result->execute();
                                 $rows = $result->fetchAll(PDO::FETCH_ASSOC); // Obtener todas las filas de resultados
 
-                        
-                                $cont = 0;
-
                                 foreach ($rows as $row) {
                                     $scheduleid = $row["scheduleid"];
                                     $title = $row["title"];
                                     $docname = $row["name_medic"];
                                     $scheduledate = $row["scheduledate"];
+                                    $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                     $scheduletime = $row["scheduletime"];
                                     $nop = $row["nop"];
 
-                                    if ($nop > 0 ) {
-                                        $cont ++;
+                                    // if ($nop > 0 ) {
 
                                 
                                         echo '<tr>
@@ -344,7 +341,7 @@ include("../modelos/conexion.php");
                                             ' . substr($docname, 0, 20) . '
                                             </td>
                                             <td style="text-align:center;">
-                                                ' . substr($scheduledate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
+                                                ' . substr($formattedDate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) . 'hs.'.'
                                             </td>
                                             <td style="text-align:center;">
                                                 ' . $nop . '
@@ -360,8 +357,8 @@ include("../modelos/conexion.php");
                                             </td>
                                             </tr>';
                                     }
-                                } 
-                                if($cont == 0)
+                                //} 
+                                if(empty($result))
                                     {
                                         echo '<tr>
                                             <td colspan="4">
@@ -461,7 +458,7 @@ include("../modelos/conexion.php");
                                 </td>
                             </tr>
                             
-                       
+                    
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="date" class="form-label">Fecha de Sesión (desde): </label>
@@ -587,174 +584,129 @@ include("../modelos/conexion.php");
             $scheduleid = $row["scheduleid"];
             $title = $row["title"];
             $scheduledate = $row["scheduledate"];
+            $formattedDate = date("d-m-Y", strtotime($scheduledate));
             $scheduletime = $row["scheduletime"];
             $nop = $row['nop'];
-
+        
             echo '
             <div id="popup1" class="overlay">
-                    <div class="popup" style="width: 70%;">
+                <div class="popup" style="width: 70%;">
                     <center>
                         <h2></h2>
                         <a class="close" href="schedule.php">&times;</a>
                         <div class="content">
-                            
-                            
                         </div>
                         <div class="abc scroll" style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Nombre Sesión: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    ' . $title . '<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Doctor de esta sesión: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $docname . '<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">Fecha Programada </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $scheduledate . '<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Hora Programada </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $scheduletime . '<br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label"><b>Pacientes que ya se registraron para esta sesión:</b> (' . $num_rows . "/" . $nop . ')</label>
-                                    <br><br>
-                                </td>
-                            </tr>
-
-                            <tr>
-                            <td colspan="4">
-                                    <center>
-                                    <div class="abc scroll">
-                                    <table width="100%" class="sub-table scrolldown" border="0">
-                                    <thead>
-                                    <tr>   
-                                        <th class="table-headin">
-                                                ID Paciente
-                                            </th>
-                                            <th class="table-headin">
-                                                Nombre de Paciente
-                                            </th>
-                                            <th class="table-headin">
-                                                Número de cita
-                                            </th>
-                                            <th class="table-headin">
-                                                Teléfono: Paciente
-                                            </th>
-                                    </thead>
-                                    <tbody>';
-          
-
-
-
-            $sqlmain = "SELECT * FROM appointment
-            INNER JOIN patients ON patients.id_patient=appointment.patient_id
-            INNER JOIN schedule
-            WHERE schedule.scheduleid=appointment.schedule_id";
-            $stmt = $database->prepare($sqlmain);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            // var_dump($row);
-            // exit();
-
-
-            if (empty($result)) {
-                echo '<tr>
-                    <td colspan="7">
-                    <br><br><br><br>
-                    <center>
-                    <img src="../../img/notfound.svg" width="25%">
-                    
-                    <br>
-                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
-                    <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Citas &nbsp;</font></button>
-                    </a>
-                    </center>
-                    <br><br><br><br>
-                    </td>
-                    </tr>';
-            } else {
-                    $row = $result;
-                    $apponum = $row["apponum"];
-                    $pid = $row["id_patient"];
-                    $pname = $row["name"];
-                    $ptel = $row["phone"];
-                    $nop = $row["nop"];
-
+                            <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                <tr>
+                                    <td>
+                                        <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for "name" class="form-label">Nombre Sesión: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">' . $title . '<br><br></td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="Email" class="form-label">Doctor de esta sesión: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">' . $docname . '<br><br></td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="nic" class="form-label">Fecha Programada </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">' . $formattedDate . '<br><br></td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="Tele" class="form-label">Hora Programada </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">' . $scheduletime . '<br><br></td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="spec" class="form-label"><b>Paciente registrado para esta sesión:</b></label>
+                                        <br><br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <center>
+                                        <div class="abc scroll">
+                                            <table width="100%" class="sub-table scrolldown" border="0">
+                                            <thead>
+                                            <tr>   
+                                                <th class="table-headin">ID Paciente</th>
+                                                <th class="table-headin">Nombre de Paciente</th>
+                                                <th class="table-headin">Número de cita</th>
+                                                <th class="table-headin">Teléfono: Paciente</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>';
+            
+            // La consulta de pacientes relacionados con esta sesión debe ir aquí
+            // Asegúrate de obtener solo los pacientes relacionados con esta sesión
+            
+            // Ejemplo de consulta para obtener pacientes relacionados:
+            $sqlPatients = "SELECT appointment.apponum, patients.id_patient, patients.name, patients.phone
+                FROM appointment
+                INNER JOIN patients ON patients.id_patient = appointment.patient_id
+                WHERE appointment.schedule_id = '$scheduleid'";
+            $stmtPatients = $database->prepare($sqlPatients);
+            $stmtPatients->execute();
+            
+            if ($stmtPatients->rowCount() > 0) {
+                while ($rowPatient = $stmtPatients->fetch(PDO::FETCH_ASSOC)) {
+                    $apponum = $rowPatient["apponum"];
+                    $pid = $rowPatient["id_patient"];
+                    $pname = $rowPatient["name"];
+                    $ptel = $rowPatient["phone"];
                     echo '<tr style="text-align:center;">
-                            <td>
-                            ' . substr($pid, 0, 15) . '
-                            </td>
-                            
-                            <td style="font-weight:600;padding:25px">' .
-                                substr($pname, 0, 25) .
-                            '</td >
-                                    
-                            <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">
-                                    ' . $apponum . '        
-                            </td>
-
-                            <td>
-                            ' . substr($ptel, 0, 25) . '
-                            </td>
-
+                            <td>' . substr($pid, 0, 15) . '</td>
+                            <td style="font-weight:600;padding:25px">' . substr($pname, 0, 25) . '</td >
+                            <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);">' . $apponum . '</td>
+                            <td>' . substr($ptel, 0, 25) . '</td>
                         </tr>';
+                }
+            } else {
+                echo '<tr>
+                <td colspan="7">
+                <br><br><br><br>
+                <center>
+                <img src="../../img/notfound.svg" width="25%">
                 
+                <br>
+                <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No hay paciente registrado para este turno!</p>
+                <a class="non-style-link" href="schedule.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todos los Turnos &nbsp;</font></button>
+                </a>
+                </center>
+                <br><br><br><br>
+                </td>
+                </tr>';
             }
-
-
-
-            echo
-                                '</tbody>    
-                                </table>
-                                </div>
-                            </center>
-                            </td> 
-                            </tr>
-
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';
+            
+            echo '</tbody>
+                </table>
+                </div>
+                </center>
+                </td>
+                </tr>
+                </table>
+                </div>
+                </div>
+                </div>';
         }
     }
 

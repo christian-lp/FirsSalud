@@ -62,6 +62,73 @@ if (isset($_SESSION["usr_rol"])) {
     </style>
 </head>
 
+<?php
+    $sqlmain = "SELECT appointment.appointment_id,
+    schedule.scheduleid,
+    schedule.title,
+    medics.name_medic,
+    patients.name,
+    schedule.scheduledate,
+    schedule.scheduletime,
+    appointment.apponum,
+    appointment.appodate
+    FROM schedule
+    INNER JOIN appointment
+    ON schedule.scheduleid=appointment.schedule_id
+    INNER JOIN patients 
+    ON patients.id_patient=appointment.patient_id 
+    INNER JOIN medics 
+    ON schedule.id_medic=medics.id_medic
+    WHERE  medics.id_medic= '$userid' ";
+    // var_dump($userid);
+    // exit();
+
+    //Prepara la consulta
+    $stmt = $database->prepare($sqlmain);
+    $stmt->execute(); 
+    $num_rows = $stmt->rowCount();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // var_dump($num_rows);
+    // exit();
+    if ($_POST) {
+        //print_r($_POST);
+
+        if (!empty($_POST["sheduledate"])) {
+            $sheduledate = $_POST["sheduledate"];
+            $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
+        };
+            //echo $sqlmain;
+            $pdo = $database->prepare($sqlmain);
+            $pdo->execute();
+            // var_dump($result);
+            // exit();
+    }
+
+
+    else {
+        $sqlmain = "SELECT 
+            appointment.appointment_id,
+            schedule.scheduleid,
+            schedule.title,
+            medics.name_medic,
+            patients.name,
+            schedule.scheduledate,
+            schedule.scheduletime,
+            appointment.apponum,
+            appointment.appodate 
+            FROM 
+                schedule
+            INNER JOIN 
+                appointment ON schedule.scheduleid = appointment.schedule_id
+            INNER JOIN 
+                patients ON patients.id_patient = appointment.patient_id
+            INNER JOIN 
+                medics ON schedule.id_medic = medics.id_medic
+            ORDER BY 
+                schedule.scheduledate DESC;
+            ";
+    }
+    ?>
 <body>
 
     <div class="container">
@@ -158,26 +225,16 @@ if (isset($_SESSION["usr_rol"])) {
                     </p>
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                         <?php
-
                         date_default_timezone_set('America/Argentian/Buenos_Aires');
-
                         $today = date('d-M-Y');
                         echo $today;
                         $today = date('Y-m-d');
-
-
-                        $list110 = $database->prepare("SELECT  * FROM  appointment");
-                        $list110->execute();
-                        $num_rows = $list110->rowCount();
-
                         ?>
                     </p>
                 </td>
                 <td width="10%">
                     <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../../img/calendar.svg" width="100%"></button>
                 </td>
-
-
             </tr>
 
             <!-- <tr>
@@ -222,66 +279,7 @@ if (isset($_SESSION["usr_rol"])) {
 
             </tr>
 
-            <?php
-
-            $sqlmain = "SELECT appointment.appointment_id,
-            schedule.scheduleid,
-            schedule.title,
-            medics.name_medic,
-            patients.name,
-            schedule.scheduledate,
-            schedule.scheduletime,
-            appointment.apponum,
-            appointment.appodate
-            FROM schedule
-            INNER JOIN appointment
-            ON schedule.scheduleid=appointment.schedule_id
-            INNER JOIN patients 
-            ON patients.id_patient=appointment.patient_id 
-            INNER JOIN medics 
-            ON schedule.id_medic=medics.id_medic
-            WHERE  medics.id_medic= '$userid' ";
-            // var_dump($userid);
-            // exit();
-            if ($_POST) {
-                //print_r($_POST);
-
-                if (!empty($_POST["sheduledate"])) {
-                    $sheduledate = $_POST["sheduledate"];
-                    $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
-                };
-                    //echo $sqlmain;
-                    $pdo = $database->prepare($sqlmain);
-                    $pdo->execute();
-                    // var_dump($result);
-                    // exit();
-            }
-
-
-            else {
-                $sqlmain = "SELECT 
-                    appointment.appointment_id,
-                    schedule.scheduleid,
-                    schedule.title,
-                    medics.name_medic,
-                    patients.name,
-                    schedule.scheduledate,
-                    schedule.scheduletime,
-                    appointment.apponum,
-                    appointment.appodate 
-                    FROM 
-                        schedule
-                    INNER JOIN 
-                        appointment ON schedule.scheduleid = appointment.schedule_id
-                    INNER JOIN 
-                        patients ON patients.id_patient = appointment.patient_id
-                    INNER JOIN 
-                        medics ON schedule.id_medic = medics.id_medic
-                    ORDER BY 
-                        schedule.scheduledate DESC;
-                    ";
-            }
-            ?>
+            
 
             <tr>
                 <td colspan="4">
@@ -335,6 +333,7 @@ if (isset($_SESSION["usr_rol"])) {
                                         $title = $row["title"];
                                         $docname = $row["name_medic"];
                                         $scheduledate = $row["scheduledate"];
+                                        $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                         $scheduletime = $row["scheduletime"];
                                         $pname = $row["name"];
                                         $apponum = $row["apponum"];
@@ -342,33 +341,35 @@ if (isset($_SESSION["usr_rol"])) {
 
                                         if ($num_rows > 0 ) {
                                             
-                                            echo '<tr >
-                                            <td style="font-weight:600;"> &nbsp;' .
+                                            echo 
+                                            '<tr >
+                                                <td style="font-weight:600;"> &nbsp;' .
 
-                                                    substr($pname, 0, 25)
-                                                    . '</td >
-                                            <td style="text-align:center;font-size:18px;font-weight:500; color: var(--btnnicetext);">
-                                            ' . $apponum . '
-                                            
-                                            </td>
-                                            <td>
-                                            ' . substr($docname, 0, 25) . '
-                                            </td>
-                                            <td>
-                                            ' . substr($title, 0, 15) . '
-                                            </td>
-                                            <td style="text-align:center;font-size:18px;">
-                                                ' . substr($scheduledate, 0, 10) . '       ' . substr($scheduletime, 0, 5) . 'hs.'.'
-                                            </td>
-                                            
+                                                        substr($pname, 0, 25)
+                                                        . '</td >
+                                                <td style="text-align:center;font-size:18px;font-weight:500; color: var(--btnnicetext);">
+                                                ' . $apponum . '
+                                                
+                                                </td>
+                                                <td>
+                                                ' . substr($docname, 0, 25) . '
+                                                </td>
+                                                <td>
+                                                ' . substr($title, 0, 15) . '
+                                                </td>
+                                                <td style="text-align:center;font-size:18px;">
+                                                    ' . substr($formattedDate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) . 'hs.'.'
+                                                </td>
+                                                
 
-                                            <td>
-                                            <div style="display:flex;justify-content: center;">
-                                            
-                                            <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                            &nbsp;&nbsp;&nbsp;-->
-                                            <a href="?action=drop&id=' . $appoid . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
-                                            &nbsp;&nbsp;&nbsp;</div>
+                                                <td>
+                                                    <div style="display:flex;justify-content: center;">
+                                                        <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
+                                                        &nbsp;&nbsp;&nbsp;-->
+
+                                                        <a href="?action=drop&id=' . $appoid. '&scheduleid=' .  $scheduleid  . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                    </div>
                                                 </td>
                                             </tr>';
                                         }
@@ -547,6 +548,8 @@ if (isset($_SESSION["usr_rol"])) {
             $nameget = $_GET["name"];
             $session = $_GET["session"];
             $apponum = $_GET["apponum"];
+            $scheduleid = $_GET["scheduleid"];
+//            exit();
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -560,7 +563,7 @@ if (isset($_SESSION["usr_rol"])) {
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <a href="delete-appointment.php?id=' . $id . '" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Si&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
+                        <a href="delete-appointment.php?id=' . $id . '&scheduleid=' . $scheduleid . '" class="non-style-link"><button class="btn-primary btn" style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;Si&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
                         <a href="appointment.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>

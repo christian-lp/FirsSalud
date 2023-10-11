@@ -105,7 +105,7 @@ $database = Conexion::conectar();
         <td class="menu-btn menu-icon-appoinment">
             <a href="appointment.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Cita</p>
+                    <p class="menu-text">Turnos</p>
             </a></div>
         </td>
     </tr>
@@ -275,6 +275,11 @@ $database = Conexion::conectar();
                                             $surn = $row["surname"];
                                             $tel = $row["phone"];
                                             $birth = $row["day_of_birth"];
+                                            if ($birth) {
+                                                $formattedBirth = date("d-m-Y", strtotime($birth));
+                                            } else {
+                                                $formattedBirth = "No Disponible";
+                                            }
 
                                             echo '<tr>
                                             <td> &nbsp;' .
@@ -290,7 +295,7 @@ $database = Conexion::conectar();
                                             ' . substr($email, 0, 20) . '
                                             </td>
                                             <td>
-                                            ' . substr($birth, 0, 10) . '
+                                            ' . substr($formattedBirth, 0, 10) . '
                                             </td>
                                             <td >
                                             <div style="display:flex;justify-content: center;">
@@ -322,129 +327,113 @@ $database = Conexion::conectar();
 
         $id = $_GET["id"];
         $action = $_GET["action"];
-        $sqlmain = "select * from patients where id_patient='$id'";
-        $result = $database->prepare($sqlmain);
-        $result->execute();
-        $row = $result->fetch(PDO::FETCH_ASSOC);
-        $name = $row["name"];
-        $email = $row["email"];
-        $dni = $row["dni"];
-        $surn = $row["surname"];
-        $tele = $row["phone"];
-        $birth = $row["day_of_birth"];
-        //$address = $row["paddress"];
-        echo '
-            <div id="popup1" class="overlay">
-                    <div class="popup">
-                    <center>
-                        <a class="close" href="patient.php">&times;</a>
-                        <div class="content">
+        // $sql = "SELECT * FROM patientes WHERE id_patient= $id";
+        // $stmt = $database->prepare($sql);
+        // $stmt->execute();
+        // $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // $birth = $result["day_of_birth"];
+            echo '
+                <div id="popup1" class="overlay">
+                        <div class="popup">
+                        <center>
+                            <a class="close" href="patient.php">&times;</a>
+                            <div class="content">
 
-                        </div>
-                        <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">ID Paciente: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    P-' . $id . '<br><br>
-                                </td>
-                                
-                            </tr>
+                            </div>
+                            <div style="display: flex;justify-content: center;">
+                            <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
                             
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Nombre: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    ' . $name . '<br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Correo: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $email . '<br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">DNI: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $dni . '<br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $tele . '<br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Dirección: </label>
+                                <tr>
+                                    <td>
+                                        <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
+                                    </td>
+                                </tr>
+                                <tr>
                                     
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            ' . $address . '<br>
-                            </td>
-                            </tr>
-                            <tr>
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Fecha de Nacimiento: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    ' . $birth . '<br><br>
-                                </td>
-                                
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
+                                    <td class="label-td" colspan="2">
+                                        <label for="name" class="form-label">ID Paciente: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        P-' . $id . '<br><br>
+                                    </td>
                                     
-                                </td>
-                
-                            </tr>
+                                </tr>
+                                
+                                <tr>
+                                    
+                                    <td class="label-td" colspan="2">
+                                        <label for="name" class="form-label">Nombre: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        ' . $name . '<br>
+                                    </td>
+                                    
+                                </tr>
 
-                        </table>
-                        </div>
-                    </center>
-                    <br><br>
-            </div>
-            </div>
-            ';
-    };
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="Email" class="form-label">Correo: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                    ' . $email . '<br>
+                                    </td>
+                                </tr>
 
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="dni" class="form-label">DNI: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                    ' . $dni . '<br>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="Tele" class="form-label">Teléfono: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                    ' . $tel . '<br>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="name" class="form-label">Fecha de Nacimiento: </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label-td" colspan="2">
+                                        ' . $birth . '<br><br>
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
+                                    </td>
+                    
+                                </tr>
+
+                            </table>
+                            </div>
+                        </center>
+                        <br><br>
+                </div>
+                </div>
+                ';
+        //};
+    }
     ?>
     </div>
 

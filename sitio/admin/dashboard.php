@@ -106,7 +106,7 @@ if (isset($_SESSION['usr_rol']) == "") {
             <li><a href="#service">Servicios</a></li>
             <li><a href="#doctor">Doctores</a></li>
             <li><a href="#facilities">Nuestras Instalaciones</a></li>
-            <li><a href="schedule.php"  target="_blank">Turnos</a></li>
+            <li><a href="appointment.php"  target="_blank">Turnos</a></li>
             <!--<li><a href="#prices">Precios</a></li> -->
             <!-- <li class="dropdown">
                 <a href="#Turn" class="dropdown-toggle" data-toggle="dropdown">

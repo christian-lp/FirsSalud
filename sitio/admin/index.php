@@ -126,7 +126,7 @@ if ($stmt->execute()) {
         <td class="menu-btn menu-icon-appoinment">
             <a href="appointment.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Cita</p>
+                    <p class="menu-text">Turnos</p>
             </a></div>
         </td>
     </tr>
@@ -283,11 +283,6 @@ if ($stmt->execute()) {
                 </td>
             </tr>
 
-
-
-
-
-
             <tr>
                 <td colspan="4">
                     <table width="100%" border="0" class="dashbord-tables">
@@ -418,19 +413,13 @@ if ($stmt->execute()) {
                                                     </tr>';
                                                 } else {
                                                     foreach ($result as $row) {
-                                                        $appoid = $row["appointment_id"];
-                                                        $scheduleid = $row["scheduleid"];
                                                         $title = $row["title"];
                                                         $docname = $row["name_medic"];
-                                                        $scheduledate = $row["scheduledate"];
-                                                        $scheduletime = $row["scheduletime"];
                                                         $pname = $row["name"];
                                                         $apponum = $row["apponum"];
-                                                        $appodate = $row["appodate"];
+
                                                         echo '<tr>
-
-
-                                                        <td style="text-align:center;font-size:23px;font-weight:500; color: var(--btnnicetext);padding:20px;">
+                                                        <td style="text-align:center;font-size:18px;font-weight:500; color: var(--btnnicetext);padding:20px;">
                                                             ' . $apponum . '
                                                             
                                                         </td>
@@ -520,6 +509,7 @@ if ($stmt->execute()) {
                                                             $title = $row["title"];
                                                             $docname = $row["name_medic"];
                                                             $scheduledate = $row["scheduledate"];
+                                                            $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                                             $scheduletime = $row["scheduletime"];
                                                             echo '<tr>
                                                             <td style="padding:20px;"> &nbsp;' .
@@ -528,8 +518,8 @@ if ($stmt->execute()) {
                                                             <td>
                                                             ' . substr($docname, 0, 20) . '
                                                             </td>
-                                                            <td style="text-align:center;">
-                                                                ' . substr($scheduledate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
+                                                            <td style="text-align:center; padding:20px;">
+                                                                ' . substr($formattedDate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) .'hs.'. '
                                                             </td>
 
                     

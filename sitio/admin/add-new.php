@@ -49,6 +49,7 @@ if ($_POST) {
     }
 
     if ($password == $cpassword) {
+        //hashear password
         $error = '3';
         $result = $database->prepare("select * from medics where email_medic='$email'");
         $result->execute();

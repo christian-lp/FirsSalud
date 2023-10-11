@@ -214,8 +214,6 @@ if ($stmt->execute()) {
 
 
             ?>
-
-
                     <td width="15%">
                         <p style="font-size: 14px;color: rgb(119, 119, 119);padding: 0;margin: 0;text-align: right;">
                             Fecha
@@ -284,7 +282,7 @@ if ($stmt->execute()) {
                                                 $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
                                                 $scheduletime = isset($row["scheduletime"]) ? $row["scheduletime"] : '';
                                                 $nop = isset($row["nop"]) ? $row["nop"] : 0;
-
+                                                $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                                 if ($nop != 0) {
                                                     // Abre una nueva fila si se alcanza el límite de 3 columnas por fila
                                                     if ($columnCount % 3 == 0) {
@@ -296,7 +294,7 @@ if ($stmt->execute()) {
                                                     echo '<div style="width:100%">';
                                                     echo '<div class="h1-search">' . substr($title, 0, 21) . '</div><br>';
                                                     echo '<div class="h3-search"><b>' . substr($docname, 0, 30) . '</div>';
-                                                    echo '<div class="h4-search">' . $scheduledate . '<br>Empieza: ' . substr($scheduletime, 0, 5) . 'hs.</b></div><br>';
+                                                    echo '<div class="h4-search">' . $formattedDate . '<br>Empieza: ' . substr($scheduletime, 0, 5) . 'hs.</b></div><br>';
                                                     echo '<a href="booking.php?id=' . $scheduleid . '" ><button class="login-btn btn-primary-soft btn" style="padding-top:11px;padding-bottom:11px;width:100%"><font class="tn-in-text">Reservar Ahora</font></button></a>';
                                                     echo '</div>';
                                                     echo '</div>';

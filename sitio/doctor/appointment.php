@@ -56,6 +56,52 @@
     </style>
 </head>
 
+<?php
+
+$sqlmain = "SELECT 
+            appointment.appointment_id,
+            schedule.scheduleid,
+            schedule.title,
+            medics.name_medic,
+            patients.name,
+            schedule.scheduledate,
+            schedule.scheduletime,
+            appointment.apponum,
+            appointment.appodate
+            FROM schedule 
+            INNER JOIN appointment 
+            ON schedule.scheduleid=appointment.schedule_id
+            INNER JOIN patients 
+            ON patients.id_patient=appointment.patient_id
+            INNER JOIN medics
+            ON schedule.id_medic=medics.id_medic 
+            WHERE  medics.id_medic= '$userid' ";
+// var_dump($userid);
+// exit();
+    //Prepara la consulta
+
+    $stmt = $database->prepare($sqlmain);
+    $stmt->execute(); 
+    $num_rows = $stmt->rowCount();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // var_dump($num_rows);
+    // exit();
+
+if ($_POST) {
+    //print_r($_POST);
+
+    if (!empty($_POST["sheduledate"])) {
+        $sheduledate = $_POST["sheduledate"];
+        $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
+    };
+        //echo $sqlmain;
+        $pdo = $database->prepare($sqlmain);
+        $pdo->execute();
+        // var_dump($result);
+        // exit();
+}
+?>
+
 <body>
     <div class="container">
         <div class="menu">
@@ -154,10 +200,6 @@
 
                         $today = date('d-M-Y');
                         echo $today;
-
-                        $list111 = $database->prepare("SELECT * FROM appointment");
-                        $list111->execute();
-                        $num_rows = $list111->rowCount();
                         ?>
                     </p>
                 </td>
@@ -202,38 +244,17 @@
                                 </td>
                             </tr>
                         </table>
-
                     </center>
                 </td>
-
             </tr>
 
-            <?php
-
-            $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic where  medics.id_medic= '$userid' ";
-            // var_dump($userid);
-            // exit();
-            if ($_POST) {
-                //print_r($_POST);
-
-                if (!empty($_POST["sheduledate"])) {
-                    $sheduledate = $_POST["sheduledate"];
-                    $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
-                };
-                    //echo $sqlmain;
-                    $pdo = $database->prepare($sqlmain);
-                    $pdo->execute();
-                    // var_dump($result);
-                    // exit();
-            }
-            ?>
-
+        
         <tr>
         <td colspan="4">
             <center>
                 <div class="abc scroll">
                     <table width="93%" class="sub-table scrolldown" border="0">
-                        <thead>
+                        <!-- <thead>
                             <tr>
                                 <th class="table-headin">
                                     Nombre de Paciente
@@ -255,16 +276,18 @@
                                     Eventos
                                 </th>
                             </tr>
-                        </thead>
+                        </thead> -->
 
 
                     <tbody>
                     <?php
 
-                    $result2 = $database->prepare($sqlmain);
-                    $result2->execute();
-                    $stmt = $result2->fetchAll(PDO::FETCH_ASSOC);
-                    
+                    $stmt = $database->prepare($sqlmain);
+                    $stmt->execute(); 
+                    $num_rows = $stmt->rowCount();
+                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                   
+
                     if ($num_rows == 0) {
                         echo '<tr>
                         <td colspan="7">
@@ -280,61 +303,73 @@
                         <br><br><br><br>
                         </td>
                         </tr>';
-                    } elseif($result === false) 
+                    } elseif($result === false)
                         {
                             echo 'ERROR';
                         }
                         else
                         {
-                            foreach ($stmt as $row) {
-                                $appoid = $row["appointment_id"];
-                                $scheduleid = $row["scheduleid"];
-                                $title = $row["title"];
-                                $docname = $row["name_medic"];
-                                $scheduledate = $row["scheduledate"];
-                                $scheduletime = $row["scheduletime"];
-                                $pname = $row["name"];
-                                $apponum = $row["apponum"];
-                                $appodate = $row["appodate"];
-                                // var_dump($title);
-                                // exit();
-                                echo 
-                                '<tr >
-                                    <td style="font-weight:600;"> &nbsp;' .
-                                    substr($pname, 0, 25). '
-                                    </td >
-                                    <td style="text-align:center;font-size:20px;font-weight:300; color: var(--btnnicetext);">' .
-                                    $apponum . '
-                                    </td>
-                                    <td>
-                                    ' . substr($title, 0, 15) . '
-                                    </td>
-                                    <td style="text-align:center;;">
-                                        ' . substr($scheduledate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) . "hs." . '
-                                    </td>
+                            // foreach ($stmt as $row) {
+                            //     $appoid = $row["appointment_id"];
+                            //     $scheduleid = $row["scheduleid"];
+                            //     $title = $row["title"];
+                            //     $docname = $row["name_medic"];
+                            //     $scheduledate = $row["scheduledate"]; // Esta es la fecha en formato "Y-m-d"
+                            //     // Convierte la fecha al formato "d-m-Y"
+                            //     $formattedDate = date("d-m-Y", strtotime($scheduledate));
+                            //     // var_dump($formattedDate);
+                            //     // exit();
+                            //     // $formattedDate ahora contiene la fecha en el formato "d-m-Y"
+                            //     $scheduletime = $row["scheduletime"];
+                            //     $pname = $row["name"];
+                            //     $apponum = $row["apponum"];
+                            //     $appodate = $row["appodate"];
+                            //     // var_dump($title);
+                            //     // exit();
 
+                            // var_dump($num_rows);
+                            // exit();
+                            echo "<table>"; // Abre la tabla
+                            foreach ($result as $row) {
+                                echo "<tr>"; // Abre una fila
+                                echo "<td style='width: 25%;'>"; // Abre una celda
 
+                                echo "<div class='dashboard-items search-items'>";
+                                echo "<div style='width:100%;'>";
+                                echo "<div class='h3-search'>Nombre del Paciente: " . substr($row["name"], 0, 30) . "<br>";
+                                echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
+                                echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
+                                echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
+                                echo "<div class='h4-search'>Fecha y Hora del Turno: " . $row["scheduledate"] . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
 
-                                    <td>
-                                    <div style="display:flex;justify-content: center;">
+                                echo "<form method='post' action='delete-appointment.php'>";
+                                echo "<input type='hidden' name='action' value='drop'>";
+                                echo "<input type='hidden' name='id' value='" . $row["appointment_id"] . "'>";
+                                echo "<input type='hidden' name='scheduleid' value='" . $row["scheduleid"] . "'>";
+                                echo "<input type='hidden' name='title' value='" . $row["title"] . "'>";
+                                echo "<input type='hidden' name='doc' value='" . $row["name_medic"] . "'>";
+                                echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button>";
+                                echo "</form>";
 
-                                    <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                    &nbsp;&nbsp;&nbsp;-->
-                                    <a href="?action=drop&id=' . $appoid . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
-                                    &nbsp;&nbsp;&nbsp;</div>
-                                    </td>
-                                </tr>';
+                                echo "</div>";
+
+                                echo "</div>";
+                                echo "</td>"; // Cierra la celda
+                                echo "</tr>"; // Cierra la fila
                             }
-                        }
+                            echo "</table>"; // Cierra la tabla
+
+                            }
+                        
                     ?>
 
-                </tbody>
+                    </tbody>
 
-                            </table>
-                        </div>
-                    </center>
-                </td>
-            </tr>
+                    </table>
+                </div>
+            </center>
+        </td>
+    </tr>
 
 
 
@@ -370,7 +405,7 @@
             </div>
             </div>
             ';
-        } 
+        }
     }
 
     ?>

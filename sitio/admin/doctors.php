@@ -125,7 +125,7 @@ if ($stmt->execute()) {
         <td class="menu-btn menu-icon-appoinment">
             <a href="appointment.php" class="non-style-link-menu">
                 <div>
-                    <p class="menu-text">Cita</p>
+                    <p class="menu-text">Turnos</p>
             </a></div>
         </td>
     </tr>
