@@ -16,6 +16,7 @@ if ($_POST) {
     $tele = $_POST['phone_medic'];
     $password = $_POST['password_medic'];
     $cpassword = $_POST['cpassword_medic'];
+    $avail = $_POST['availability'];
     $id = $_POST['id00'];
 
     if ($password == $cpassword) {
@@ -40,7 +41,7 @@ if ($_POST) {
         } else {
 
             //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$password',matricul_medic='$matri',phone_medic='$tele',specialty_id=$spec 
+            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$password',matricul_medic='$matri',phone_medic='$tele',specialty_id='$spec',availability='$avail' 
             WHERE id_medic=$id ;";
             $result = $database->prepare($sql1);
             $result->execute();
