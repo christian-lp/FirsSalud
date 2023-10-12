@@ -264,6 +264,11 @@
                                                 <input type="hidden" name="apponum" value="' . $apponum . '" >
                                                 <input type="hidden" name="date" value="' . $today . '" >
                                                 <input type="hidden" name="nop" value="' . $nop . '" >
+                                                <input type="hidden" name="scheduledate" value="' . $scheduledate . '" >
+                                                <input type="hidden" name="scheduletime" value="' . $scheduletime . '" >
+                                                <input type="hidden" name="title" value="' . $title . '" >
+                                                <input type="hidden" name="name_medic" value="' . $docname . '" >
+                                                <input type="hidden" name="email_medic" value="' . $docemail . '" >
 
                                                 ';
                                             echo '
