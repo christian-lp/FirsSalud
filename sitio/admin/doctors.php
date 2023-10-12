@@ -258,6 +258,7 @@ if ($stmt->execute()) {
                                 <tbody>
 
                                     <?php
+                                
                                     $result = $database->prepare($sqlmain);
                                     $result->execute(); // Ejecutar la consulta
                                     $num_rows = $result->rowCount();
@@ -293,47 +294,47 @@ if ($stmt->execute()) {
                                                 $spcil_name = $spcil_array["specialty_name"];
                                                 
                                                 echo '<tr>
-                                                    <td> &nbsp;' .
-                                                        substr($name, 0, 30) . '
-                                                    </td>
-                                                    <td>
-                                                        ' . substr($email, 0, 20) . '
-                                                    </td>
-                                                    <td>
-                                                        ' . substr($spcil_name, 0, 20) . '
-                                                    </td>
-                                                    <td>
-                                                        <div style="display:flex;justify-content: center;">
-                                                            <a href="?action=edit&id=' . $docid . '&error=0" class="non-style-link">
-                                                                <button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                                    <font class="tn-in-text">Editar</font>
-                                                                </button>
-                                                            </a>
-                                                            &nbsp;&nbsp;&nbsp;
-                                                            <a href="?action=view&id=' . $docid . '" class="non-style-link">
-                                                                <button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                                    <font class="tn-in-text">Ver</font>
-                                                                </button>
-                                                            </a>
-                                                            &nbsp;&nbsp;&nbsp;
-                                                        
-                                                            <a href="?action=toggle&id=' . $docid . '&name=' . $name . '" class="non-style-link">
-                                                                <button class="btn-primary-soft btn button-icon btn-toggle" 
-                                                                style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"
-                                                                data-toggle="' . ($is_active == 1 ? 'activo' : 'inactivo') . '"
-                                                                data-target="' . ($is_active == 1 ? 'inactivo' : 'activo') . '">
-                                                                <font class="tn-in-text" style="color: ' . ($is_active == 1 ? 'green' : 'red') . ';">' . ($is_active == 1 ? 'Activo' : 'Inactivo') . '</font>
-                                                            </button>
-                                                            </a>
-                                                            
+                                                        <td> &nbsp;' . substr($name, 0, 30) . '</td>
+                                                        <td>' . substr($email, 0, 20) . '</td>
+                                                        <td>' . substr($spcil_name, 0, 20) . '</td>
+                                                        <td>
+                                                            <div style="display:flex;justify-content: center;">
+                                                                <a href="?action=edit&id=' . $docid . '&error=0" class="non-style-link">
+                                                                    <button class="btn-primary-soft btn button-icon btn-edit" style="padding-left: 40px; padding-top: 12px; padding-bottom: 12px; margin-top: 10px;">
+                                                                        <font class="tn-in-text">Editar</font>
+                                                                    </button>
+                                                                </a>
+                                                                &nbsp;&nbsp;&nbsp;
+                                                                <a href="?action=view&id=' . $docid . '" class="non-style-link">
+                                                                    <button class="btn-primary-soft btn button-icon btn-view" style="padding-left: 40px; padding-top: 12px; padding-bottom: 12px; margin-top: 10px;">
+                                                                        <font class="tn-in-text">Ver</font>
+                                                                    </button>
+                                                                </a>
+                                                                &nbsp;&nbsp;&nbsp;';
 
-                                                        </div>
-                                                    </td>
-                                                </tr>';
+                                                    // Ahora, aquí tienes el enlace y el botón para cambiar la activación
+                                                    echo '<a href="?action=toggle&id=' . $docid . '&name=' . $name . '" class="non-style-link">
+                                                        <button class="btn-primary-soft btn button-icon btn-toggle" style="padding-left: 40px; padding-top: 12px; padding-bottom: 12px; margin-top: 10px;"
+                                                            data-toggle="' . ($is_active == 1 ? 'activo' : 'inactivo') . '"
+                                                            data-target="' . ($is_active == 1 ? 'inactivo' : 'activo') . '"
+                                                            data-id="' . $docid . '">
+                                                            <font class="tn-in-text" style="color: ' . ($is_active == 1 ? 'blue' : 'red') . '">
+                                                                ' . ($is_active == 1 ? 'Activo' : 'Inactivo') . '
+                                                            </font>
+                                                        </button>
+                                                    </a>';
+                                                    
+                                                    // Continúa con el resto de tu código
+                                                    echo '
+                                                            </div>
+                                                        </td>
+                                                    </tr>';
+
                                             }
                                             
                                     }
                                     ?>
+
 <style>
 .button-icon {
     width: 120px; /* Ancho fijo deseado para el botón */
@@ -368,19 +369,32 @@ buttons.forEach(function(button) {
             this.querySelector('.tn-in-text').textContent = 'Activo';
         }
         this.style.backgroundColor = ''; // Restaurar el color de fondo al salir del cursor
-        this.style.color = toggle === 'inactivo' ? 'red' : 'green'; // Restaurar el color de texto al salir del cursor
+        this.style.color = toggle === 'inactivo' ? 'red' : 'blue'; // Restaurar el color de texto al salir del cursor
     });
 
     button.addEventListener('click', function(e) {
         e.preventDefault(); // Evitar que el enlace se abra
         var toggle = this.getAttribute('data-toggle');
         var target = this.getAttribute('data-target');
+        var id2 = this.getAttribute('data-id'); // Asegúrate de agregar data-id en tu enlace
 
-        // Cambiar el texto del botón
-        var buttonText = target === 'activo' ? 'Inactivo' : 'Activo';
-        this.querySelector('.tn-in-text').textContent = buttonText;
-        this.setAttribute('data-toggle', target); // Cambiar el estado
-        this.setAttribute('data-target', toggle); // Cambiar el estado
+        // Realizar una solicitud AJAX para actualizar la base de datos
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'activity.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        xhr.onload = function() {
+            // Manejar la respuesta si es necesario
+
+            // Cambiar el texto del botón después de recibir una respuesta
+            if (xhr.status === 200 && xhr.responseText === 'success') {
+                var buttonText = target === 'activo' ? 'Inactivo' : 'Activo';
+                var buttonColor = target === 'activo' ? 'red' : 'blue';
+                this.querySelector('.tn-in-text').textContent = buttonText;
+                this.style.backgroundColor = buttonColor; // Cambio de color de fondo
+            }
+        };
+
+        xhr.send('id=' + id2 + '&target=' + target);
     });
 });
 </script>
@@ -906,7 +920,7 @@ buttons.forEach(function(button) {
                         
                                     <tr>
                                         <td colspan="2">
-                                            <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <!--<input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
                                         
                                             <input type="submit" value="Guardar" class="login-btn btn-primary btn">
                                         </td>
