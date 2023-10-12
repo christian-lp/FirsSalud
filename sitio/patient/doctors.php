@@ -278,7 +278,7 @@ if ($stmt->execute()) {
                                                 $docid = $row["id_medic"];
                                                 $name = $row["name_medic"];
                                                 $email = $row["email_medic"];
-                                                $spe = $row["specialty_medic"];
+                                                $spe = $row["specialty_id"];
                                                 $spcil_res = $database->prepare("SELECT specialty_name FROM specialties WHERE specialty_id= $spe");
                                                 $spcil_res->execute();
                                                 $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
@@ -353,7 +353,7 @@ if ($stmt->execute()) {
             $email = $row["email_medic"];
             $matri= $row['matricul_medic'];
             $tele = $row['phone_medic'];
-            $spe = $row["specialty_medic"];
+            $spe = $row["specialty_id"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
             $spcil_res->execute();

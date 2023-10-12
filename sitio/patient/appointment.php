@@ -430,7 +430,7 @@ else{
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $name = $row["name_medic"];
             $email = $row["email_medic"];
-            $spe = $row["specialty_medic"];
+            $spe = $row["specialty_id"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where id='$spe'");
             $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);

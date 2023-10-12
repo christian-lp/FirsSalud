@@ -195,8 +195,6 @@ if ($stmt->execute()) {
                 <td width="10%">
                     <button class="btn-label" style="display: flex;justify-content: center;align-items: center;"><img src="../../img/calendar.svg" width="100%"></button>
                 </td>
-
-
             </tr>
 
             <tr>
@@ -208,6 +206,22 @@ if ($stmt->execute()) {
                     </a>
                 </td>
             </tr>
+
+            <tr>
+                <td colspan="2" style="padding-top:0;">
+                    <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Agregar Nueva Especialidad</p>
+                </td>
+                <td colspan="2" style="padding-top: 0; text-align: right;">
+                    <div style="margin-right: 0;">
+                        <a href="?action=addspe&id=none&error=0" class="non-style-link">
+                            <button class="login-btn btn-primary btn button-icon" style="display: flex; justify-content: center; align-items: center; margin-left: 75px; background-image: url('../../img/icons/add.svg'); width: 200px;">Especialidad</font></button>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+
+
+
             <tr>
                 <td colspan="4" style="padding-top:10px;">
                     <p class="heading-main12" style="margin-left: 45px;font-size:18px;color:rgb(49, 49, 49)">Doctores (<?php echo $num_rows; ?>)</p>
@@ -287,7 +301,7 @@ if ($stmt->execute()) {
                                                 $name = $row["name_medic"];
                                                 $email = $row["email_medic"];
                                                 $is_active = $row["is_active"];
-                                                $spe = $row["specialty_medic"];
+                                                $spe = $row["specialty_id"];
                                                 $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id= '$spe'");
                                                 $spcil_res->execute();
                                                 $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
@@ -401,11 +415,6 @@ buttons.forEach(function(button) {
 });
 </script>
 
-
-
-
-
-
                                 </tbody>
 
                             </table>
@@ -413,12 +422,6 @@ buttons.forEach(function(button) {
                     </center>
                 </td>
             </tr>
-            <!-- <a href="?action=drop&id=' . $docid . '&name=' . $name . '" class="non-style-link">
-                                                                <button class="btn-primary-soft btn button-icon btn-delete" style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;">
-                                                                    <font class="tn-in-text" style="color: ' . ($is_active == 1 ? 'green' : 'red') . ';">' . ($is_active == 1 ? 'Activo' : 'Inactivo') . '  &nbsp;&nbsp;&nbsp;</font>
-                                                                </button>
-                                                            </a> -->
-
 
         </table>
     </div>
@@ -453,6 +456,91 @@ buttons.forEach(function(button) {
 
 
             
+        }elseif ($action == 'addspe') {
+            $error_1 = $_GET["error"];
+            $errorlist = array(
+                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">La cuenta ya existe.</label>',
+                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Reconfirmar contraseña</label>',
+                '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
+                '4' => "",
+                '5' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de fecha! Debe ser mayor de 24 años</label>',
+                '0' => '',
+
+            );
+            if ($error_1 != '4') {
+                echo '
+                <div id="popup1" class="overlay">
+                    <div class="popup">
+                        <center>
+                            <a class="close" href="doctors.php">&times;</a>
+                            <div style="display: flex;justify-content: center;">
+                                <div class="abc">
+                                    <form action="add-new-spe.php" method="POST" class="add-new-form">
+                                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                            <tr>
+                                                <td class="label-td" colspan="2">' . $errorlist[$error_1] . '</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar Nueva Especialidad.</p><br><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="name_specialty" class="form-label">Nombre: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="text" name="name_specialty" class="input-text" placeholder="Nombre de Especialidad" required><br>
+                                                </td>
+                                            </tr>
+                                            
+                                                        
+                                        
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    
+                                                        <input type="submit" value="Add" class="login-btn btn-primary btn">
+                                                    </td>
+                                    
+                                                </tr>
+                                        </table>
+                                    </form>
+                                </tr> 
+                            </div>
+                        </div>
+                    </center>
+                <br><br>
+            </div>
+            </div>
+            ';
+            } else {
+                echo '
+                    <div id="popup1" class="overlay">
+                            <div class="popup">
+                            <center>
+                            <br><br><br><br>
+                                <h2>Nuevo Registro Añadido Exitosamente</h2>
+                                <a class="close" href="doctors.php">&times;</a>
+                                <div class="content">
+                                    
+                                    
+                                </div>
+                                <div style="display: flex;justify-content: center;">
+                                
+                                <a href="doctors.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
+
+                                </div>
+                                <br><br>
+                            </center>
+                    </div>
+                    </div>
+        ';
+            }
+        
+
         } elseif ($action == 'view') {
             $sqlmain = "select * from medics where id_medic='$id'";
             $result = $database->prepare($sqlmain);
@@ -463,7 +551,7 @@ buttons.forEach(function(button) {
             $email = $row["email_medic"];
             $matri= $row['matricul_medic'];
             $tele = $row['phone_medic'];
-            $spe = $row["specialty_medic"];
+            $spe = $row["specialty_id"];
             $avail = $row["availability"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
@@ -669,12 +757,12 @@ buttons.forEach(function(button) {
                                             </tr>
                                             <tr>
                                                 <td class="label-td" colspan="2">
-                                                    <label for="specialty_medic" class="form-label">Especialidad: </label>
+                                                    <label for="specialty_id" class="form-label">Especialidad: </label>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="label-td" colspan="2">
-                                                    <select name="specialty_medic" id="" class="box">';
+                                                    <select name="specialty_id" id="" class="box">';
                                     
                                                     $list11 = $database->prepare("select  * from  specialties order by specialty_name asc;");
                                                     $list11->execute();
@@ -796,7 +884,7 @@ buttons.forEach(function(button) {
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $name = $row["name_medic"];
             $email = $row["email_medic"];
-            $spe = $row["specialty_medic"];
+            $spe = $row["specialty_id"];
             $avail = $row["availability"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
@@ -884,13 +972,13 @@ buttons.forEach(function(button) {
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="specialty_medic" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
+                                            <label for="specialty_id" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
                                             
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <select name="specialty_medic" id="" class="box">';
+                                            <select name="specialty_id" id="" class="box">';
 
                                 $list11 = $database->prepare("select * from specialties;");
                                 $list11->execute();

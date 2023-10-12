@@ -11,7 +11,7 @@ if ($_POST) {
     $name = $_POST['name_medic'];
     $oldemail = $_POST["oldemail"];
     $matri = $_POST['matricul_medic'];
-    $spec = $_POST['specialty_medic'];
+    $spec = $_POST['specialty_id'];
     $email = $_POST['email_medic'];
     $tele = $_POST['phone_medic'];
     $password = $_POST['password_medic'];
@@ -41,7 +41,7 @@ if ($_POST) {
         } else {
 
             //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$hashedPassword',matricul_medic='$matri',phone_medic='$tele',specialty_medic=$spec 
+            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$hashedPassword',matricul_medic='$matri',phone_medic='$tele',specialty_id=$spec 
             WHERE id_medic=$id ;";
             $result = $database->prepare($sql1);
             $result->execute();

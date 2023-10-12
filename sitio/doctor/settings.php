@@ -295,7 +295,7 @@
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $name = $row["name_medic"];
             $email = $row["email_medic"];
-            $spe = $row["specialty_medic"];
+            $spe = $row["specialty_id"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
             $spcil_res->execute();
@@ -399,7 +399,7 @@
             $row = $result->fetch(PDO::FETCH_ASSOC);
             $name = $row["name_medic"];
             $email = $row["email_medic"];
-            $spe = $row["specialty_medic"];
+            $spe = $row["specialty_id"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
             $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
@@ -486,13 +486,13 @@
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="specialty_medic" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
+                                            <label for="specialty_id" class="form-label">Escoger Especialidad: (Actual ' . $spcil_name . ')</label>
                                             
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <select name="specialty_medic" id="" class="box">';
+                                            <select name="specialty_id" id="" class="box">';
 
                                 $list11 = $database->prepare("select * from specialties;");
                                 $list11->execute();
