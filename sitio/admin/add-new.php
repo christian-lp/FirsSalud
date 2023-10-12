@@ -17,6 +17,7 @@ include("../modelos/conexion.php");
 $database = Conexion::conectar();
 
 if ($_POST) {
+    //print_r($_POST);
     // Tu código de procesamiento de formulario aquí
     $result = $database->prepare("select * from medics");
     $result->execute();
@@ -24,16 +25,14 @@ if ($_POST) {
     $surname = $_POST['surname_medic'];
     $spec = $_POST['specialty_medic'];
     $gen = $_POST['gender_medic'];
-    $raw_birth = $_POST['day_of_birth_medic'];
-    $timestamp = strtotime($raw_birth);
-    $birth = date('Y-m-d', $timestamp);
+    $birth = $_POST['day_of_birth_medic'];
     // var_dump($birth);
     // exit;
     $matri = $_POST['matricul_medic'];
     $email = $_POST['email_medic'];
     $tele = $_POST['phone_medic'];
     $password = $_POST['password_medic'];
-    $cpassword = $_POST['cpassword_medic'];
+    $cpassword = $_POST['cpassword'];
 
     // Obtener la fecha actual
     $currentDate = new DateTime();
@@ -42,14 +41,9 @@ if ($_POST) {
     if (new DateTime($birth) <= $currentDate) {
         // La fecha de nacimiento es mayor o igual a 24 años
         // Puedes continuar con el procesamiento
-    } else {
-        // La fecha de nacimiento es menor de 24 años
-        // Muestra un mensaje de error o realiza la acción correspondiente
-        echo "La fecha de nacimiento debe ser mayor o igual a 24 años.";
-    }
-
-    if ($password == $cpassword) {
-        //hashear password
+        if ($password == $cpassword) {
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        // print_r($hashedPassword);
         $error = '3';
         $result = $database->prepare("select * from medics where email_medic='$email'");
         $result->execute();
@@ -59,7 +53,7 @@ if ($_POST) {
             $error = '1';
         } else {
             $sql1 = "INSERT INTO medics(matricul_medic,name_medic,surname_medic,gender_medic, day_of_birth_medic,email_medic,phone_medic,specialty_medic,password_medic) 
-            VALUES ('$matri','$name','$surname','$gen','$birth','$email','$tele','$spec','$password');";
+            VALUES ('$matri','$name','$surname','$gen','$birth','$email','$tele','$spec','$hashedPassword');";
             $stmt = $database->prepare($sql1);
             $stmt->execute();
             // Edición Exitosa
@@ -69,18 +63,13 @@ if ($_POST) {
         // Error de confirmación de contraseña. Vuelve a confirmar la contraseña.
         $error = '2';
     }
+} else {
+    // La fecha de nacimiento es menor de 24 años
+    // Muestra el error 5
+    $error = '5';
+}
 
     // Redirecciona después de procesar el formulario
     header("location: doctors.php?action=add&error=" . $error);
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Tus encabezados HTML aquí -->
-</head>
-<body>
-    <!-- El contenido HTML de tu página aquí -->
-</body>
-</html>

@@ -576,184 +576,167 @@ buttons.forEach(function(button) {
             );
             if ($error_1 != '4') {
                 echo '
-            <div id="popup1" class="overlay">
+                <div id="popup1" class="overlay">
                     <div class="popup">
-                    <center>
-                    
-                        <a class="close" href="doctors.php">&times;</a> 
-                        <div style="display: flex;justify-content: center;">
-                        <div class="abc">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        <tr>
-                                <td class="label-td" colspan="2">' .
-                    $errorlist[$error_1]
-                    . '</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar Nuevo Doctor.</p><br><br>
-                                </td>
-                            </tr>
-                            
-                            <tr>
-                                <form action="add-new.php" method="POST" class="add-new-form">
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Nombre: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" name="name_medic" class="input-text" placeholder="Nombre Doctor" required><br>
-                                </td>
-                                
-                            </tr>
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="surname" class="form-label">Apellido: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" surname="surname_medic" class="input-text" placeholder="Apellido Doctor" required><br>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="birth" class="form-label">Fecha de Nacimiento: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="date" birth="day_of_birth_medic" class="input-text" placeholder="Fecha de Nacimiento" required><br>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="email" class="form-label">Correo: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="email" name="email_medic" class="input-text" placeholder="Email Address" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="matri" class="form-label">Matricula: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="text" matri="matricul_medic" class="input-text" placeholder="N° de Matricula" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="tel" Tele="phone_medic" class="input-text" placeholder="Teléfono Móvil" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Especialidad: </label>
+                        <center>
+                            <a class="close" href="doctors.php">&times;</a>
+                            <div style="display: flex;justify-content: center;">
+                                <div class="abc">
+                                    <form action="add-new.php" method="POST" class="add-new-form">
+                                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
+                                            <tr>
+                                                <td class="label-td" colspan="2">' . $errorlist[$error_1] . '</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Agregar Nuevo Doctor.</p><br><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="name_medic" class="form-label">Nombre: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="text" name="name_medic" class="input-text" placeholder="Nombre Doctor" required><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="surname_medic" class="form-label">Apellido: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="text" name="surname_medic" class="input-text" placeholder="Apellido Doctor" required><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="day_of_birth_medic" class="form-label">Fecha de Nacimiento: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="date" name="day_of_birth_medic" class="input-text" placeholder="Fecha de Nacimiento" required><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="email_medic" class="form-label">Correo: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="email" name="email_medic" class="input-text" placeholder="Email Address" required><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="matricul_medic" class="form-label">Matricula: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="text" name="matricul_medic" class="input-text" placeholder="N° de Matricula" required><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="phone_medic" class="form-label">Teléfono: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <input type="tel" name="phone_medic" class="input-text" placeholder="Teléfono Móvil" required><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="specialty_medic" class="form-label">Especialidad: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <select name="specialty_medic" id="" class="box">';
                                     
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <select spec="specialty_medic" id="" class="box" >';
+                                                    $list11 = $database->prepare("select  * from  specialties order by specialty_name asc;");
+                                                    $list11->execute();
+                                                    $num_rows = $list11->rowCount();
+                                                    
+                                                    for ($y = 0; $y < $num_rows; $y++) {
+                                                        $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                                        $sn = $row00["specialty_name"];
+                                                        $id00 = $row00["specialty_id"];
+                                                        echo "<option value=" . $id00 . ">$sn</option><br/>";
+                                                    }
+                                    
+                                    echo '   </select><br>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="gender_medic" class="form-label">Genero: </label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <select name="gender_medic" id="" class="box">';
+                                    
+                                                    $list11 = $database->prepare("select  * from  genders order by gender_name asc;");
+                                                    $list11->execute();
+                                                    $num_rows = $list11->rowCount();
+                                                    
+                                                    for ($y = 0; $y < $num_rows; $y++) {
+                                                        $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                                        $sn = $row00["gender_name"];
+                                                        $id00 = $row00["gender_id"];
+                                                        echo "<option value=" . $id00 . ">$sn</option><br/>";
+                                                    }
+                                    
+                                    echo     '  </select><br>
+                                                    </td>
+                                                </tr>
+                                                
 
-
-                                $list11 = $database->prepare("select  * from  specialties order by specialty_name asc;");
-                                $list11->execute();
-                                $num_rows = $list11->rowCount();
-
-
-                                for ($y = 0; $y < $num_rows; $y++) {
-                                    $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-                                    $sn = $row00["specialty_name"];
-                                    $id00 = $row00["id_specialty"];
-                                    echo "<option value=" . $id00 . ">$sn</option><br/>";
-                                };
-
-
-                echo     '       </select><br>
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                                <label for="gen" class="form-label">Genero: </label>
-                                
-                            </td>
-                        </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                                <select gen="gender_medic" id="" class="box" >';
-
-
-                            $list11 = $database->prepare("select  * from  genders order by gender_name asc;");
-                            $list11->execute();
-                            $num_rows = $list11->rowCount();
-
-
-                            for ($y = 0; $y < $num_rows; $y++) {
-                                $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-                                $sn = $row00["gender_name"];
-                                $id00 = $row00["id_gender"];
-                                echo "<option value=" . $id00 . ">$sn</option><br/>";
-                            };
-
-
-            echo     '       </select><br>
-                            </td>
-                        </tr>
-                        
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="password" class="form-label">Contraseña: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
-                                </td>
-                            </tr><tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="cpassword" class="form-label">Confirmar Contraseña: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="password" name="cpassword_medic" class="input-text" placeholder="Confirmar Contraseña" required><br>
-                                </td>
-                            </tr>
-                            
-                
-                            <tr>
-                                <td colspan="2">
-                                    <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                
-                                    <input type="submit" value="Add" class="login-btn btn-primary btn">
-                                </td>
-                
-                            </tr>
-                        
-                            </form>
-                            </tr>
-                        </table>
-                        </div>
+                                                <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="password_medic" class="form-label">Contraseña: </label>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-td" colspan="2">
+                                                        <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-td" colspan="2">
+                                                        <label for="cpassword" class="form-label">Confirmar Contraseña: </label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-td" colspan="2">
+                                                        <input type="password" name="cpassword" class="input-text" placeholder="Confirmar Contraseña" required><br>
+                                                    </td>
+                                                </tr>
+                                                        
+                                        
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    
+                                                        <input type="submit" value="Add" class="login-btn btn-primary btn">
+                                                    </td>
+                                    
+                                                </tr>
+                                        </table>
+                                    </form>
+                                </tr> 
+                            </div>
                         </div>
                     </center>
-                    <br><br>
+                <br><br>
             </div>
             </div>
             ';
