@@ -348,10 +348,6 @@ if ($stmt->execute()) {
     </tr>
 </table>
 
-
-
-
-
                 <td>
 
 
@@ -359,11 +355,11 @@ if ($stmt->execute()) {
                     <p style="font-size: 20px;font-weight:600;padding-left: 40px;" class="anime">Tus reservas</p>
                     <center>
                         <div class="abc scroll" style="height: 250px;padding: 0;margin: 0;">
-                            <table width="85%" class="sub-table scrolldown" border="0">
+                            <table width="90%" class="sub-table scrolldown" border="0">
                                 <thead>
                                     <tr>
                                         <th class="table-headin">
-                                            Número de Citas
+                                            Turno N°
                                         </th>
                                         <th class="table-headin">
                                             Cita
@@ -372,7 +368,7 @@ if ($stmt->execute()) {
                                             Doctor
                                         </th>
                                         <th class="table-headin">
-                                            Fecha y Hora Programadas
+                                            Fecha y Hora
                                         </th>
                                     </tr>
                                 </thead>
@@ -425,7 +421,7 @@ if ($stmt->execute()) {
                                             $scheduletime = $row["scheduletime"];
 
                                             echo '<tr>
-                                                    <td style="padding:30px;font-size:25px;font-weight:700;"> &nbsp;' .
+                                                    <td style="padding:30px;font-size:20px;font-weight:700;"> &nbsp;' .
                                                     $apponum
                                                     . '</td>
                                                     <td style="padding:20px;"> &nbsp;' .
@@ -435,7 +431,7 @@ if ($stmt->execute()) {
                                                     ' . substr($docname, 0, 20) . '
                                                     </td>
                                                     <td style="text-align:center;">
-                                                        ' . substr($formattedDate, 0, 10) . ' ' . substr($scheduletime, 0, 5) . '
+                                                        ' . substr($formattedDate, 0, 10) . ' - ' . substr($scheduletime, 0, 5) . 'hs.'. '
                                                     </td>
                                                 </tr>';
                                         }

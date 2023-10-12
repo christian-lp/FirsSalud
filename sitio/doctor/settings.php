@@ -538,8 +538,6 @@
                         
                                     <tr>
                                         <td colspan="2">
-                                            <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        
                                             <input type="submit" value="Guardar" class="login-btn btn-primary btn">
                                         </td>
                         

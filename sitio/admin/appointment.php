@@ -25,8 +25,6 @@ if (isset($_SESSION["usr_rol"])) {
     $stmt->execute();
     // var_dump($stmt);
     // exit();
-    
-
     // Si se está ejecutando la sentencia SQL
     if ($stmt->execute())
     {

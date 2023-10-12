@@ -155,28 +155,16 @@ include("../modelos/conexion.php");
 
                         $today = date('d-M-Y');
                         echo $today;
+                        $today = date('Y-m-d');
 
                         $pdo = Conexion::conectar();
 
-                        $patientQuery = "SELECT * FROM patients;";
-                        $patientStatement = $pdo->query($patientQuery);
-                        $patientResult = $patientStatement->fetchAll(PDO::FETCH_ASSOC);
-
-                        $doctorQuery = "SELECT * FROM medics;";
-                        $doctorStatement = $pdo->query($doctorQuery);
-                        $doctorResult = $doctorStatement->fetchAll(PDO::FETCH_ASSOC);
-
-                        $appointmentQuery = "SELECT * FROM appointment WHERE appodate >= :today;";
-                        $appointmentStatement = $pdo->prepare($appointmentQuery);
-                        $appointmentStatement->bindParam(':today', $today, PDO::PARAM_STR);
-                        $appointmentStatement->execute();
-                        $appointmentResult = $appointmentStatement->fetchAll(PDO::FETCH_ASSOC);
-
-                        $scheduleQuery = "SELECT * FROM schedule WHERE scheduledate = :today;";
-                        $scheduleStatement = $pdo->prepare($scheduleQuery);
-                        $scheduleStatement->bindParam(':today', $today, PDO::PARAM_STR);
-                        $scheduleStatement->execute();
-                        $scheduleResult = $scheduleStatement->fetchAll(PDO::FETCH_ASSOC);
+                        $patientQuery = "SELECT * FROM patients";
+                        $patientStatement = $pdo->prepare($patientQuery);
+                        $patientStatement->execute();
+                        $patientResult = $patientStatement->fetch(PDO::FETCH_ASSOC);
+                        $userid = $patientResult["id_patient"];
+                        // var_dump($userid);
                     } catch (PDOException $e) {
                         echo "Error: " . $e->getMessage();
                     }
@@ -291,7 +279,7 @@ include("../modelos/conexion.php");
                         <h2>Estás segur@?</h2>
                         <a class="close" href="settings.php">&times;</a>
                         <div class="content">
-                        Deseas eliminar tu cuenta<br>(' . substr($nameget, 0, 40) . ').
+                            Deseas borrar este registro<br>(' . substr($nameget, 0, 40) . ').
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -304,17 +292,14 @@ include("../modelos/conexion.php");
             </div>
             ';
         } elseif ($action == 'view') {
-            $sqlmain = "select * from patient where pid='$id'";
-            $result = $database->query($sqlmain);
-            $row = $result->fetch_assoc();
-            $name = $row["pname"];
-            $email = $row["pemail"];
-            $address = $row["paddress"];
-
-
-            $dob = $row["pdob"];
-            $nic = $row['pnic'];
-            $tele = $row['ptel'];
+            $sqlmain = "select * from patients where id_patient='$id'";
+            $result = $database->prepare($sqlmain);
+            $result->execute();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name"];
+            $email = $row["email"];
+            $dni = $row['dni'];
+            $tele = $row['phone'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -322,7 +307,7 @@ include("../modelos/conexion.php");
                         <h2></h2>
                         <a class="close" href="settings.php">&times;</a>
                         <div class="content">
-                            ConfiguroWeb<br>
+                            MEDIC<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -330,7 +315,7 @@ include("../modelos/conexion.php");
                         
                             <tr>
                                 <td>
-                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Información</p><br><br>
+                                    <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
                                 </td>
                             </tr>
                             
@@ -358,17 +343,17 @@ include("../modelos/conexion.php");
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">Documento de Identificación: </label>
+                                    <label for="nic" class="form-label">N° de Matricula: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $nic . '<br><br>
+                                ' . $dni . '<br><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono:: </label>
+                                    <label for="Tele" class="form-label">Teléfono: </label>
                                 </td>
                             </tr>
                             <tr>
@@ -378,25 +363,9 @@ include("../modelos/conexion.php");
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Dirección: </label>
+                                    <label for="spec" class="form-label">Especialidad: </label>
                                     
                                 </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            ' . $address . '<br><br>
-                            </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Fecha de Nacimiento: </label>
-                                    
-                                </td>
-                            </tr>
-                            <tr>
-                            <td class="label-td" colspan="2">
-                            ' . $dob . '<br><br>
-                            </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
@@ -406,7 +375,7 @@ include("../modelos/conexion.php");
                                 </td>
                 
                             </tr>
-                           
+                    
 
                         </table>
                         </div>
@@ -416,22 +385,19 @@ include("../modelos/conexion.php");
             </div>
             ';
         } elseif ($action == 'edit') {
-            $sqlmain = "select * from patient where pid='$id'";
-            $result = $database->query($sqlmain);
-            $row = $result->fetch_assoc();
-            $name = $row["pname"];
-            $email = $row["pemail"];
-
-
-
-            $address = $row["paddress"];
-            $nic = $row['pnic'];
-            $tele = $row['ptel'];
+            $sqlmain = "select * from patients where id_patient='$id'";
+            $result = $database->prepare($sqlmain);
+            $result->execute();
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+            $name = $row["name"];
+            $email = $row["email"];
+            $dni = $row['dni'];
+            $tele = $row['phone'];
 
             $error_1 = $_GET["error"];
             $errorlist = array(
-                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta relacionada con esta dirección de correo electrónico</label>',
-                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Reconfirmar contraseña</label>',
+                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con esta direccion de E-mail.</label>',
+                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
                 '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
                 '4' => "",
                 '0' => '',
@@ -455,13 +421,13 @@ include("../modelos/conexion.php");
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Editar Información de Usuario</p>
-                                        User ID : ' . $id . ' (Auto Generado)<br><br>
+                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Editar Información de Doctor</p>
+                                        Paciente ID : ' . $id . ' (Auto Generado)<br><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <form action="edit-user.php" method="POST" class="add-new-form">
+                                            <form action="edit-doc.php" method="POST" class="add-new-form">
                                             <label for="Email" class="form-label">Correo: </label>
                                             <input type="hidden" value="' . $id . '" name="id00">
                                         </td>
@@ -469,7 +435,7 @@ include("../modelos/conexion.php");
                                     <tr>
                                         <td class="label-td" colspan="2">
                                         <input type="hidden" name="oldemail" value="' . $email . '" >
-                                        <input type="email" name="email" class="input-text" placeholder="Dirección de Correo" value="' . $email . '" required><br>
+                                        <input type="email" name="email" class="input-text" placeholder="Email Address" value="' . $email . '" required><br>
                                         </td>
                                     </tr>
                                     <tr>
@@ -480,40 +446,33 @@ include("../modelos/conexion.php");
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="name" class="input-text" placeholder="Nombre de Doctor" value="' . $name . '" required><br>
+                                            <input type="text" name="name" class="input-text" placeholder="Nombre Doctor" value="' . $name . '" required><br>
                                         </td>
                                         
                                     </tr>
                                     
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="nic" class="form-label">Documento de Identificación: </label>
+                                            <label for="dni" class="form-label">DNI: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="nic" class="input-text" placeholder="Número de Documento" value="' . $nic . '" required><br>
+                                            <input type="text" name="dni" class="input-text" placeholder="Número de Matricula" value="' . $matri . '" required><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="Tele" class="form-label">Teléfono:: </label>
+                                            <label for="phone" class="form-label">Teléfono: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="tel" name="Tele" class="input-text" placeholder="Número de Teléfono:" value="' . $tele . '" required><br>
+                                            <input type="text" name="phone" class="input-text" placeholder="Teléfono Móvil" value="' . $tele . '" required><br>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <label for="spec" class="form-label">Dirección</label>
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                        <input type="text" name="address" class="input-text" placeholder="Dirección" value="' . $address . '" required><br>
+                                ';
+                                echo ' </select><br><br>
                                         </td>
                                     </tr>
                                     <tr>
@@ -523,24 +482,22 @@ include("../modelos/conexion.php");
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="password" name="password" class="input-text" placeholder="Escribe una contraseña" required><br>
+                                            <input type="password" name="password" class="input-text" placeholder="Definir una Contraseña" required><br>
                                         </td>
                                     </tr><tr>
                                         <td class="label-td" colspan="2">
-                                            <label for="cpassword" class="form-label">Confirma Contraseña: </label>
+                                            <label for="cpassword" class="form-label">Confirmar Contraseña: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="password" name="cpassword" class="input-text" placeholder="Confirma Contraseña" required><br>
+                                            <input type="password" name="cpassword" class="input-text" placeholder="Confirmar Contraseña" required><br>
                                         </td>
                                     </tr>
                                     
                         
                                     <tr>
                                         <td colspan="2">
-                                            <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        
                                             <input type="submit" value="Guardar" class="login-btn btn-primary btn">
                                         </td>
                         
@@ -562,7 +519,7 @@ include("../modelos/conexion.php");
                         <div class="popup">
                         <center>
                         <br><br><br><br>
-                            <h2>Edición Exitosa!</h2>
+                            <h2>Edición Exitosa</h2>
                             <a class="close" href="settings.php">&times;</a>
                             <div class="content">
                             Si cambia su correo electrónico también, cierre la sesión y vuelva a iniciar sesión con su nuevo correo electrónico

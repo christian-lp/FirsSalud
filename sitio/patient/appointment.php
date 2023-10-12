@@ -21,7 +21,8 @@ $stmt = $database->prepare($sql);
 $stmt->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 
 // Si se está ejecutando la sentencia SQL
-if ($stmt->execute()) {
+if ($stmt->execute()) 
+{
     $resultado = $stmt->fetch(PDO::FETCH_ASSOC); // Usar fetch en lugar de fetchAll
     if ($resultado) {
         $userid = $resultado["id_patient"];
@@ -32,23 +33,6 @@ if ($stmt->execute()) {
         echo 'No se encontraron resultados';
     }
 }
-    $sql = "select * from medics";
-    // Prepara la consulta SQL
-    $stmt = $database->prepare($sql);
-    $stmt->execute();
-    // var_dump($stmt);
-    // exit();
-
-
-    // Si se está ejecutando la sentencia SQL
-    if ($stmt->execute())
-    {
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-        $userid = $resultado["id_medic"];
-        $username = $resultado["name_medic"];
-        // var_dump($userid);
-        // exit();
-    }
 
 ?>
 
@@ -78,7 +62,6 @@ if ($stmt->execute()) {
 
 <body>
 <?php
-
     $sqlmain = "SELECT appointment.appointment_id,
     schedule.scheduleid,
     schedule.title,
@@ -92,8 +75,8 @@ if ($stmt->execute()) {
     INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
     INNER JOIN patients ON patients.id_patient = appointment.patient_id
     INNER JOIN medics ON schedule.id_medic = medics.id_medic
-    WHERE medics.id_medic = '$userid'";
-    // var_dump($sqlmain);
+    WHERE patients.id_patient = '$userid'";
+    // print_r ($sqlmain);
     // exit();
 
     //Prepara la consulta
@@ -101,21 +84,22 @@ if ($stmt->execute()) {
     $stmt->execute(); 
     $num_rows = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // var_dump($num_rows);
+
+    // var_dump($result);
     // exit();
     if ($_POST) {
         //print_r($_POST);
 
-    if (!empty($_POST["sheduledate"])) {
-        $sheduledate = $_POST["sheduledate"];
-        $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
-        $pdo = $database->prepare($sqlmain);
-        $pdo->execute();
-        // var_dump($result);
-        // exit();
+        if (!empty($_POST["sheduledate"])) {
+            $sheduledate = $_POST["sheduledate"];
+            $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
+            $pdo = $database->prepare($sqlmain);
+            $pdo->execute();
+            // var_dump($pdo);
+            // exit();
+        }
+
     }
-    
-}
 else{
     $sqlmain = "SELECT appointment.appointment_id,
     schedule.scheduleid,
@@ -130,7 +114,7 @@ else{
     INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
     INNER JOIN patients ON patients.id_patient = appointment.patient_id
     INNER JOIN medics ON schedule.id_medic = medics.id_medic
-    WHERE medics.id_medic = '$userid'
+    WHERE patients.id_patient = '$userid'
     ORDER BY schedule.scheduledate DESC";
 
     $stmt = $database->prepare($sqlmain);

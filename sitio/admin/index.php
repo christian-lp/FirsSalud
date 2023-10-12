@@ -353,23 +353,17 @@ if ($stmt->execute()) {
                                                 <tr>
                                                     <th class="table-headin">
 
-                                                        N° de Turno
+                                                        Turno N°
 
                                                     </th>
                                                     <th class="table-headin">
                                                         Nombre de Paciente
                                                     </th>
                                                     <th class="table-headin">
-
-
                                                         Doctor
-
                                                     </th>
                                                     <th class="table-headin">
-
-
                                                         Sesión
-
                                                     </th>
                                                 </tr>
                                             </thead>

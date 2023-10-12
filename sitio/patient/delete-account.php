@@ -15,24 +15,18 @@
     
 
     //import database
-    include("../connection.php");
-    $userrow = $database->query("select * from patient where pemail='$useremail'");
-    $userfetch=$userrow->fetch_assoc();
-    $userid= $userfetch["pid"];
-    $username=$userfetch["pname"];
-
+    include("../modelos/conexion.php");
+    $database = Conexion::conectar();
     
     if($_GET){
-        //import database
-        include("../connection.php");
         $id=$_GET["id"];
-        $result001= $database->query("select * from patient where pid=$id;");
-        $email=($result001->fetch_assoc())["pemail"];
-        $sql= $database->query("delete from webuser where email='$email';");
-        $sql= $database->query("delete from patient where pemail='$email';");
+        //$result001= $database->query("select * from schedule where scheduleid=$id;");
+        //$email=($result001->fetch_assoc())["docemail"];
+        $sql= $database->prepare("DELETE FROM patients WHERE id_patient='$id';");
+        $sql->execute();
+        //$sql= $database->query("delete from doctor where docemail='$email';");
         //print_r($email);
-        header("location: ../logout.php");
+        header("location: ../vistas/login/logout.php");
     }
-
 
 ?>
