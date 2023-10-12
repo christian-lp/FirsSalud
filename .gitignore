@@ -1,6 +1,3 @@
-*.dat
-*.csv
-*.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -33,7 +30,8 @@ instance/
 .python-version
 
 # Environments
-.env
-/Data/Config.dat
-.sql
-.dat
+*.env
+*.txt
+*.sql
+*.dat
+*.sql

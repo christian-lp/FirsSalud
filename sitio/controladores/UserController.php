@@ -62,13 +62,17 @@ class ControladorUsuarios
 				}, 3000);
 				</script>';
 
-			if (!$error)
-			{
-				// Llama a la función mdlLogin para autenticar al usuario
-				$respuesta = ModeloUsuarios::mdlRegister($emailUsr, $passUsr);
-				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
-				// var_dump($respuesta);
-			}
+				if (!$error) {
+					// Hashear la contraseña antes de almacenarla en la base de datos
+					$hashedPassword = md5($passUsr); // Hashear la contraseña con MD5
+					// Llama a la función mdlRegister para registrar al usuario con la contraseña hasheada
+					$respuesta = ModeloUsuarios::mdlRegister($emailUsr, $hashedPassword);
+					
+				}
+				
+				
+				
+				
 
 			if($respuesta != null )
 			{
@@ -188,64 +192,66 @@ class ControladorUsuarios
 				}, 3000);
 				</script>';
 
-			if (!$error)
-			{
-				// Llama a la función mdlLogin para autenticar al usuario
-				$respuesta = ModeloUsuarios::mdlLogin($emailUsr, $passUsr);
-				// echo "Después de llamar a Modelo Usuarios::mdlLogin<br>";
-				// var_dump($respuesta);
-			}
+			if (!$error) {
+				
+			// Llama a la función mdlLogin para autenticar al usuario
+				$hashedPassword = md5($passUsr); // Hashear la contraseña con MD5
+				$respuesta = ModeloUsuarios::mdlLogin($emailUsr, $hashedPassword);
 
-			if($respuesta != null )
-			{
+				if ($respuesta !== null && isset($respuesta['password'])) {
+				
+					// Compara la contraseña ingresada con la contraseña hasheada en la base de datos
+					if ($hashedPassword == $respuesta['password']) {
+						// Contraseña válida, el usuario puede iniciar sesión
+						// Aquí puedes establecer la sesión y redirigir al usuario a la página de inicio, por ejemplo.
+						$_SESSION['emailUsr'] = $emailUsr;
+						
+					} else {
+						// Contraseña incorrecta
+						//cho '<div class="alert alert-danger">La contraseña ingresada es incorrecta.</div>';
+					}
+				}
 				if($respuesta['rol'] == 1)
 				{
 					$_SESSION['usr_rol'] = $respuesta['rol'];
 					$_SESSION['email'] = $respuesta['email'];
 					$_SESSION['name'] = $respuesta['name'];
-				// 	$idCarrera = ModeloUsuarios::mdlAlumnoCarrera($respuesta['id_usr_rol']);
-				// 	$_SESSION['id_carrera'] = $idCarrera['id_carrera'];
+					
+					echo
+					'<div id="loading-overlay">
+						<div id="loading-text">Cargando...</div>
+					</div>
+					';
+
+					echo
+					'<style>
+					#loading-text {
+						animation: loading-animation 1s infinite;
+					}
+					
+					@keyframes loading-animation {
+					0% {
+						opacity: 0;
+					}
+					50% {
+						opacity: 1;
+					}
+					100% {
+						opacity: 0;
+					}
+					}
+					</style>';
+
 					echo
 					'<script>
-					if (window.history.replaceState)
-					{
-						window.history.replaceState(null, null, window.location.href);
-					}
-
-					// Crea un elemento div para el alerta
-					var alertDiv = document.createElement("div");
-					alertDiv.style.position = "fixed";
-					alertDiv.style.top = "50%";
-					alertDiv.style.left = "50%";
-					alertDiv.style.transform = "translate(-50%, -50%)";
-					alertDiv.style.padding = "20px";
-					alertDiv.style.borderRadius = "10px";
-					alertDiv.style.textAlign = "center";
-
-					// Crea un elemento img para el GIF animado
-					var gifImg = document.createElement("img");
-					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-
-					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
-					gifImg.style.height = "457px";
-
-					// Crea un elemento de texto para el mensaje del alerta
-					var messageText = document.createElement("div");
-					messageText.textContent = "Iniciando sesión";
-
-					// Agrega el GIF animado y el texto al elemento del alerta
-					alertDiv.appendChild(gifImg);
-					alertDiv.appendChild(messageText);
-
-					// Agrega el elemento del alerta al documento
-					document.body.appendChild(alertDiv);
-
-					// Redirige después de 3 segundos (3000 milisegundos)
-					setTimeout(function() {
-						window.location.href = "../../patient/index.php";
-					}, 3000);
+						// Redirige después de 3 segundos (300 milisegundos)
+						setTimeout(function() {
+							window.location.href = "../../patient/index.php";
+						}, 300);
 					</script>';
 				}
+
+
 
 
 				elseif($respuesta['rol'] == 2)
@@ -342,6 +348,7 @@ class ControladorUsuarios
 				}
 
 			}
+		
 		}
 	}
 }

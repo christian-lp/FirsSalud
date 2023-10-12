@@ -4,7 +4,7 @@ require_once "/var/www/html/FirsSalud/sitio/sql/querys.usuarios.php";
 
 class ModeloUsuarios
 {
-	static public function mdlLogin($emailUsr, $passUsr)
+	static public function mdlLogin($emailUsr, $hashedPassword)
 	{
     try 
 	{
@@ -20,15 +20,15 @@ class ModeloUsuarios
         // Intenta ejecutar la consulta para el rol de paciente
         $stmt = $conexion->prepare($sqlPatient);
         $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
-        $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
+        $stmt->bindParam(2, $hashedPassword, PDO::PARAM_STR);
 		// $stmt3 = $conexion->prepare($sqlAdmin);
         // $stmt3->bindParam(1, $emailUsr, PDO::PARAM_STR);
-        // $stmt3->bindParam(2, $passUsr, PDO::PARAM_STR);
+        // $stmt3->bindParam(2, $hashedPassword, PDO::PARAM_STR);
 		// var_dump($sqlPatient);
 		// var_dump($sqlMedic);
 		// var_dump($sqlAdmin);
 		// var_dump($emailUsr);
-		// var_dump($passUsr);
+		// var_dump($hashedPassword);
 		// exit;
 
         if ($stmt->execute()) 
@@ -40,7 +40,7 @@ class ModeloUsuarios
             // Si la consulta para el rol de paciente no se ejecuta correctamente, intenta la consulta para el rol de médico
             $stmt = $conexion->prepare($sqlMedic);
             $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
-            $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
+            $stmt->bindParam(2, $hashedPassword, PDO::PARAM_STR);
 			
             if ($stmt->execute()) {
                 $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -51,7 +51,7 @@ class ModeloUsuarios
                 // Si la consulta para el rol de médico no se ejecuta correctamente, intenta la consulta para el rol de administrador
                 $stmt = $conexion->prepare($sqlAdmin);
                 $stmt->bindParam(1, $emailUsr, PDO::PARAM_STR);
-                $stmt->bindParam(2, $passUsr, PDO::PARAM_STR);
+                $stmt->bindParam(2, $hashedPassword, PDO::PARAM_STR);
                 
                 if ($stmt->execute()) {
                     $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -79,7 +79,7 @@ class ModeloUsuarios
     }
 }
 
-	static public function mdlRegister($emailUsr, $passUsr) 
+	static public function mdlRegister($emailUsr, $hashedPassword) 
 {
     $resultado = null;
 
@@ -87,13 +87,13 @@ class ModeloUsuarios
     $sqlInsert = 'INSERT INTO patients (email, password) VALUES (?, ?)';
     $stmtInsert = Conexion::conectar()->prepare($sqlInsert);
     $stmtInsert->bindParam(1, $emailUsr, PDO::PARAM_STR);
-    $stmtInsert->bindParam(2, $passUsr, PDO::PARAM_STR);
+    $stmtInsert->bindParam(2, $hashedPassword, PDO::PARAM_STR);
 
     if ($stmtInsert->execute()) {
         $resultado = [
             'email' => $emailUsr,
             'rol' => '1',
-            'pass' => $passUsr
+            'pass' => $hashedPassword
         ];
     } 
 	else 
