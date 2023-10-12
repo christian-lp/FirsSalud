@@ -109,12 +109,12 @@ if ($stmt->execute()) {
     if (!empty($_POST["sheduledate"])) {
         $sheduledate = $_POST["sheduledate"];
         $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
-    }
-        //echo $sqlmain;
         $pdo = $database->prepare($sqlmain);
         $pdo->execute();
         // var_dump($result);
         // exit();
+    }
+    
 }
 else{
     $sqlmain = "SELECT appointment.appointment_id,
