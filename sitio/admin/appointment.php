@@ -14,7 +14,7 @@ if (isset($_SESSION["usr_rol"])) {
     } else {
         header("location: ../vistas/login/login.php");
     }
-    
+
     //import link
     include("../modelos/conexion.php");
     $database = Conexion::conectar();
@@ -80,7 +80,7 @@ if (isset($_SESSION["usr_rol"])) {
 
     //Prepara la consulta
     $stmt = $database->prepare($sqlmain);
-    $stmt->execute(); 
+    $stmt->execute();
     $num_rows = $stmt->rowCount();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -100,7 +100,7 @@ if (isset($_SESSION["usr_rol"])) {
 
     }
     else {
-        $sqlmain = "SELECT 
+        $sqlmain = "SELECT
             appointment.appointment_id,
             schedule.scheduleid,
             schedule.title,
@@ -109,16 +109,16 @@ if (isset($_SESSION["usr_rol"])) {
             schedule.scheduledate,
             schedule.scheduletime,
             appointment.apponum,
-            appointment.appodate 
-            FROM 
+            appointment.appodate
+            FROM
                 schedule
-            INNER JOIN 
+            INNER JOIN
                 appointment ON schedule.scheduleid = appointment.schedule_id
-            INNER JOIN 
+            INNER JOIN
                 patients ON patients.id_patient = appointment.patient_id
-            INNER JOIN 
+            INNER JOIN
                 medics ON schedule.id_medic = medics.id_medic
-            ORDER BY 
+            ORDER BY
                 scheduledate DESC";
     }
     ?>
@@ -136,7 +136,7 @@ if (isset($_SESSION["usr_rol"])) {
                                 </td>
                                 <td style="padding:0px;margin:0px;">
                                     <p class="profile-title"><?php echo $username  ?>..</p>
-                                    <p class="profile-subtitle"><?php echo substr($useremail, 0, 22)  ?></p>                      
+                                    <p class="profile-subtitle"><?php echo substr($useremail, 0, 22)  ?></p>
                                 </td>
                             </tr>
                             <tr>
@@ -148,7 +148,7 @@ if (isset($_SESSION["usr_rol"])) {
                                 <td colspan="2">
                                     <a href="dashboard.php"><input type="button" value="Nosotros" class="logout-btn btn-primary-soft btn"></a>
                                 </td>
-                                
+
                             </tr>
                         </table>
                     </td>
@@ -272,7 +272,7 @@ if (isset($_SESSION["usr_rol"])) {
 
             </tr>
 
-            
+
 
             <tr>
                 <td colspan="4">
@@ -318,11 +318,12 @@ if (isset($_SESSION["usr_rol"])) {
                                     <?php
                                     $result = $database->prepare($sqlmain);
                                     $result->execute();
+
                                     $rows = $result->fetchAll(PDO::FETCH_ASSOC); // Obtener todas las filas de resultados
-                                    
+                                    // print_r($rows);
                                     $fecha_actual = date("d-m-Y"); // Obtener la fecha actual en el formato Y-m-d
 
-                                    foreach ($rows as $row) { 
+                                    foreach ($rows as $row) {
                                         $appoid = $row["appointment_id"];
                                         $scheduleid = $row["scheduleid"];
                                         $title = $row["title"];
@@ -331,12 +332,13 @@ if (isset($_SESSION["usr_rol"])) {
                                         $formattedDate = date("d-m-Y", strtotime($scheduledate));
                                         $scheduletime = $row["scheduletime"];
                                         $pname = $row["name"];
+                                        //print_r($pname);
                                         $apponum = $row["apponum"];
                                         $appodate = $row["appodate"];
 
                                         if ($num_rows > 0 ) {
-                                            
-                                            echo 
+
+                                            echo
                                             '<tr >
                                                 <td style="font-weight:600;"> &nbsp;' .
 
@@ -344,7 +346,7 @@ if (isset($_SESSION["usr_rol"])) {
                                                         . '</td >
                                                 <td style="text-align:center;font-size:18px;font-weight:500; color: var(--btnnicetext);">
                                                 ' . $apponum . '
-                                                
+
                                                 </td>
                                                 <td>
                                                 ' . substr($docname, 0, 25) . '
@@ -357,79 +359,20 @@ if (isset($_SESSION["usr_rol"])) {
                                                 </td>
                                                 <td>
                                                     <div style="display:flex;justify-content: center;">';
-                                                
+
                                                 if ($formattedDate < $fecha_actual) {
                                                     // Si la fecha de la reserva es menor que la fecha actual, muestra "Cita Finalizada" sin enlace
-                                                    echo "<button type='button' class='login-btn btn-disabled' style='padding-top:11px;padding-bottom:11px;width:100%'>";
+                                                    echo "<button type='button' class='login-btn btn-disabled' style='padding-top:11px;padding-bottom:11px;width:88%'>";
                                                     echo "<font class='tn-in-text'><strong>CITA FINALIZADA</strong></font>";
                                                     echo "</button>";
                                                 } else {
                                                     // Si la fecha de la reserva es mayor o igual a la fecha actual, muestra el botón "Cancelar Turno" con el enlace para eliminar
-                                                    echo "<a href='?action=drop&id=' . $appoid. &scheduleid= .  '$scheduleid'  . &name= . '$pname' . &session= . '$title' . &apponum= . '$apponum' . ' . "."class='non-style-link'><button  class='btn-primary-soft btn button-icon btn-delete'  style='padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;'><font class='tn-in-text'>Cancelar</font></button></a>";
-                                                    echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'>";
-                                                    echo "<font class='tn-in-text'>Cancelar Turno</font>";
-                                                    echo "</button>";
+                                                    echo "<a href='?action=drop&id=' . $appoid. &scheduleid= .  '$scheduleid'  . &name= . '$pname' . &session= . '$title' . &apponum= . '$apponum' . ' . "."class='non-style-link'><button  class='btn-primary-soft btn button-icon btn-delete'  style='padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;'><font class='tn-in-text'>Cancelar Turno</font></button></a>";
                                                     echo "</a>";
                                                 }
-                                            
-                                                '
 
-                                                <td>
-                                                    <div style="display:flex;justify-content: center;">
-                                                        <!--<a href="?action=view&id=' . $appoid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
-                                                        &nbsp;&nbsp;&nbsp;-->
-
-                                                        <a href="?action=drop&id=' . $appoid. '&scheduleid=' .  $scheduleid  . '&name=' . $pname . '&session=' . $title . '&apponum=' . $apponum . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Cancelar</font></button></a>
-                                                        &nbsp;&nbsp;&nbsp;
-                                                    </div>
-                                                </td>
-                                            </tr>';
                                         }
                                     }
-
-                                    $fecha_actual = date("d-m-Y"); // Obtener la fecha actual en el formato Y-m-d
-
-                                    echo "<table>"; // Abre la tabla
-                                    foreach ($result as $row) {
-                                        $scheduledate = $row["scheduledate"];
-                                        $formattedDate = date("d-m-Y", strtotime($scheduledate));
-                                    
-                                        echo "<tr>"; // Abre una fila
-                                        echo "<td style='width: 25%;'>"; // Abre una celda
-                                    
-                                        echo "<div class='dashboard-items search-items'>";
-                                        echo "<div style='width:100%;'>";
-                                        echo "<div class='h3-search'>Nombre del Paciente: " . substr($row["name"], 0, 30) . "<br>";
-                                        echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
-                                        echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
-                                        echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
-                                        echo "<div class='h4-search'>Fecha y Hora del Turno: " . $formattedDate . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
-                                    
-                                        echo "<input type='hidden' name='action' value='drop'>";
-                                        echo "<input type='hidden' name='id' value='" . $row["appointment_id"] . "'>";
-                                        echo "<input type='hidden' name='scheduleid' value='" . $row["scheduleid"] . "'>";
-                                        echo "<input type='hidden' name='title' value='" . $row["title"] . "'>";
-                                        echo "<input type='hidden' name='doc' value='" . $row["name_medic"] . "'>";
-                                    
-                                        if ($formattedDate < $fecha_actual) {
-                                            // Si la fecha de la reserva es menor que la fecha actual, muestra "Cita Finalizada" sin enlace
-                                            echo "<button type='button' class='login-btn btn-disabled' style='padding-top:11px;padding-bottom:11px;width:100%'>";
-                                            echo "<font class='tn-in-text'><strong>CITA FINALIZADA</strong></font>";
-                                            echo "</button>";
-                                        } else {
-                                            // Si la fecha de la reserva es mayor o igual a la fecha actual, muestra el botón "Cancelar Turno" con el enlace para eliminar
-                                            echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&scheduleid=" . $row["scheduleid"] . "&name=" . $row["name"] . "&session=" . $row["title"] . "&apponum=" . $row["apponum"] . "'>";
-                                            echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'>";
-                                            echo "<font class='tn-in-text'>Cancelar Turno</font>";
-                                            echo "</button>";
-                                            echo "</a>";
-                                        }
-                                        echo "</div>";
-                                        echo "</div>";
-                                        echo "</td>";
-                                        echo "</tr>";
-                                    }
-                                    echo "</table>"; // Cierra la tabla
 
                                     if ($num_rows == 0) {
                                         echo '<tr>
@@ -437,7 +380,7 @@ if (isset($_SESSION["usr_rol"])) {
                                         <br><br><br><br>
                                         <center>
                                         <img src="../../img/notfound.svg" width="25%">
-                                        
+
                                         <br>
                                         <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">¡No pudimos encontrar nada relacionado con sus palabras clave!</p>
                                         <a class="non-style-link" href="appointment.php"><button  class="login-btn btn-primary-soft btn"  style="display: flex;justify-content: center;align-items: center;margin-left:20px;">&nbsp; Mostrar todas las Citas &nbsp;</font></button>
@@ -474,8 +417,8 @@ if (isset($_SESSION["usr_rol"])) {
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
-                    
-                        <a class="close" href="schedule.php">&times;</a> 
+
+                        <a class="close" href="schedule.php">&times;</a>
                         <div style="display: flex;justify-content: center;">
                         <div class="abc">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -506,7 +449,7 @@ if (isset($_SESSION["usr_rol"])) {
                                     </td>
                                 </tr>
                                 <tr>
-                                    
+
                                     <td class="label-td" colspan="2">
                                         <label for="docid" class="form-label">Selecicona Doctor: </label>
                                     </td>
@@ -564,10 +507,10 @@ if (isset($_SESSION["usr_rol"])) {
                                 <tr>
                                     <td colspan="2">
                                         <input type="reset" value="Resetear" class="login-btn btn-primary-soft btn" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    
+
                                         <input type="submit" value="Place this Sesión" class="login-btn btn-primary btn" name="shedulesubmit">
                                     </td>
-                    
+
                                 </tr>
                             </form>
                             </tr>
@@ -590,10 +533,10 @@ if (isset($_SESSION["usr_rol"])) {
                         <a class="close" href="schedule.php">&times;</a>
                         <div class="content">
                         ' . substr($titleget, 0, 40) . ' was scheduled.<br><br>
-                            
+
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        
+
                         <a href="schedule.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;OK&nbsp;&nbsp;</font></button></a>
                         <br><br><br><br>
                         </div>
@@ -617,7 +560,7 @@ if (isset($_SESSION["usr_rol"])) {
                             Deseas borrar este registro<br><br>
                             Nombre Paciente &nbsp;<b>' . substr($nameget, 0, 40) . '</b><br>
                             Número de cita &nbsp; : <b>' . substr($apponum, 0, 40) . '</b><br><br>
-                            
+
                         </div>
                         <div style="display: flex;justify-content: center;">
                         <a href="delete-appointment.php?id=' . $id . '&scheduleid=' . $scheduleid . '" class="non-style-link"><button class="btn-primary btn" style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;Si&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
@@ -649,19 +592,19 @@ if (isset($_SESSION["usr_rol"])) {
                         <a class="close" href="doctors.php">&times;</a>
                         <div class="content">
                             ConfiguroWeb<br>
-                            
+
                         </div>
                         <div style="display: flex;justify-content: center;">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
+
                             <tr>
                                 <td>
                                     <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
                                 </td>
                             </tr>
-                            
+
                             <tr>
-                                
+
                                 <td class="label-td" colspan="2">
                                     <label for="name" class="form-label">Nombre: </label>
                                 </td>
@@ -670,7 +613,7 @@ if (isset($_SESSION["usr_rol"])) {
                                 <td class="label-td" colspan="2">
                                     ' . $name . '<br><br>
                                 </td>
-                                
+
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
@@ -705,7 +648,7 @@ if (isset($_SESSION["usr_rol"])) {
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="spec" class="form-label">Especialidad: </label>
-                                    
+
                                 </td>
                             </tr>
                             <tr>
@@ -716,10 +659,10 @@ if (isset($_SESSION["usr_rol"])) {
                             <tr>
                                 <td colspan="2">
                                     <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
+
+
                                 </td>
-                
+
                             </tr>
 
                         </table>

@@ -25,6 +25,7 @@ if ($_POST) {
     $surname = $_POST['surname_medic'];
     $spec = $_POST['specialty_medic'];
     $gen = $_POST['gender_medic'];
+    $avail = $_POST['availability'];
     $birth = $_POST['day_of_birth_medic'];
     // var_dump($birth);
     // exit;
@@ -38,6 +39,10 @@ if ($_POST) {
     $currentDate = new DateTime();
     $currentDate->modify('-24 years'); // Restar 24 años a la fecha actual
 
+    if (!filter_var($emailUsr, FILTER_VALIDATE_EMAIL))
+    {
+        
+    }
     if (new DateTime($birth) <= $currentDate) {
         // La fecha de nacimiento es mayor o igual a 24 años
         // Puedes continuar con el procesamiento
@@ -52,8 +57,8 @@ if ($_POST) {
             // Ya existe una cuenta con esta dirección de correo electrónico.
             $error = '1';
         } else {
-            $sql1 = "INSERT INTO medics(matricul_medic,name_medic,surname_medic,gender_medic, day_of_birth_medic,email_medic,phone_medic,specialty_medic,password_medic) 
-            VALUES ('$matri','$name','$surname','$gen','$birth','$email','$tele','$spec','$hashedPassword');";
+            $sql1 = "INSERT INTO medics(matricul_medic,name_medic,surname_medic,gender_medic, day_of_birth_medic,email_medic,phone_medic,specialty_medic,password_medic,availability) 
+            VALUES ('$matri','$name','$surname','$gen','$birth','$email','$tele','$spec','$hashedPassword','$avail');";
             $stmt = $database->prepare($sql1);
             $stmt->execute();
             // Edición Exitosa

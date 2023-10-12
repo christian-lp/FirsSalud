@@ -464,6 +464,7 @@ buttons.forEach(function(button) {
             $matri= $row['matricul_medic'];
             $tele = $row['phone_medic'];
             $spe = $row["specialty_medic"];
+            $avail = $row["availability"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
             $spcil_res->execute();
@@ -551,6 +552,18 @@ buttons.forEach(function(button) {
                             ' . $spcil_name . '<br><br>
                             </td>
                             </tr>
+
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="spec" class="form-label">Disponibilidad: </label>
+                            </td>
+                            </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                            ' . $avail . '<br><br>
+                            </td>
+                            </tr>
+
                             <tr>
                                 <td colspan="2">
                                     <a href="doctors.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
@@ -674,7 +687,7 @@ buttons.forEach(function(button) {
                                                         echo "<option value=" . $id00 . ">$sn</option><br/>";
                                                     }
                                     
-                                    echo '   </select><br>
+                                    echo '   </select><br><br>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -697,10 +710,19 @@ buttons.forEach(function(button) {
                                                         echo "<option value=" . $id00 . ">$sn</option><br/>";
                                                     }
                                     
-                                    echo     '  </select><br>
+                                    echo     '  </select><br><br>
                                                     </td>
                                                 </tr>
-                                                
+                                                <tr>
+                                                <td class="label-td" colspan="2">
+                                                    <label for="availability" class="form-label">Disponibilidad: </label>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label-td" colspan="2">
+                                                        <input type="text" name="availability" class="input-text" placeholder="De lunes a viernes de 08:00hs. a 16:00hs." required><br>
+                                                    </td>
+                                                </tr>
 
                                                 <tr>
                                                 <td class="label-td" colspan="2">
@@ -709,7 +731,7 @@ buttons.forEach(function(button) {
                                                 </tr>
                                                 <tr>
                                                     <td class="label-td" colspan="2">
-                                                        <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
+                                                        <input type="password" name="password_medic" class="input-text" placeholder="Contraseña" required><br>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -775,6 +797,7 @@ buttons.forEach(function(button) {
             $name = $row["name_medic"];
             $email = $row["email_medic"];
             $spe = $row["specialty_medic"];
+            $avail = $row["availability"];
 
             $spcil_res = $database->prepare("select specialty_name from specialties where specialty_id='$spe'");
             $spcil_array = $spcil_res->fetch(PDO::FETCH_ASSOC);
@@ -882,6 +905,17 @@ buttons.forEach(function(button) {
                                 echo ' </select><br><br>
                                         </td>
                                     </tr>
+
+                                    <tr>
+                                    <td class="label-td" colspan="2">
+                                        <label for="availability" class="form-label">Disponibilidad: (Actual) </label>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="text" name="availability" class="input-text"  placeholder="Disponibilidad" value="' . $avail . '" required><br>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
                                             <label for="password_medic" class="form-label">Contraseña: </label>
@@ -891,7 +925,9 @@ buttons.forEach(function(button) {
                                         <td class="label-td" colspan="2">
                                             <input type="password" name="password_medic" class="input-text" placeholder="Definir una Contraseña" required><br>
                                         </td>
-                                    </tr><tr>
+                                    </tr>
+                                    
+                                    <tr>
                                         <td class="label-td" colspan="2">
                                             <label for="cpassword_medic" class="form-label">Confirmar Contraseña: </label>
                                         </td>
