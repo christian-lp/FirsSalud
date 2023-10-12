@@ -19,6 +19,7 @@ if ($_POST) {
     $id = $_POST['id00'];
 
     if ($password == $cpassword) {
+        $hashedPassword = md5($password); // Hashear la contraseña con MD5
         $error = '3';
         $result = $database->prepare("Select from medics where medics.email_medic='$email';");
         $result->execute();
@@ -40,7 +41,7 @@ if ($_POST) {
         } else {
 
             //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$password',matricul_medic='$matri',phone_medic='$tele',specialty_medic=$spec 
+            $sql1 = "UPDATE medics SET email_medic='$email',name_medic='$name',password_medic='$hashedPassword',matricul_medic='$matri',phone_medic='$tele',specialty_medic=$spec 
             WHERE id_medic=$id ;";
             $result = $database->prepare($sql1);
             $result->execute();

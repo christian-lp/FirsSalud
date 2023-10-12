@@ -164,14 +164,6 @@
 
                         $today = date('d-M-Y');
                         echo $today;
-
-
-                        $patientrow = $database->prepare("select  * from  patients;");
-                        $doctorrow = $database->prepare("select  * from  medics;");
-                        $appointmentrow = $database->prepare("select  * from  appointment where appodate>='$today';");
-                        $schedulerow = $database->prepare("select  * from  schedule where scheduledate='$today';");
-
-
                         ?>
                     </p>
                 </td>

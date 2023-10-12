@@ -14,7 +14,21 @@ if (isset($_SESSION["usr_rol"])) {
 
 //import link
 include("../modelos/conexion.php");
+$database = Conexion::conectar();
 
+$sql = "select * from patients where email ='$useremail'";
+// Prepara la consulta SQL
+$stmt = $database->prepare($sql);
+
+// Si se está ejecutando la sentencia SQL
+if ($stmt->execute())
+{
+    $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+    $userid = $resultado["id_patient"];
+    $username = $resultado["name"];
+    // var_dump($userid);
+    // exit();
+}
 ?>
 
 
@@ -150,24 +164,9 @@ include("../modelos/conexion.php");
                     </p>
                     <p class="heading-sub12" style="padding: 0;margin: 0;">
                     <?php
-                    try {
                         date_default_timezone_set('America/Argentina/Buenos_Aires');
-
                         $today = date('d-M-Y');
                         echo $today;
-                        $today = date('Y-m-d');
-
-                        $pdo = Conexion::conectar();
-
-                        $patientQuery = "SELECT * FROM patients";
-                        $patientStatement = $pdo->prepare($patientQuery);
-                        $patientStatement->execute();
-                        $patientResult = $patientStatement->fetch(PDO::FETCH_ASSOC);
-                        $userid = $patientResult["id_patient"];
-                        // var_dump($userid);
-                    } catch (PDOException $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
                     ?>
                     </p>
                 </td>
@@ -267,7 +266,7 @@ include("../modelos/conexion.php");
     </div>
     <?php
     if ($_GET) {
-
+        // print_r($_GET);
         $id = $_GET["id"];
         $action = $_GET["action"];
         if ($action == 'drop') {
@@ -292,6 +291,7 @@ include("../modelos/conexion.php");
             </div>
             ';
         } elseif ($action == 'view') {
+            print_r($id);
             $sqlmain = "select * from patients where id_patient='$id'";
             $result = $database->prepare($sqlmain);
             $result->execute();
@@ -343,7 +343,7 @@ include("../modelos/conexion.php");
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">N° de Matricula: </label>
+                                    <label for="nic" class="form-label">DNI: </label>
                                 </td>
                             </tr>
                             <tr>
@@ -361,12 +361,7 @@ include("../modelos/conexion.php");
                                 ' . $tele . '<br><br>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Especialidad: </label>
-                                    
-                                </td>
-                            </tr>
+
                             <tr>
                                 <td colspan="2">
                                     <a href="settings.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
@@ -397,7 +392,7 @@ include("../modelos/conexion.php");
             $error_1 = $_GET["error"];
             $errorlist = array(
                 '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Ya existe una cuenta con esta direccion de E-mail.</label>',
-                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">Password Conformation Error! Reconform Password</label>',
+                '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña!</label>',
                 '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
                 '4' => "",
                 '0' => '',
@@ -421,13 +416,13 @@ include("../modelos/conexion.php");
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Editar Información de Doctor</p>
+                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Editar Información de Paciente</p>
                                         Paciente ID : ' . $id . ' (Auto Generado)<br><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <form action="edit-doc.php" method="POST" class="add-new-form">
+                                            <form action="edit-user.php" method="POST" class="add-new-form">
                                             <label for="Email" class="form-label">Correo: </label>
                                             <input type="hidden" value="' . $id . '" name="id00">
                                         </td>
@@ -446,7 +441,7 @@ include("../modelos/conexion.php");
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="name" class="input-text" placeholder="Nombre Doctor" value="' . $name . '" required><br>
+                                            <input type="text" name="name" class="input-text" placeholder="Nombre Paciente" value="' . $name . '" required><br>
                                         </td>
                                         
                                     </tr>
@@ -458,7 +453,7 @@ include("../modelos/conexion.php");
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="dni" class="input-text" placeholder="Número de Matricula" value="' . $matri . '" required><br>
+                                            <input type="text" name="dni" class="input-text" placeholder="Número de DNI" value="' . $dni . '" required><br>
                                         </td>
                                     </tr>
                                     <tr>
