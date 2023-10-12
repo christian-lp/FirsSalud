@@ -204,7 +204,7 @@ if ($stmt->execute()) {
                     <p class="heading-main12" style="margin-left: 45px;font-size:20px;color:rgb(49, 49, 49)">Agregar Nuevo Doctor</p>
                 </td>
                 <td colspan="2">
-                    <a href="?action=add&id=none&error=0" class="non-style-link"><button class="login-btn btn-primary btn button-icon" style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image: url('../../img/icons/add.svg');">Agregar Nuevo</font></button>
+                    <a href="?action=add&id=none&error=0" class="non-style-link"><button class="login-btn btn-primary btn button-icon" style="display: flex;justify-content: center;align-items: center;margin-left:75px;background-image: url('../../img/icons/add.svg');width:200px;margin-right: 50px;">Agregar Nuevo</font></button>
                     </a>
                 </td>
             </tr>
@@ -313,8 +313,9 @@ if ($stmt->execute()) {
                                                                 &nbsp;&nbsp;&nbsp;';
 
                                                     // Ahora, aquí tienes el enlace y el botón para cambiar la activación
-                                                    echo '<a href="?action=toggle&id=' . $docid . '&name=' . $name . '" class="non-style-link">
-                                                        <button class="btn-primary-soft btn button-icon btn-toggle" style="padding-left: 40px; padding-top: 12px; padding-bottom: 12px; margin-top: 10px;"
+                                                    echo 
+                                                    '<a href="?action=toggle&id=' . $docid . '&name=' . $name . '" class="non-style-link">
+                                                        <button class="btn-primary-soft btn button-icon btn-toggle" style="padding-left: 10px; padding-top: 12px; padding-bottom: 12px; margin-top: 10px;margin-left:0px;"
                                                             data-toggle="' . ($is_active == 1 ? 'activo' : 'inactivo') . '"
                                                             data-target="' . ($is_active == 1 ? 'inactivo' : 'activo') . '"
                                                             data-id="' . $docid . '">
@@ -323,6 +324,7 @@ if ($stmt->execute()) {
                                                             </font>
                                                         </button>
                                                     </a>';
+                                                
                                                     
                                                     // Continúa con el resto de tu código
                                                     echo '
@@ -369,7 +371,7 @@ buttons.forEach(function(button) {
             this.querySelector('.tn-in-text').textContent = 'Activo';
         }
         this.style.backgroundColor = ''; // Restaurar el color de fondo al salir del cursor
-        this.style.color = toggle === 'inactivo' ? 'red' : 'blue'; // Restaurar el color de texto al salir del cursor
+        this.style.color = toggle === 'inactivo' ? 'white' : 'black'; // Restaurar el color de texto al salir del cursor
     });
 
     button.addEventListener('click', function(e) {
@@ -388,7 +390,7 @@ buttons.forEach(function(button) {
             // Cambiar el texto del botón después de recibir una respuesta
             if (xhr.status === 200 && xhr.responseText === 'success') {
                 var buttonText = target === 'activo' ? 'Inactivo' : 'Activo';
-                var buttonColor = target === 'activo' ? 'red' : 'blue';
+                var buttonColor = target === 'activo' ? 'blac' : 'black';
                 this.querySelector('.tn-in-text').textContent = buttonText;
                 this.style.backgroundColor = buttonColor; // Cambio de color de fondo
             }
