@@ -76,6 +76,7 @@ $sqlmain = "SELECT
             INNER JOIN medics
             ON schedule.id_medic=medics.id_medic 
             WHERE  medics.id_medic= '$userid' ";
+            $sqlmain .= " ORDER BY schedule.scheduledate DESC";
 // var_dump($userid);
 // exit();
     //Prepara la consulta
@@ -338,7 +339,7 @@ if ($_POST) {
                                 if ($formattedDate < $fecha_actual) {
                                     // Si la fecha de la reserva es menor que la fecha actual, muestra "Cita Finalizada" sin enlace
                                     echo "<button type='button' class='login-btn btn-disabled' style='padding-top:11px;padding-bottom:11px;width:100%'>";
-                                    echo "<font class='tn-in-text'>Cita Finalizada</font>";
+                                    echo "<font class='tn-in-text'><strong>CITA FINALIZADA</strong></font>";
                                     echo "</button>";
                                 } else {
                                     // Si la fecha de la reserva es mayor o igual a la fecha actual, muestra el botón "Cancelar Turno" con el enlace para eliminar

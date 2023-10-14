@@ -32,6 +32,23 @@ if ($stmt->execute()) {
         echo 'No se encontraron resultados';
     }
 }
+    $sql = "select * from medics";
+    // Prepara la consulta SQL
+    $stmt = $database->prepare($sql);
+    $stmt->execute();
+    // var_dump($stmt);
+    // exit();
+
+
+    // Si se está ejecutando la sentencia SQL
+    if ($stmt->execute())
+    {
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userid = $resultado["id_medic"];
+        $username = $resultado["name_medic"];
+        // var_dump($userid);
+        // exit();
+    }
 
 ?>
 
@@ -60,13 +77,25 @@ if ($stmt->execute()) {
 </head>
 
 <body>
-    <?php
+<?php
 
-    $sqlmain = "select appointment.appointment_id,schedule.scheduleid,schedule.title,medics.name_medic,patients.name,schedule.scheduledate,schedule.scheduletime,appointment.apponum,appointment.appodate from schedule inner join appointment on schedule.scheduleid=appointment.schedule_id inner join patients on patients.id_patient=appointment.patient_id inner join medics on schedule.id_medic=medics.id_medic  where  patients.id_patient=$userid ";
+    $sqlmain = "SELECT appointment.appointment_id,
+    schedule.scheduleid,
+    schedule.title,
+    medics.name_medic,
+    patients.name,
+    schedule.scheduledate,
+    schedule.scheduletime,
+    appointment.apponum,
+    appointment.appodate
+    FROM schedule
+    INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
+    INNER JOIN patients ON patients.id_patient = appointment.patient_id
+    INNER JOIN medics ON schedule.id_medic = medics.id_medic
+    WHERE medics.id_medic = '$userid'";
+    // var_dump($sqlmain);
+    // exit();
 
-    $sqlmain .= " ORDER BY appointment.appodate ASC";
-
-    
     //Prepara la consulta
     $stmt = $database->prepare($sqlmain);
     $stmt->execute(); 
@@ -74,21 +103,43 @@ if ($stmt->execute()) {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // var_dump($num_rows);
     // exit();
+    if ($_POST) {
+        //print_r($_POST);
 
-
-    if ($_POST)
-    {
-        if (!empty($_POST["sheduledate"])) {
+    if (!empty($_POST["sheduledate"])) {
         $sheduledate = $_POST["sheduledate"];
-        $sqlmain .= " AND schedule.scheduledate = :sheduledate";
-        }
+        $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
     }
+        //echo $sqlmain;
+        $pdo = $database->prepare($sqlmain);
+        $pdo->execute();
+        // var_dump($result);
+        // exit();
+}
+else{
+    $sqlmain = "SELECT appointment.appointment_id,
+    schedule.scheduleid,
+    schedule.title,
+    medics.name_medic,
+    patients.name,
+    schedule.scheduledate,
+    schedule.scheduletime,
+    appointment.apponum,
+    appointment.appodate
+    FROM schedule
+    INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
+    INNER JOIN patients ON patients.id_patient = appointment.patient_id
+    INNER JOIN medics ON schedule.id_medic = medics.id_medic
+    WHERE medics.id_medic = '$userid'
+    ORDER BY schedule.scheduledate DESC";
 
+    $stmt = $database->prepare($sqlmain);
+    $stmt->execute();
+    $num_rows = $stmt->rowCount();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+?>
 
-    // var_dump($num_rows);
-    // exit();
-
-    ?>
     <div class="container">
         <div class="menu">
             <table class="menu-container" border="0">
@@ -228,14 +279,11 @@ if ($stmt->execute()) {
                                     Fecha:
                                 </td>
                                 <td width="30%">
-                                    <form action="" method="post">
-
+                                <form action="" method="post">
                                         <input type="date" name="sheduledate" id="date" class="input-text filter-container-items" style="margin: 0;width: 95%;">
-
                                 </td>
-
                                 <td width="12%">
-                                    <input type="submit" name="filter" value=" Filtro" class=" btn-primary-soft btn button-icon btn-filter" style="padding: 15px; margin :0;width:100%">
+                                        <input type="submit" name="filter" value=" Filtro" class=" btn-primary-soft btn button-icon btn-filter" style="padding: 15px; margin :0;width:100%">
                                     </form>
                                 </td>
 
@@ -259,9 +307,6 @@ if ($stmt->execute()) {
 
                                     <?php
 
-
-
-
                                     if ($num_rows == 0) {
                                         echo '<tr>
                                     <td colspan="7">
@@ -279,39 +324,49 @@ if ($stmt->execute()) {
                                     </tr>';
                                     } else {
 
-                                            echo "<table>"; // Abre la tabla
-                                            foreach ($result as $row) {
-                                                $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
-                                                $formattedDate = date("d-m-Y", strtotime($scheduledate));
-                                                echo "<tr>"; // Abre una fila
-                                                echo "<td style='width: 25%;'>"; // Abre una celda
+                                        $fecha_actual = date("d-m-Y"); // Obtener la fecha actual en el formato Y-m-d
 
-                                                echo "<div class='dashboard-items search-items'>";
-                                                echo "<div style='width:100%;'>";
-                                                echo "<div class='h3-search'>Fecha de Reserva: " . substr($row["appodate"], 0, 30) . "<br>";
-                                                echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
-                                                echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
-                                                echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
-                                                echo "<div class='h3-search'>" . "<strong>Doctor&nbsp" . substr($row["name_medic"], 0, 30) . "</strong></div>";
-                                                echo "<div class='h4-search'>Fecha Reserva: " .  $formattedDate . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
-
-                                                //echo "<form method='post' action='delete-appointment.php' onsubmit='return confirm(\"¿Estás seguro de que deseas cancelar esta reserva?\");'>";
-                                                echo "<input type='hidden' name='action' value='drop'>";
-                                                echo "<input type='hidden' name='id' value='" . $row["appointment_id"] . "'>";
-                                                echo "<input type='hidden' name='scheduleid' value='" . $row["scheduleid"] . "'>";
-                                                echo "<input type='hidden' name='title' value='" . $row["title"] . "'>";
-                                                echo "<input type='hidden' name='doc' value='" . $row["name_medic"] . "'>";
+                                        echo "<table>"; // Abre la tabla
+                                        foreach ($result as $row) {
+                                            $scheduledate = isset($row["scheduledate"]) ? $row["scheduledate"] : '';
+                                            $formattedDate = date("d-m-Y", strtotime($scheduledate));
+                                        
+                                            echo "<tr>"; // Abre una fila
+                                            echo "<td style='width: 25%;'>"; // Abre una celda
+                                        
+                                            echo "<div class='dashboard-items search-items'>";
+                                            echo "<div style='width:100%;'>";
+                                            echo "<div class='h3-search'>Nombre del Paciente: " . substr($row["name"], 0, 30) . "<br>";
+                                            echo "Número de Reserva: OC-000-" . $row["appointment_id"] . "</div>";
+                                            echo "<div class='h1-search'>" . substr($row["title"], 0, 21) . "<br></div>";
+                                            echo "<div class='h3-search'>Número de Reserva:<div class='h1-search'>0" . $row["apponum"] . "</div></div>";
+                                            echo "<div class='h4-search'>Fecha y Hora del Turno: " . $formattedDate . "<br>Inicio: <b>" . substr($row["scheduletime"], 0, 5) . "</b><strong>hs</strong>.</div><br>";
+                                        
+                                            echo "<input type='hidden' name='action' value='drop'>";
+                                            echo "<input type='hidden' name='id' value='" . $row["appointment_id"] . "'>";
+                                            echo "<input type='hidden' name='scheduleid' value='" . $row["scheduleid"] . "'>";
+                                            echo "<input type='hidden' name='title' value='" . $row["title"] . "'>";
+                                            echo "<input type='hidden' name='doc' value='" . $row["name_medic"] . "'>";
+                                        
+                                            if ($formattedDate < $fecha_actual) {
+                                                // Si la fecha de la reserva es menor que la fecha actual, muestra "Cita Finalizada" sin enlace
+                                                echo "<button type='button' class='login-btn btn-disabled' style='padding-top:11px;padding-bottom:11px;width:100%'>";
+                                                echo "<font class='tn-in-text'><strong>CITA FINALIZADA</strong></font>";
+                                                echo "</button>";
+                                            } else {
+                                                // Si la fecha de la reserva es mayor o igual a la fecha actual, muestra el botón "Cancelar Turno" con el enlace para eliminar
                                                 echo "<a href='?action=drop&id=" . $row["appointment_id"] . "&scheduleid=" . $row["scheduleid"] . "&name=" . $row["name"] . "&session=" . $row["title"] . "&apponum=" . $row["apponum"] . "'>";
                                                 echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'>";
                                                 echo "<font class='tn-in-text'>Cancelar Turno</font>";
                                                 echo "</button>";
-                                                echo "</a>";                              
-                                                //echo "<button type='submit' class='login-btn btn-primary-soft btn' style='padding-top:11px;padding-bottom:11px;width:100%'><font class='tn-in-text'>Cancelar Reserva</font></button>";
-                                                //echo "</form>";
-                                                
-                                    
+                                                echo "</a>";
                                             }
-                                            echo "</table>"; // Cierra la tabla
+                                            echo "</div>";
+                                            echo "</div>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                        echo "</table>"; // Cierra la tabla
 
                                         }
 

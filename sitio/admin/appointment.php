@@ -14,7 +14,7 @@ if (isset($_SESSION["usr_rol"])) {
     } else {
         header("location: ../vistas/login/login.php");
     }
-
+    
     //import link
     include("../modelos/conexion.php");
     $database = Conexion::conectar();
@@ -73,14 +73,11 @@ if (isset($_SESSION["usr_rol"])) {
     appointment.apponum,
     appointment.appodate
     FROM schedule
-    INNER JOIN appointment
-    ON schedule.scheduleid=appointment.schedule_id
-    INNER JOIN patients 
-    ON patients.id_patient=appointment.patient_id 
-    INNER JOIN medics 
-    ON schedule.id_medic=medics.id_medic
-    WHERE  medics.id_medic= '$userid' ";
-    // var_dump($userid);
+    INNER JOIN appointment ON schedule.scheduleid = appointment.schedule_id
+    INNER JOIN patients ON patients.id_patient = appointment.patient_id
+    INNER JOIN medics ON schedule.id_medic = medics.id_medic
+    WHERE medics.id_medic = '$userid'";
+    // print_r ($sqlmain);
     // exit();
 
     //Prepara la consulta
@@ -96,15 +93,13 @@ if (isset($_SESSION["usr_rol"])) {
         if (!empty($_POST["sheduledate"])) {
             $sheduledate = $_POST["sheduledate"];
             $sqlmain .= " and schedule.scheduledate='$sheduledate' ";
-        };
-            //echo $sqlmain;
             $pdo = $database->prepare($sqlmain);
             $pdo->execute();
-            // var_dump($result);
+            // var_dump($pdo);
             // exit();
+        }
+
     }
-
-
     else {
         $sqlmain = "SELECT 
             appointment.appointment_id,
@@ -125,8 +120,7 @@ if (isset($_SESSION["usr_rol"])) {
             INNER JOIN 
                 medics ON schedule.id_medic = medics.id_medic
             ORDER BY 
-                schedule.scheduledate DESC;
-            ";
+                scheduledate DESC";
     }
     ?>
 <body>
