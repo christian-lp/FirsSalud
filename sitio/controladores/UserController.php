@@ -248,7 +248,7 @@ class ControladorUsuarios
 					'<script>
 						// Redirige después de 3 segundos (300 milisegundos)
 						setTimeout(function() {
-							window.location.href = "../../patient/index.php";
+							window.location.href = "../../patient/dashboard.php";
 						}, 300);
 					</script>';
 				}
@@ -290,7 +290,7 @@ class ControladorUsuarios
 					'<script>
 					// Redirige después de 3 segundos (300 milisegundos)
 					setTimeout(function() {
-						window.location.href = "../../doctor/index.php";
+						window.location.href = "../../doctor/dashboard.php";
 					}, 300);
 					</script>';
 				}
@@ -330,7 +330,7 @@ class ControladorUsuarios
 
 					// Redirige después de 3 segundos (300 milisegundos)
 					setTimeout(function() {
-						window.location.href = "../../admin/index.php";
+						window.location.href = "../../admin/dashboard.php";
 					}, 300);
 					</script>';
 				}
