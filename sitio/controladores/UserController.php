@@ -21,25 +21,27 @@ class ControladorUsuarios
 			if (empty($emailUsr) || empty($passUsr) || empty($CpassUsr))
             {
 				$error = true;
-				$error_messages[] = 'Complete los campos.';
+				$error_messages[] = '<strong style="color: red;">¡Complete los campos!</strong>';
+			
             }
 			
 			elseif (!filter_var($emailUsr, FILTER_VALIDATE_EMAIL))
 			{
 				$error = true;
-				$error_messages[] = 'Ingresa un correo electrónico válido.';
+				$error_messages[] = '<strong style="color: red;">¡Ingresa un correo electrónico válido!</strong>';
+				
 			}
 
 			elseif (strlen($passUsr) < 6)
 			{
 				$error = true;
-				$error_messages[] = 'La contraseña debe tener un mínimo de 6 caracteres.';
+				$error_messages[] = '<strong style="color: red;">¡La contraseña debe tener un mínimo de 6 caracteres!</strong>';
 			}
 
 			elseif ($passUsr != $CpassUsr)
 			{
 				$error = true;
-				$error_messages[] = 'Las contraseñas no coinciden.';
+				$error_messages[] = '<strong style="color: red;">¡Las contraseñas no coinciden!</strong>';
 			}
 
 			// Mostrar los mensajes de error y agregar JavaScript para ocultarlos después de 3 segundos
@@ -67,79 +69,79 @@ class ControladorUsuarios
 					$hashedPassword = md5($passUsr); // Hashear la contraseña con MD5
 					// Llama a la función mdlRegister para registrar al usuario con la contraseña hasheada
 					$respuesta = ModeloUsuarios::mdlRegister($emailUsr, $hashedPassword);
+
+					if($respuesta != null )
+					{
+						require("../../funciones/funciones.php");
+						if (is_readable("../../data/config.txt"))
+						{
+							$config_file=fopen('../../data/config.txt','r+') or die ("Error de apertura de archivo, consulte con el administrador...");
+							while(!feof($config_file))
+							{
+
+								$linea=fgets($config_file);
+								if (!empty($linea)){
+									$datos=explode("|",$linea);
+									$site=$datos[0];
+									$sourcemail= $datos[1];
+									$passmail=$datos[2];
+								}
+							}
+							$name = 'Paciente';
+							$email = $respuesta['email'];
+							enviar_mail($email,$name,$site,$sourcemail,$passmail);
+
+							$successmsg = '
+							<div class="alert alert-success" id="success-alert">
+								<strong style="color: #03e9f4;">¡REGISTRADO CON EXITO! <br><br> Verifique su Correo..</strong>
+							</div>
+							';
+							// Agregar JavaScript para ocultar el mensaje de éxito después de 3 segundos
+							// Ademas redirige al formulario de login
+							echo $successmsg .= '
+								<script>
+									setTimeout(function() {
+										var successAlert = document.getElementById("success-alert");
+										if (successAlert) {
+											successAlert.style.display = "none";
+											window.location.href = "login.php";
+										}
+									}, 3000);
+								</script>
+							';
+							exit;
+						}
+
+						else
+						{
+							// echo "no existe";
+							// exit;
+							echo $errormsg = '
+							<div class="alert alert-danger alert-dismissable fade in">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								<strong>Error de registro.!</strong> Error no se pudo enviar mail de confirmación.
+							</div>
+							';					// Agregar JavaScript para ocultar el mensaje de error después de 3 segundos
+							$errormsg .= '
+							<script>
+								setTimeout(function() {
+									var errorAlert = document.getElementById("error-alert");
+									if (errorAlert) {
+										errorAlert.style.display = "none";
+									}
+								}, 3000);
+							</script>
+							';
+							exit;
+						}
+
+					}
 					
 				}
 				
 				
-				
-				
 
-			if($respuesta != null )
-			{
-				require("../../funciones/funciones.php");
-				if (is_readable("../../data/config.txt"))
-				{
-					$config_file=fopen('../../data/config.txt','r+') or die ("Error de apertura de archivo, consulte con el administrador...");
-					while(!feof($config_file))
-					{
-
-						$linea=fgets($config_file);
-						if (!empty($linea)){
-							$datos=explode("|",$linea);
-							$site=$datos[0];
-							$sourcemail= $datos[1];
-							$passmail=$datos[2];
-						}
-					}
-					$name = 'Paciente';
-					$email = $respuesta['email'];
-					enviar_mail($email,$name,$site,$sourcemail,$passmail);
-
-					$successmsg = '
-					<div class="alert alert-success" id="success-alert">
-						<strong style="color: #03e9f4;">¡REGISTRADO CON EXITO! <br><br> Verifique su Correo..</strong>
-					</div>
-					';
-					// Agregar JavaScript para ocultar el mensaje de éxito después de 3 segundos
-					// Ademas redirige al formulario de login
-					echo $successmsg .= '
-						<script>
-							setTimeout(function() {
-								var successAlert = document.getElementById("success-alert");
-								if (successAlert) {
-									successAlert.style.display = "none";
-									window.location.href = "login.php";
-								}
-							}, 3000);
-						</script>
-					';
-					exit;
-				}
-
-				else
-				{
-					// echo "no existe";
-					// exit;
-					echo $errormsg = '
-					<div class="alert alert-danger alert-dismissable fade in">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						<strong>Error de registro.!</strong> Error no se pudo enviar mail de confirmación.
-					</div>
-					';					// Agregar JavaScript para ocultar el mensaje de error después de 3 segundos
-					$errormsg .= '
-					<script>
-						setTimeout(function() {
-							var errorAlert = document.getElementById("error-alert");
-							if (errorAlert) {
-								errorAlert.style.display = "none";
-							}
-						}, 3000);
-					</script>
-					';
-					exit;
-				}
-
-			}
+			
 		}
 				//}
 	}

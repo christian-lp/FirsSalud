@@ -31,7 +31,7 @@ $body='<html>
                         <td><left><b><img src="/var/www/html/FirsSalud/img/Logo.png" width="700px"></td>
                     </tr>
                     <tr><br>
-                        <td><center><h2><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmacion de Registro</b></h2></center></td>
+                        <td><center><h2><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmaci&oacute;n de Turno</b></h2></center></td>
                     </tr>
                 </thead>
                 <tbody border="0"> 
