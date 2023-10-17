@@ -18,32 +18,33 @@ $mail = new PHPMailer();
 
 $body='<html>
 <head>
+    <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="STYLESHEET" type="text/css" href="./css/style.css"> 
 </head></head> 
 
 <body style="margin: 0; padding: 0; background-color: white;">
     <center>
-            <table class="contenido_tabla" width="700" style="background-color:rgb( 113, 117, 109 ); color:white; font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif;border:6px solid #13353F; border-spacing: 0; padding: 0 25px; border-color: rgb( 12, 12, 12 ); ">
+            <table class="contenido_tabla" width="700" style="background-color:black; color:white; font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; padding: 0 25px; ">
                 <thead>
                     <tr>
-                        <td><left><b><img src="/var/www/html/FirsSalud/img/Logo.png" width="650px"></td>
+                        <td><left><b><img src="/var/www/html/FirsSalud/img/Logo.png" width="700px"></td>
                     </tr>
                     <tr><br>
-                        <td><center><h2><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmaci&oacute;n de Registro</b></h2></center></td>
+                        <td><center><h2><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmacion de Registro</b></h2></center></td>
                     </tr>
                 </thead>
                 <tbody border="0"> 
                     <tr>
                         <td style="color:white;" colspan="2">
-                            <h3><b>Estimado/a '.$username.':</b></h3>
+                            <h3><b>Estimad@ '.$username.':</b></h3>
                             Su turno ha sido confirmado.. Gracias por confiar en nosotros!
                             <td style="width: 50%;" rowspan="2">
                             <div  class="dashboard-items search-items"  >
                             
                                 <div style="width:100%">
                                         <div class="h1-search" style="font-size:25px;">
-                                            Información Citas
+                                            Informacion Citas
                                         </div><br><br>
                                         <div class="h3-search" style="font-size:18px;line-height:30px">
                                             Nombre Doctor:  &nbsp;&nbsp;<b>' . $docname . '</b><br>
@@ -53,7 +54,7 @@ $body='<html>
 
                                         </div><br>
                                         <div class="h3-search" style="font-size:18px;">
-                                            Título Cita: ' . $title . '<br>
+                                            Titulo Cita: ' . $title . '<br>
                                             Fecha programada de la sesión: ' . $scheduledate . '<br>
                                             Cita Empieza: ' . $scheduletime . '<br>
                                             
@@ -71,7 +72,7 @@ $body='<html>
                                 
                                 <div style="width:100%;padding-top: 15px;padding-bottom: 15px;">
                                         <div class="h1-search" style="font-size:20px;line-height: 35px;margin-left:8px;text-align:center;">
-                                        Tu número de cita
+                                        Tu numero de cita
                                         </div>
                                         <center>
                                         <div class=" dashboard-icons" style="margin-left: 0px;width:90%;font-size:70px;font-weight:800;text-align:center;color:var(--btnnictext);background-color: var(--btnice)">' . $apponum . '</div>
@@ -122,7 +123,7 @@ $mail->Username   = $sourcemail;  // GMAIL username
 $mail->Password   = $passmail;            // GMAIL password
 $mail->SetFrom("systemmss2023@gmail.com", 'Medic');
 $mail -> AddAddress($useremail,$username);
-$mail->Subject    = "Confirmar de Turno.... ";
+$mail->Subject    = "Confirmacion de Turno.... ";
 $mail->AltBody    = "...---..."; // optional, comment out and test
 $mail->MsgHTML($body);
 //$Errrrror="";
