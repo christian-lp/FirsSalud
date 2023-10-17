@@ -262,43 +262,36 @@ class ControladorUsuarios
 					$_SESSION['email_medic'] = $respuesta['email_medic'];
 					$_SESSION['name_medic'] = $respuesta['name_medic'];
 					echo
-					'<script>
-					if (window.history.replaceState)
-					{
-						window.history.replaceState(null, null, window.location.href);
+					'<div id="loading-overlay">
+						<div id="loading-text">Cargando...</div>
+					</div>
+					';
+
+					echo
+					'<style>
+					#loading-text {
+						animation: loading-animation 1s infinite;
 					}
+					
+					@keyframes loading-animation {
+					0% {
+						opacity: 0;
+					}
+					50% {
+						opacity: 1;
+					}
+					100% {
+						opacity: 0;
+					}
+					}
+					</style>';
 
-					// Crea un elemento div para el alerta
-					var alertDiv = document.createElement("div");
-					alertDiv.style.position = "fixed";
-					alertDiv.style.top = "50%";
-					alertDiv.style.left = "50%";
-					alertDiv.style.transform = "translate(-50%, -50%)";
-					alertDiv.style.padding = "20px";
-					alertDiv.style.borderRadius = "10px";
-					alertDiv.style.textAlign = "center";
-
-					// Crea un elemento img para el GIF animado
-					var gifImg = document.createElement("img");
-					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
-					gifImg.style.height = "457px";
-
-					// Crea un elemento de texto para el mensaje del alerta
-					var messageText = document.createElement("div");
-					messageText.textContent = "Iniciando sesión";
-
-					// Agrega el GIF animado y el texto al elemento del alerta
-					alertDiv.appendChild(gifImg);
-					alertDiv.appendChild(messageText);
-
-					// Agrega el elemento del alerta al documento
-					document.body.appendChild(alertDiv);
-
-					// Redirige después de 3 segundos (3000 milisegundos)
+					echo
+					'<script>
+					// Redirige después de 3 segundos (300 milisegundos)
 					setTimeout(function() {
 						window.location.href = "../../doctor/index.php";
-					}, 3000);
+					}, 300);
 					</script>';
 				}
 				//admin
@@ -308,44 +301,37 @@ class ControladorUsuarios
 					$_SESSION['email'] = $respuesta['email'];
 					$_SESSION['name'] = $respuesta['name'];
 					echo
-					'<script>
-					if (window.history.replaceState)
-					{
-						window.history.replaceState(null, null, window.location.href);
+					'<div id="loading-overlay">
+						<div id="loading-text">Cargando...</div>
+					</div>
+					';
+
+					echo
+					'<style>
+					#loading-text {
+						animation: loading-animation 1s infinite;
 					}
+					
+					@keyframes loading-animation {
+					0% {
+						opacity: 0;
+					}
+					50% {
+						opacity: 1;
+					}
+					100% {
+						opacity: 0;
+					}
+					}
+					</style>';
 
-					// Crea un elemento div para el alerta
-					var alertDiv = document.createElement("div");
-					alertDiv.style.position = "fixed";
-					alertDiv.style.top = "50%";
-					alertDiv.style.left = "50%";
-					alertDiv.style.transform = "translate(-50%, -50%)";
-					alertDiv.style.padding = "20px";
-					alertDiv.style.borderRadius = "10px";
-					alertDiv.style.textAlign = "center";
+					echo
+					'<script>
 
-					// Crea un elemento img para el GIF animado
-					var gifImg = document.createElement("img");
-					gifImg.src = "/var/www/html/FirsSalud/img/AliceSaude.gif"; // Reemplaza con la ruta a tu GIF animado
-					gifImg.style.width = "424px"; // Ajusta el tamaño del GIF según sea necesario
-					gifImg.style.height = "457px";
-					// Agrega esta línea para imprimir la ruta completa del GIF
-
-					// Crea un elemento de texto para el mensaje del alerta
-					var messageText = document.createElement("div");
-					messageText.textContent = "Iniciando sesión";
-
-					// Agrega el GIF animado y el texto al elemento del alerta
-					alertDiv.appendChild(gifImg);
-					alertDiv.appendChild(messageText);
-
-					// Agrega el elemento del alerta al documento
-					document.body.appendChild(alertDiv);
-
-					// Redirige después de 3 segundos (3000 milisegundos)
+					// Redirige después de 3 segundos (300 milisegundos)
 					setTimeout(function() {
 						window.location.href = "../../admin/index.php";
-					}, 3000);
+					}, 300);
 					</script>';
 				}
 

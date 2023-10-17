@@ -1,4 +1,4 @@
-<?php 
+s<?php 
 require_once "/var/www/html/FirsSalud/sitio/modelos/conexion.php";
 require_once "/var/www/html/FirsSalud/sitio/sql/querys.usuarios.php";
 
@@ -61,13 +61,19 @@ class ModeloUsuarios
     
         // Si $resultado sigue siendo nulo, muestra un mensaje de error
         if ($resultado === false) {
-            echo '<script>
-            if ( window.history.replaceState ) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-            </script>
-            <strong><div class="alert alert-danger mt-2">Usuario o Contraseña Incorrectaaaaaa!</div>';
-            exit;
+            // echo '<script>
+            // if ( window.history.replaceState ) {
+            //     window.history.replaceState(null, null, window.location.href);
+            // }
+            // </script>
+            // <strong style="color: red;><div class="alert alert-danger mt-2">Usuario o Contraseña Incorrectaaaaaa!</div></strong>';
+			$error_message = '<strong style="color: red;">¡USUARIO O CONTRASEÑA INCORRECTA!<br>¡Vuelva a Intentar!</strong>';
+		echo '
+					<div class="alert alert-danger error-message">
+						<strong>' . $error_message . '</strong>
+					</div>
+				';
+		
         }
     
         // Devuelve los datos
