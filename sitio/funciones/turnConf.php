@@ -122,7 +122,7 @@ $mail->Username   = $sourcemail;  // GMAIL username
 $mail->Password   = $passmail;            // GMAIL password
 $mail->SetFrom("systemmss2023@gmail.com", 'Medic');
 $mail -> AddAddress($useremail,$username);
-$mail->Subject    = "Confirmar Registro en sitio web.... ";
+$mail->Subject    = "Confirmar de Turno.... ";
 $mail->AltBody    = "...---..."; // optional, comment out and test
 $mail->MsgHTML($body);
 //$Errrrror="";
@@ -130,13 +130,13 @@ $mail->MsgHTML($body);
 // si deseo adjuntar algun archivo 
 ///$mail->AddAttachment("archivarchivivoivo.tar.xz");
 
-// if(!$mail->Send())
-// {
-//     $Errrrror="<br>.<br>Mailer Error: " . $mail->ErrorInfo;
-// }
-// else
-// {
-//     return true;
-// }
+if(!$mail->Send())
+{
+    $Errrrror="<br>.<br>Mailer Error: " . $mail->ErrorInfo;
+}
+else
+{
+    return true;
+}
 }
 ?> 

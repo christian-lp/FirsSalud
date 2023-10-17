@@ -248,6 +248,7 @@ if ($stmt->execute()) {
                         <div class="abc scroll">
                             <table width="93%" class="sub-table scrolldown" border="0">
                                 <thead>
+                                    
                                     <tr>
                                         <th class="table-headin">
 
@@ -362,6 +363,12 @@ if ($stmt->execute()) {
 }
 </style>
 
+<script>
+    function CargarWeb(pagina)
+    {
+        $(".").load(pagina);
+    }
+</script>
 <script>
 var buttons = document.querySelectorAll('.btn-toggle');
 

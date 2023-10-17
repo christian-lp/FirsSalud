@@ -53,8 +53,8 @@ if (session_status() == PHP_SESSION_NONE)
 				<div id="after"></div>
 				<div class="button-box">
 					<div class="btn" id="btn"></div>
-					<button id="log" type="button" class="toggle-btn" onclick="login()">Log in</button>
-					<button id="reg" type="button" class="toggle-btn" onclick="register()">Sign up</button>
+					<button id="log" type="button" class="toggle-btn" onclick="login()">Iniciar Sesión</button>
+					<button id="reg" type="button" class="toggle-btn" onclick="register()">Registrarse</button>
 				</div>
 				<!-- <div class="social-icons">
 					<a class="icon-link" href="#">
