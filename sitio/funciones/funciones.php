@@ -24,11 +24,11 @@ $body='<html>
 
 <body style="margin: 0; padding: 0; background-color: white;">
     <center>
-            <table class="contenido_tabla" width="700" style="background-color:rgb( 113, 117, 109 ); color:white; font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif;border:6px solid #13353F; border-spacing: 0; padding: 0 25px; border-color: rgb( 12, 12, 12 ); ">
+            <table class="contenido_tabla" width="700" style="background-color:black color:white; font-family: \'Helvetica Neue\',Helvetica,Arial,sans-serif; padding: 0 25px;">
                 <thead>
-                    <tr>
-                        <td><left><b><img src="/var/www/html/FirsSalud/img/Logo.png" width="650px"></td>
-                    </tr>
+                <tr>
+                    <td><left><b><img src="/var/www/html/FirsSalud/img/Logo.png" width="700px"></td>
+                </tr>
                     <tr><br>
                         <td><center><h2><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Confirmaci&oacute;n de Registro</b></h2></center></td>
                     </tr>
