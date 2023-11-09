@@ -17,9 +17,9 @@ docker exec mysql mysqldump -h "$PMA_HOST" -u "$MYSQL_USER" -p"$MYSQL_ROOT_PASSW
 docker exec mysql mysqldump -h "$PMA_HOST" -u "$MYSQL_USER" -p"$MYSQL_ROOT_PASSWORD" --databases medic > "$backup_file2"
 
 # Imprime las variables de entorno para depurar
-echo "Valor de DB_SERVER: $PMA_HOST"
-echo "Valor de DB_USER: $MYSQL_USER"
-echo "Valor de DB_PASS: $MYSQL_ROOT_PASSWORD"
+# echo "Valor de DB_SERVER: $PMA_HOST"
+# echo "Valor de DB_USER: $MYSQL_USER"
+# echo "Valor de DB_PASS: $MYSQL_ROOT_PASSWORD"
 
 # Comprimir la copia de seguridad en un archivo ZIP con el mismo nombre
 zip -j "$backup_file.zip" "$backup_file"
