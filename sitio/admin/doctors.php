@@ -676,11 +676,12 @@ buttons.forEach(function(button) {
         } elseif ($action == 'add') {
             $error_1 = $_GET["error"];
             $errorlist = array(
-                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">La cuenta ya existe.</label>',
+                '1' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">La cuenta de email ya existe!</label>',
                 '2' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de contraseña! Reconfirmar contraseña</label>',
                 '3' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;"></label>',
                 '4' => "",
                 '5' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">¡Error de confirmación de fecha! Debe ser mayor de 24 años</label>',
+                '6' => '<label for="promter" class="form-label" style="color:rgb(255, 62, 62);text-align:center;">El N° de Matrucula ya existe!</label>',
                 '0' => '',
 
             );
