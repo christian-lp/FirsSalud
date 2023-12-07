@@ -149,7 +149,11 @@
                 $selecttype = "All";
                 $current = "Todos los pacientes";
             } else {
-                $sqlmain = "select * from appointment inner join patients on patients.id_patient=appointment.patient_id inner join schedule on schedule.scheduleid=appointment.schedule_id where schedule.id_medic=$userid;";
+                $sqlmain = "SELECT DISTINCT * 
+                FROM appointment 
+                INNER JOIN patients ON patients.id_patient=appointment.patient_id 
+                INNER JOIN schedule ON schedule.scheduleid=appointment.schedule_id 
+                WHERE schedule.id_medic=$userid;";
                 $selecttype = "Mis";
                 $current = "Solo mis Pacientes";
             }
@@ -194,20 +198,20 @@
 
                         // Verifica si la consulta está retornando datos
                         if ($num_rows > 0) {
-                            
+                            for ($y = 0; $y < $num_rows; $y++) {
+                                $row00 = $list11->fetch(PDO::FETCH_ASSOC);
+                                $d = $row00["name"];
+                                $c = $row00["email"];
+                                echo "<option value='$d'><br/>";
+                                echo "<option value='$c'><br/>";
+                            };
+    
+                            echo ' </datalist>';
                         } else {
                             // La consulta no retornó resultados
                             echo "No se encontraron resultados.";
                         }
-                        for ($y = 0; $y < $num_rows; $y++) {
-                            $row00 = $list11->fetch(PDO::FETCH_ASSOC);
-                            $d = $row00["name"];
-                            $c = $row00["email"];
-                            echo "<option value='$d'><br/>";
-                            echo "<option value='$c'><br/>";
-                        };
-
-                        echo ' </datalist>';
+                    
                         ?>
 
 
@@ -305,7 +309,7 @@
                                     </th>
                                     <th class="table-headin">
 
-                                        Fecha de Nacimiento
+                                        Historia Clinica
 
                                     </th>
                                     <th class="table-headin">
@@ -349,6 +353,8 @@
                                         $dni = $row["dni"];
                                         $birth = $row["day_of_birth"];
                                         $tel = $row["phone"];
+                                        $id_history =$row["id_clinic_history"];
+                                        $clinic_history = $row["clinic_history"];
 
                                         echo '<tr>
                                         <td> &nbsp;' .
@@ -363,13 +369,14 @@
                                         <td>
                                         ' . substr($email, 0, 20) . '
                                         </td>
-                                        <td>
-                                        ' . substr($birth, 0, 10) . '
+                                        <td style="display:flex;justify-content: center; margin-top: 18px;">
+                                        ' . substr($id_history, 0, 255) . '
                                         </td>
                                         <td >
                                         <div style="display:flex;justify-content: center;">
                                         
-                                        <a href="?action=view&id=' . $pid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Ver</font></button></a>
+                                        <a href="?action=view&id=' . $pid . '" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Historia Clinica</font></button></a>
+                                    
                                         </div>
                                         </td>
                                     </tr>';
@@ -396,112 +403,100 @@
 
         $id = $_GET["id"];
         $action = $_GET["action"];
-        $sqlmain = "select * from patients where id_patient='$id'";
+        $sqlmain = "SELECT 
+        patients.id_patient,
+        patients.name,
+        clinic_history.*,
+        symptoms.*
+        FROM patients
+        INNER JOIN clinic_history ON patients.id_patient = clinic_history.id_patient
+        INNER JOIN clinic_history_symptoms ON clinic_history.id_clinic_history = clinic_history_symptoms.id_clinic_history
+        INNER JOIN symptoms ON clinic_history_symptoms.code = symptoms.code
+        WHERE patients.id_patient = '$id'
+        LIMIT 0, 25;";
         $result = $database->prepare($sqlmain);
-        // $result->execute();
+        $result->execute();
+        
         $row = $result->fetch(PDO::FETCH_ASSOC);
+        $row2 = $result->fetchAll(PDO::FETCH_ASSOC);
         $name = $row["name"];
-        $email = $row["email"];
-        $nic = $row["dni"];
-        $birth = $row["birth"];
-        $tele = $row["phone"];
+        $num_clinic_history = $row["id_clinic_history"];
+        $clinic_history = $row["clinic_history"];
+        $symptoms = $row["description"];
         echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
                     <center>
                         <a class="close" href="patient.php">&times;</a>
                         <div class="content">
-
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
-                        
+                        <div class="abc scroll" style="height: 500px;padding: 0;margin: 0;">
+                            <table width="85%" class="sub-table scrolldown" border="0">
                             <tr>
                                 <td>
                                     <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Ver Detalles</p><br><br>
                                 </td>
                             </tr>
                             <tr>
-                                
                                 <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">ID Paciente: </label>
+                                    <strong><label for="name" class="form-label">ID Paciente: </label></strong>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
                                     P-' . $id . '<br><br>
                                 </td>
-                                
                             </tr>
-                            
                             <tr>
-                                
                                 <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Nombre: </label>
+                                <strong><label for="name" class="form-label">Nombre: </label></strong>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
                                     ' . $name . '<br><br>
                                 </td>
-                                
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Correo: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $email . '<br><br>
+                                <strong><label for="Email" class="form-label">N° Historia Clinica: </label></strong>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="nic" class="form-label">DNI: </label>
+                                ' . $num_clinic_history . '<br><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                ' . $dni . '<br><br>
+                                <strong><label for="nic" class="form-label">Historia Clinica: </label></strong>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Teléfono: </label>
+                                ' . $clinic_history . '<br><br>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="label-td" colspan="2">
-                                ' . $tele . '<br><br>
-                                </td>
-                            </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Dirección: </label>
-                                    
+                                    <strong><label for="Tele" class="form-label">Síntomas: </label></strong>
                                 </td>
                             </tr>
-                          
-                                
-                                <td class="label-td" colspan="2">
-                                    <label for="name" class="form-label">Fecha de Nacimiento: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    ' . $dob . '<br><br>
-                                </td>
-                                
-                            </tr>
+                            <td class="label-td" colspan="2">
+                            ' . $symptoms . '<br><br>
+                            </td>
+                            
                             <tr>
                                 <td colspan="2">
-                                    <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
-                                
-                                    
+                                    <a href="patient.php"><input type="button" value="EDITAR" class="login-btn btn-primary-soft btn" ></a>
                                 </td>
-                
+                                <td colspan="2">
+                                    <a href="patient.php"><input type="button" value="OK" class="login-btn btn-primary-soft btn" ></a>
+                                </td>
                             </tr>
+
 
                         </table>
                         </div>
