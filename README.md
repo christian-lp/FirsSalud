@@ -14,15 +14,17 @@ Para levantar el proyecto, deben clonar el repositorio y utilizar el mismo Docke
    cd .ssh
    ls -a
    ssh cat id_rsa.pub
-Copiar todo el código y pegarlo en las configuraciones de GitHub en Settings -> SSH -> New SSH.
+   
+###Copiar todo el código y pegarlo en las configuraciones de GitHub en Settings -> SSH -> New SSH.
 
-Crear un directorio en su equipo y guardar dentro de él:
+###Crear un directorio en su equipo y guardar dentro de él:
 
-DockerFile
-Docker-Compose.yml
-Ejecutar el siguiente comando:
+- DockerFile
+- Docker-Compose.yml
+  
+**Ejecutar el siguiente comando:**
 
-docker-compose up -d --build
+- docker-compose up -d --build
 Este comando inicia los servicios definidos en docker-compose.yml, construye las imágenes si hay cambios y ejecuta los servicios en segundo plano. Asegurarse de ejecutarlo desde el mismo directorio que docker-compose.yml.
 
 Después de ejecutar el comando, se crearán 3 directorios. Clonar el proyecto dentro del directorio html.
@@ -38,15 +40,16 @@ Después de clonar el repositorio, crear el directorio data dentro de sitio y gu
 
 Registrarse mediante usuario y contraseña. Se enviará un correo de confirmación al email.
 
-Iniciar Sesión
-Admin:
-User: admin@mail.com
-Pass: 123456
+### Iniciar Sesión
 
-Paciente:
-User: paciente@mail.com
-Pass: 123456
+- **Admin:**
+  - User: admin@mail.com
+  - Pass: 123456
 
-Doctor:
-User: doctor@mail.com
-Pass: 123456
+- **Paciente:**
+  - User: paciente@mail.com
+  - Pass: 123456
+
+- **Doctor:**
+  - User: doctor@mail.com
+  - Pass: 123456
