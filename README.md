@@ -6,7 +6,7 @@ Para levantar el proyecto, deben clonar el repositorio y utilizar el mismo Docke
 
 1. Clonar el repositorio en GitHub utilizando su clave SSH o Token.
 
-2. Configurar SSH:
+2. **Configurar SSH:**
 
    Abrir una terminal y ejecutar los siguientes comandos:
 
@@ -43,15 +43,15 @@ Registro
 Registrarse mediante usuario y contraseña. Se enviará un correo de confirmación al email.
 
 Iniciar Sesión
-Admin
+Admin:
 
 User: admin@mail.com
 Pass: 123456
-Paciente
+Paciente:
 
 User: paciente@mail.com
 Pass: 123456
-Doctor
+Doctor:
 
 User: doctor@mail.com
 Pass: 123456
