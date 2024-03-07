@@ -1,61 +1,57 @@
-=============================
--------- FirsSalud ----------
-=============================
+# FirsSalud
 
+## Bienvenidos al proyecto MEDIC
 
-Bienvenidos al proyecto MEDIC
+Para levantar el proyecto, deben clonar el repositorio y utilizar el mismo Docker.
 
-➜ Para poder levantar el proyecto deberan clonar el repositorio y utilizar el mismo docker.
-➜ Para clonar el repositorio deben entrar a GitHub y agregar su clave SSH o Token
-➜ A continuacion los pasos para establecer la configuracion SSH
+1. Clonar el repositorio en GitHub utilizando su clave SSH o Token.
 
-1) Abrimos una terminal y ejecutamos los siguientes comandos;
-➜ cd .ssh
-➜ ls -a
-➜ ssh cat id_rsa.pub 
+2. Configurar SSH:
 
-2) Copiamos todo el codigo y lo pegamos dentro de las configutaciones de GitHub; 
-➜ setting 
-➜ SSH
-➜ New SSH
+   Abrir una terminal y ejecutar los siguientes comandos:
 
+   ```bash
+   cd .ssh
+   ls -a
+   ssh cat id_rsa.pub
+Copiar todo el código y pegarlo en las configuraciones de GitHub en Settings -> SSH -> New SSH.
 
-3) Para poder levantar el proyecto deberan crear un directorio (carpeta) en su equipo y dentro de el deberan guardar;
-➜ DockerFile
-➜ Docker-Compose.yml
+Crear un directorio en su equipo y guardar dentro de él:
 
-4) Ejecutar el comando;
-➜ docker-compose up -d --build
-➜ Este comando inicia los servicios definidos en tu archivo docker-compose.yml, construye las imágenes si hay cambios en los
-➜ archivos de construcción, y luego ejecuta los servicios en segundo plano.
-➜ Asegurense de ejecutar este comando desde el mismo directorio en el que se encuentra tu archivo docker-compose.yml
-➜ Luego de ejecutar el comando veran que dentro del directorio se crearon 3 directorios. Deberan clonar el proyecto dentro
-➜ del directorio html.
-➜ Los archivos DockerFile & Docker-Compose.yml se enviaran por privado.
+DockerFile
+Docker-Compose.yml
+Ejecutar el siguiente comando:
 
+bash
+Copy code
+docker-compose up -d --build
+Este comando inicia los servicios definidos en docker-compose.yml, construye las imágenes si hay cambios y ejecuta los servicios en segundo plano. Asegurarse de ejecutarlo desde el mismo directorio que docker-compose.yml.
 
-5) Clonar el repositorio
-➜ Navegar desde la terminal mediante el comando "cd" hasta el directorio html y ejecutar el comando;
-➜ git clone git@github.com:Practicas-Profesionalizantes-2023/FirsSalud.git
+Después de ejecutar el comando, se crearán 3 directorios. Clonar el proyecto dentro del directorio html.
 
-6) Luego de clonar el repositorio;
-➜ Deberan Crear el directorio "data" dentro de sitio dentro de "data" guardar los archivos;
-➜ .txt
-➜ .env
+Clonar el repositorio
+Desde la terminal, navegar al directorio html y ejecutar:
 
-7) Registro
-➜ Podra registrarse mediante usuario y contraseña
-➜ Le llegara un correo de confirmacion a su email
+bash
+Copy code
+git clone git@github.com:Practicas-Profesionalizantes-2023/FirsSalud.git
+Después de clonar el repositorio, crear el directorio data dentro de sitio y guardar dentro de data los archivos:
 
-8) Iniciar Sesion;
-➜ Admin
-➜ User: admin@mail.com
-➜ Pass: 123456
+.txt
+.env
+Registro
+Registrarse mediante usuario y contraseña. Se enviará un correo de confirmación al email.
 
-➜ Paciente
-➜ User: paciente@mail.com
-➜ Pass: 123456
+Iniciar Sesión
+Admin
 
-➜ Doctor
-➜ User: doctor@mail.com
-➜ Pass: 123456
+User: admin@mail.com
+Pass: 123456
+Paciente
+
+User: paciente@mail.com
+Pass: 123456
+Doctor
+
+User: doctor@mail.com
+Pass: 123456
