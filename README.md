@@ -22,8 +22,6 @@ DockerFile
 Docker-Compose.yml
 Ejecutar el siguiente comando:
 
-bash
-Copy code
 docker-compose up -d --build
 Este comando inicia los servicios definidos en docker-compose.yml, construye las imágenes si hay cambios y ejecuta los servicios en segundo plano. Asegurarse de ejecutarlo desde el mismo directorio que docker-compose.yml.
 
