@@ -14,7 +14,8 @@ Para levantar el proyecto, deben clonar el repositorio y utilizar el mismo Docke
    cd .ssh
    ls -a
    ssh cat id_rsa.pub
-   
+   ```
+
 Copiar todo el código y pegarlo en las configuraciones de GitHub en Settings -> SSH -> New SSH.
 
 **3. Crear un directorio en su equipo y guardar dentro de él:**
