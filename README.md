@@ -30,26 +30,23 @@ Después de ejecutar el comando, se crearán 3 directorios. Clonar el proyecto d
 Clonar el repositorio
 Desde la terminal, navegar al directorio html y ejecutar:
 
-bash
-Copy code
 git clone git@github.com:Practicas-Profesionalizantes-2023/FirsSalud.git
 Después de clonar el repositorio, crear el directorio data dentro de sitio y guardar dentro de data los archivos:
 
 .txt
 .env
-Registro
+
 Registrarse mediante usuario y contraseña. Se enviará un correo de confirmación al email.
 
 Iniciar Sesión
 Admin:
-
 User: admin@mail.com
 Pass: 123456
-Paciente:
 
+Paciente:
 User: paciente@mail.com
 Pass: 123456
-Doctor:
 
+Doctor:
 User: doctor@mail.com
 Pass: 123456
