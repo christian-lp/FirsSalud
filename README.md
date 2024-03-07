@@ -25,8 +25,8 @@ Copiar todo el código y pegarlo en las configuraciones de GitHub en Settings ->
   
 **4. Ejecutar el siguiente comando:**
 
-- docker-compose up -d --build -
- Este comando inicia los servicios definidos en docker-compose.yml, construye las imágenes si hay cambios y ejecuta los servicios en segundo plano. Asegurarse de ejecutarlo desde el mismo directorio que docker-compose.yml.
+- docker-compose up -d --build
+- Este comando inicia los servicios definidos en docker-compose.yml, construye las imágenes si hay cambios y ejecuta los servicios en segundo plano. Asegurarse de ejecutarlo desde el mismo directorio que docker-compose.yml.
 
 Luego de ejecutar el comando, se crearán 3 directorios. Clonar el proyecto dentro del directorio html.
 
